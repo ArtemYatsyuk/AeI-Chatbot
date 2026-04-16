@@ -1,0 +1,15 @@
+-keep class com.aei.chatbot.data.remote.model.** { *; }
+-keep class com.aei.chatbot.data.local.entity.** { *; }
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.google.gson.** { *; }
+-keep class retrofit2.** { *; }
+-keep class okhttp3.** { *; }
+-dontwarn okhttp3.**
+-dontwarn retrofit2.**
+-keep,allowobfuscation,allowshrinking interface retrofit2.Call
+-keep,allowobfuscation,allowshrinking class retrofit2.Response
+-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+-keep class com.google.mlkit.** { *; }
+-keep class androidx.room.** { *; }
+-dontwarn com.google.mlkit.**

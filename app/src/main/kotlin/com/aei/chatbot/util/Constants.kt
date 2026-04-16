@@ -1,0 +1,50 @@
+﻿package com.aei.chatbot.util
+
+object Constants {
+    const val DATABASE_NAME = "aei_database"
+    const val DATASTORE_NAME = "aei_preferences"
+    const val DEFAULT_SERVER_IP = "192.168.1.100"
+    const val DEFAULT_PORT = 1234
+    const val DEFAULT_API_ENDPOINT = "v1/chat/completions"
+    const val DEFAULT_SYSTEM_PROMPT = "You are AeI, a helpful, friendly, and intelligent AI assistant."
+    const val DEFAULT_MAX_TOKENS = 2048
+    const val DEFAULT_TEMPERATURE = 0.7f
+    const val DEFAULT_TIMEOUT = 30
+    const val DEFAULT_STREAMING = true
+    const val MAX_SYSTEM_PROMPT_LENGTH = 1000
+    const val MAX_SESSION_NAME_LENGTH = 40
+    const val MAX_HISTORY_PREVIEW_LENGTH = 80
+    const val SPLASH_DURATION_MS = 1800L
+    const val DEBOUNCE_MS = 500L
+    const val UNDO_DURATION_MS = 5000L
+    const val CONNECT_TEST_RESET_MS = 3000L
+    const val GITHUB_URL = "https://github.com/ArtemYatsyuk/AeI-Chatbot"
+    const val PRIVACY_POLICY_URL = "https://github.com/ArtemYatsyuk/AeI-Chatbot/blob/main/PRIVACY.md"
+    const val ROLE_SYSTEM = "system"
+    const val ROLE_USER = "user"
+    const val ROLE_ASSISTANT = "assistant"
+    const val EXPORT_FILE_PREFIX = "aei_chats_backup_"
+    const val LANG_EN_US = "en-US"
+    const val LANG_EN_GB = "en-GB"
+    const val LANG_UK = "uk"
+    const val LANG_CS = "cs"
+    const val LANG_ZH_CN = "zh-CN"
+    const val THEME_SYSTEM = "system"
+    const val THEME_LIGHT = "light"
+    const val THEME_DARK = "dark"
+    const val BUBBLE_ROUNDED = "rounded"
+    const val BUBBLE_SHARP = "sharp"
+    const val BUBBLE_MINIMAL = "minimal"
+    const val FONT_SMALL = "small"
+    const val FONT_MEDIUM = "medium"
+    const val FONT_LARGE = "large"
+    const val FONT_XL = "xl"
+    const val MIN_TOKENS = 64
+    const val MAX_TOKENS = 8192
+    const val TOKEN_STEP = 64
+    const val MIN_TIMEOUT = 5
+    const val MAX_TIMEOUT = 120
+    const val MIN_TEMP = 0.0f
+    const val MAX_TEMP = 2.0f
+    const val TEMP_STEP = 0.1f
+}
