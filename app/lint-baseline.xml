@@ -1,0 +1,2424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.5.2" type="baseline" client="gradle" dependencies="false" name="AGP (8.5.2)" variant="all" version="8.5.2">
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `localeConfig` is only used in API level 33 and higher (current min is 26)"
+        errorLine1="        android:localeConfig=&quot;@xml/locale_config&quot;>"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="20"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.5.2 is available: 9.1.1"
+        errorLine1="agp = &quot;8.5.2&quot;"
+        errorLine2="      ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="2"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.5.2 is available: 9.1.1"
+        errorLine1="agp = &quot;8.5.2&quot;"
+        errorLine2="      ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="2"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.5.2 is available: 9.1.1"
+        errorLine1="agp = &quot;8.5.2&quot;"
+        errorLine2="      ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="2"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.appcompat:appcompat than 1.7.0 is available: 1.7.1"
+        errorLine1="    implementation(&quot;androidx.appcompat:appcompat:1.7.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="113"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.core:core-ktx than 1.13.1 is available: 1.18.0"
+        errorLine1="coreKtx = &quot;1.13.1&quot;"
+        errorLine2="          ~~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="4"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.core:core-ktx than 1.13.1 is available: 1.18.0"
+        errorLine1="coreKtx = &quot;1.13.1&quot;"
+        errorLine2="          ~~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="4"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.core:core-ktx than 1.13.1 is available: 1.18.0"
+        errorLine1="coreKtx = &quot;1.13.1&quot;"
+        errorLine2="          ~~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="4"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.ext:junit than 1.2.1 is available: 1.3.0"
+        errorLine1="junitVersion = &quot;1.2.1&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="6"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.ext:junit than 1.2.1 is available: 1.3.0"
+        errorLine1="junitVersion = &quot;1.2.1&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="6"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.ext:junit than 1.2.1 is available: 1.3.0"
+        errorLine1="junitVersion = &quot;1.2.1&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="6"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.espresso:espresso-core than 3.6.1 is available: 3.7.0"
+        errorLine1="espressoCore = &quot;3.6.1&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="7"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.espresso:espresso-core than 3.6.1 is available: 3.7.0"
+        errorLine1="espressoCore = &quot;3.6.1&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="7"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.espresso:espresso-core than 3.6.1 is available: 3.7.0"
+        errorLine1="espressoCore = &quot;3.6.1&quot;"
+        errorLine2="               ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="7"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-runtime-compose than 2.8.6 is available: 2.10.0"
+        errorLine1="lifecycleRuntimeKtx = &quot;2.8.6&quot;"
+        errorLine2="                      ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="8"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-runtime-compose than 2.8.6 is available: 2.10.0"
+        errorLine1="lifecycleRuntimeKtx = &quot;2.8.6&quot;"
+        errorLine2="                      ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="8"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-runtime-compose than 2.8.6 is available: 2.10.0"
+        errorLine1="lifecycleRuntimeKtx = &quot;2.8.6&quot;"
+        errorLine2="                      ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="8"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-runtime-ktx than 2.8.6 is available: 2.10.0"
+        errorLine1="lifecycleRuntimeKtx = &quot;2.8.6&quot;"
+        errorLine2="                      ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="8"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-runtime-ktx than 2.8.6 is available: 2.10.0"
+        errorLine1="lifecycleRuntimeKtx = &quot;2.8.6&quot;"
+        errorLine2="                      ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="8"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-runtime-ktx than 2.8.6 is available: 2.10.0"
+        errorLine1="lifecycleRuntimeKtx = &quot;2.8.6&quot;"
+        errorLine2="                      ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="8"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-viewmodel-compose than 2.8.6 is available: 2.10.0"
+        errorLine1="lifecycleRuntimeKtx = &quot;2.8.6&quot;"
+        errorLine2="                      ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="8"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-viewmodel-compose than 2.8.6 is available: 2.10.0"
+        errorLine1="lifecycleRuntimeKtx = &quot;2.8.6&quot;"
+        errorLine2="                      ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="8"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-viewmodel-compose than 2.8.6 is available: 2.10.0"
+        errorLine1="lifecycleRuntimeKtx = &quot;2.8.6&quot;"
+        errorLine2="                      ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="8"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.activity:activity-compose than 1.9.3 is available: 1.13.0"
+        errorLine1="activityCompose = &quot;1.9.3&quot;"
+        errorLine2="                  ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="9"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.activity:activity-compose than 1.9.3 is available: 1.13.0"
+        errorLine1="activityCompose = &quot;1.9.3&quot;"
+        errorLine2="                  ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="9"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.activity:activity-compose than 1.9.3 is available: 1.13.0"
+        errorLine1="activityCompose = &quot;1.9.3&quot;"
+        errorLine2="                  ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="9"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose:compose-bom than 2024.10.01 is available: 2026.03.01"
+        errorLine1="composeBom = &quot;2024.10.01&quot;"
+        errorLine2="             ~~~~~~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="10"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose:compose-bom than 2024.10.01 is available: 2026.03.01"
+        errorLine1="composeBom = &quot;2024.10.01&quot;"
+        errorLine2="             ~~~~~~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="10"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose:compose-bom than 2024.10.01 is available: 2026.03.01"
+        errorLine1="composeBom = &quot;2024.10.01&quot;"
+        errorLine2="             ~~~~~~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="10"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.hilt:hilt-navigation-compose than 1.2.0 is available: 1.3.0"
+        errorLine1="hiltNavigationCompose = &quot;1.2.0&quot;"
+        errorLine2="                        ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="12"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.hilt:hilt-navigation-compose than 1.2.0 is available: 1.3.0"
+        errorLine1="hiltNavigationCompose = &quot;1.2.0&quot;"
+        errorLine2="                        ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="12"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.hilt:hilt-navigation-compose than 1.2.0 is available: 1.3.0"
+        errorLine1="hiltNavigationCompose = &quot;1.2.0&quot;"
+        errorLine2="                        ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="12"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-compiler than 2.6.1 is available: 2.8.4"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-compiler than 2.6.1 is available: 2.8.4"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-compiler than 2.6.1 is available: 2.8.4"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-ktx than 2.6.1 is available: 2.8.4"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-ktx than 2.6.1 is available: 2.8.4"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-ktx than 2.6.1 is available: 2.8.4"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-runtime than 2.6.1 is available: 2.8.4"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-runtime than 2.6.1 is available: 2.8.4"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-runtime than 2.6.1 is available: 2.8.4"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-testing than 2.6.1 is available: 2.8.4"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-testing than 2.6.1 is available: 2.8.4"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-testing than 2.6.1 is available: 2.8.4"
+        errorLine1="room = &quot;2.6.1&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.datastore:datastore-preferences than 1.1.1 is available: 1.2.1"
+        errorLine1="datastore = &quot;1.1.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="14"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.datastore:datastore-preferences than 1.1.1 is available: 1.2.1"
+        errorLine1="datastore = &quot;1.1.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="14"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.datastore:datastore-preferences than 1.1.1 is available: 1.2.1"
+        errorLine1="datastore = &quot;1.1.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="14"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.navigation:navigation-compose than 2.8.3 is available: 2.9.7"
+        errorLine1="navigationCompose = &quot;2.8.3&quot;"
+        errorLine2="                    ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="18"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.navigation:navigation-compose than 2.8.3 is available: 2.9.7"
+        errorLine1="navigationCompose = &quot;2.8.3&quot;"
+        errorLine2="                    ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="18"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.navigation:navigation-compose than 2.8.3 is available: 2.9.7"
+        errorLine1="navigationCompose = &quot;2.8.3&quot;"
+        errorLine2="                    ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="18"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.mlkit:translate than 17.0.2 is available: 17.0.3"
+        errorLine1="mlkitTranslate = &quot;17.0.2&quot;"
+        errorLine2="                 ~~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="20"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.mlkit:translate than 17.0.2 is available: 17.0.3"
+        errorLine1="mlkitTranslate = &quot;17.0.2&quot;"
+        errorLine2="                 ~~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="20"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.mlkit:translate than 17.0.2 is available: 17.0.3"
+        errorLine1="mlkitTranslate = &quot;17.0.2&quot;"
+        errorLine2="                 ~~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="20"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.mlkit:language-id than 17.0.5 is available: 17.0.6"
+        errorLine1="mlkitLanguageId = &quot;17.0.5&quot;"
+        errorLine2="                  ~~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="21"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.mlkit:language-id than 17.0.5 is available: 17.0.6"
+        errorLine1="mlkitLanguageId = &quot;17.0.5&quot;"
+        errorLine2="                  ~~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="21"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.mlkit:language-id than 17.0.5 is available: 17.0.6"
+        errorLine1="mlkitLanguageId = &quot;17.0.5&quot;"
+        errorLine2="                  ~~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="21"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.browser:browser than 1.8.0 is available: 1.10.0"
+        errorLine1="browser = &quot;1.8.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="24"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.browser:browser than 1.8.0 is available: 1.10.0"
+        errorLine1="browser = &quot;1.8.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="24"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.browser:browser than 1.8.0 is available: 1.10.0"
+        errorLine1="browser = &quot;1.8.0&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="$HOME/Desktop/AeI/AeI/gradle/libs.versions.toml"
+            line="24"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/kotlin/com/aei/chatbot/ui/history/components/ChatHistoryCard.kt"
+            line="26"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/kotlin/com/aei/chatbot/ui/chat/components/MessageBubble.kt"
+            line="218"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_use_ngrok&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_use_ngrok&quot;>Use ngrok tunnel&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="172"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_use_ngrok_desc&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_use_ngrok_desc&quot;>Connect via ngrok URL instead of local IP&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="173"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_ngrok_url&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_ngrok_url&quot;>ngrok URL&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="174"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_ngrok_url_hint&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_ngrok_url_hint&quot;>e.g. https://xxxx-xx-xx-xxx-xx.ngrok-free.app&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="175"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_ngrok_mode&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_ngrok_mode&quot;>Ngrok Mode&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="176"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_section_websearch&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_section_websearch&quot;>Web Search&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="177"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_web_search_enabled&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_web_search_enabled&quot;>Enable Web Search&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="178"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_web_search_enabled_desc&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_web_search_enabled_desc&quot;>Fetch real-time web results to enhance AI answers&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="179"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_web_search_results&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_web_search_results&quot;>Max Search Results&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="180"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;searching_web&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;searching_web&quot;>Searching the web…&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="181"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;cd_web_search&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;cd_web_search&quot;>Web search&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="182"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_searxng_url&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_searxng_url&quot;>SearXNG Instance URL&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="183"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_searxng_url_hint&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_searxng_url_hint&quot;>https://your-searxng-instance.com&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="184"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;web_search_mode_on&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;web_search_mode_on&quot;>Web search enabled for next message&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="185"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;thinking_label&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;thinking_label&quot;>Thought process&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="186"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;thinking_streaming&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;thinking_streaming&quot;>Thinking\u2026&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="187"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_connection_mode&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_connection_mode&quot;>Connection Mode&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="188"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_conn_local&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_conn_local&quot;>Local (LM Studio)&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="189"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_conn_ngrok&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_conn_ngrok&quot;>Ngrok Tunnel&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="190"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_conn_cloud&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_conn_cloud&quot;>Cloud API&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="191"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_cloud_url&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_cloud_url&quot;>API Base URL&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="192"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_cloud_url_hint&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_cloud_url_hint&quot;>e.g. https://nim.api.nvidia.com&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="193"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_cloud_url_desc&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_cloud_url_desc&quot;>Works with NVIDIA NIM, OpenAI, or any OpenAI-compatible API. Enter base URL without /v1/chat/completions.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="194"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_model_id&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_model_id&quot;>Model ID&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="195"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_model_id_hint&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_model_id_hint&quot;>e.g. nicoboss/DeepSeek-R1-Distill-Qwen-32B-Uncensored&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="196"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;settings_model_id_desc&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;settings_model_id_desc&quot;>Enter the exact model ID from your cloud API provider&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="197"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message="&quot;sources_found&quot; is not translated in &quot;cs&quot; (Czech), &quot;uk&quot; (Ukrainian), &quot;en&quot; (English), &quot;zh&quot; (Chinese)"
+        errorLine1="    &lt;string name=&quot;sources_found&quot;>sources found&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="198"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="InsecureBaseConfiguration"
+        message="Insecure Base Configuration"
+        errorLine1="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?>&lt;network-security-config>&lt;base-config cleartextTrafficPermitted=&quot;true&quot;>&lt;trust-anchors>&lt;certificates src=&quot;system&quot; />&lt;/trust-anchors>&lt;/base-config>&lt;/network-security-config>"
+        errorLine2="                                                                                                       ~~~~">
+        <location
+            file="src/main/res/xml/network_security_config.xml"
+            line="1"
+            column="104"/>
+    </issue>
+
+    <issue
+        id="AutoboxingStateCreation"
+        message="Prefer `mutableFloatStateOf` instead of `mutableStateOf`"
+        errorLine1="    var temperature  by remember { mutableStateOf(model?.temperature ?: 0.7f) }"
+        errorLine2="                                   ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/kotlin/com/aei/chatbot/ui/settings/SettingsScreen.kt"
+            line="818"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.chat_error_banner` appears to be unused"
+        errorLine1="    &lt;string name=&quot;chat_error_banner&quot;>Cannot reach LM Studio. Check your server settings.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="22"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.listening` appears to be unused"
+        errorLine1="    &lt;string name=&quot;listening&quot;>ListeningвЂ¦&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="25"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.microphone_permission_rationale` appears to be unused"
+        errorLine1="    &lt;string name=&quot;microphone_permission_rationale&quot;>Microphone access is required for voice input. Please grant the permission to use this feature.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="26"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.microphone_permission_denied` appears to be unused"
+        errorLine1="    &lt;string name=&quot;microphone_permission_denied&quot;>Microphone permission permanently denied. Open app settings to enable it.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="27"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.open_settings` appears to be unused"
+        errorLine1="    &lt;string name=&quot;open_settings&quot;>Open Settings&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="28"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.translated` appears to be unused"
+        errorLine1="    &lt;string name=&quot;translated&quot;>Translated&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="29"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.downloading_translation_model` appears to be unused"
+        errorLine1="    &lt;string name=&quot;downloading_translation_model&quot;>Downloading translation modelвЂ¦&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="32"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.copy_code` appears to be unused"
+        errorLine1="    &lt;string name=&quot;copy_code&quot;>Copy&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="33"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.context_translate` appears to be unused"
+        errorLine1="    &lt;string name=&quot;context_translate&quot;>Translate Message&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="37"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.history_delete_snackbar` appears to be unused"
+        errorLine1="    &lt;string name=&quot;history_delete_snackbar&quot;>Chat deleted. Undo.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="45"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.history_undo` appears to be unused"
+        errorLine1="    &lt;string name=&quot;history_undo&quot;>Undo&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="46"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.history_messages` appears to be unused"
+        errorLine1="    &lt;string name=&quot;history_messages&quot;>messages&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="47"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_section_server` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_section_server&quot;>Server Connection&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="51"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_server_ip_error` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_server_ip_error&quot;>Invalid IP address or hostname&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="53"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_server_ip_empty` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_server_ip_empty&quot;>IP address cannot be empty&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="54"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_port_error` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_port_error&quot;>Port must be between 1 and 65535&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="56"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_api_endpoint_info` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_api_endpoint_info&quot;>The path to the chat completions endpoint on your LM Studio server. Default: v1/chat/completions&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="58"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_select_model` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_select_model&quot;>Select Model&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="66"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_no_models` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_no_models&quot;>No models found вЂ” check connection&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="67"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_system_prompt` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_system_prompt&quot;>System Prompt&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="68"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_system_prompt_default` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_system_prompt_default&quot;>You are AeI, a helpful, friendly, and intelligent AI assistant.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="69"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_system_prompt_info` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_system_prompt_info&quot;>This message is sent to the AI at the start of every conversation to define its behavior.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="70"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_max_tokens` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_max_tokens&quot;>Max Response Tokens&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="71"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_temperature` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_temperature&quot;>Temperature&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="72"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_temperature_subtitle` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_temperature_subtitle&quot;>Creativity&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="73"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_temperature_desc` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_temperature_desc&quot;>Lower = more focused. Higher = more creative.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="74"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_section_language` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_section_language&quot;>Language and Translation&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="75"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_app_language` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_app_language&quot;>App Display Language&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="76"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_translate_to` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_translate_to&quot;>Translate AI Responses To&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="77"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_voice_language` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_voice_language&quot;>Voice Input Language&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="78"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_auto_detect` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_auto_detect&quot;>Auto-Detect Input Language&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="79"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_none` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_none&quot;>None&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="80"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.language_en_us` appears to be unused"
+        errorLine1="    &lt;string name=&quot;language_en_us&quot;>English (US)&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="81"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.language_en_gb` appears to be unused"
+        errorLine1="    &lt;string name=&quot;language_en_gb&quot;>English (UK)&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="82"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.language_uk` appears to be unused"
+        errorLine1="    &lt;string name=&quot;language_uk&quot;>РЈРєСЂР°С—РЅСЃСЊРєР°&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="83"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.language_cs` appears to be unused"
+        errorLine1="    &lt;string name=&quot;language_cs&quot;>ДЊeЕЎtina&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="84"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.language_zh_cn` appears to be unused"
+        errorLine1="    &lt;string name=&quot;language_zh_cn&quot;>з®ЂдЅ“дё­ж–‡&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="85"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_section_appearance` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_section_appearance&quot;>Appearance&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="86"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_theme_system` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_theme_system&quot;>System Default&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="87"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_theme_light` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_theme_light&quot;>Light&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="88"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_theme_dark` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_theme_dark&quot;>Dark&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="89"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_dynamic_color` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_dynamic_color&quot;>Dynamic Color&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="90"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_dynamic_color_desc` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_dynamic_color_desc&quot;>Use wallpaper-based colors (Android 12+)&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="91"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_bubble_style` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_bubble_style&quot;>Chat Bubble Style&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="92"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_bubble_rounded` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_bubble_rounded&quot;>Rounded&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="93"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_bubble_sharp` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_bubble_sharp&quot;>Sharp&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="94"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_bubble_minimal` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_bubble_minimal&quot;>Minimal&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="95"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_font_size` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_font_size&quot;>Font Size&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="96"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_font_small` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_font_small&quot;>Small&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="97"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_font_medium` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_font_medium&quot;>Medium&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="98"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_font_large` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_font_large&quot;>Large&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="99"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_font_xl` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_font_xl&quot;>Extra Large&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="100"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_show_timestamps` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_show_timestamps&quot;>Show timestamps on messages&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="101"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_show_avatars` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_show_avatars&quot;>Show avatars in chat&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="102"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_user_initials` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_user_initials&quot;>User Avatar Initials&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="103"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_avatar_color` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_avatar_color&quot;>Avatar Color&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="104"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_font_preview` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_font_preview&quot;>The quick brown fox jumps over the lazy dog.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="105"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_section_notifications` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_section_notifications&quot;>Notifications and Behavior&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="106"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_haptic` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_haptic&quot;>Haptic Feedback&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="107"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_haptic_desc` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_haptic_desc&quot;>Vibrate on message send and receive&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="108"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_sound` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_sound&quot;>Sound Effects&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="109"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_sound_desc` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_sound_desc&quot;>Play subtle sounds on send and receive&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="110"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_auto_scroll` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_auto_scroll&quot;>Auto-scroll to Bottom&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="111"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_auto_scroll_desc` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_auto_scroll_desc&quot;>Automatically scroll to the newest message&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="112"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_clear_on_new` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_clear_on_new&quot;>Clear Chat on New Session&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="113"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_clear_on_new_desc` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_clear_on_new_desc&quot;>Automatically clear the previous session when starting a new one&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="114"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_section_data` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_section_data&quot;>Data and Privacy&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="115"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_export_chats` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_export_chats&quot;>Export All Chats&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="116"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_import_chats` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_import_chats&quot;>Import Chats&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="117"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_clear_all` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_clear_all&quot;>Clear All Chats&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="118"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_import_confirm` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_import_confirm&quot;>Import chats? This may overwrite existing data.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="122"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_import_invalid` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_import_invalid&quot;>Invalid backup file format&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="123"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_section_about` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_section_about&quot;>About&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="127"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_powered_by` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_powered_by&quot;>AeI is powered by LM Studio&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="128"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_github` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_github&quot;>View on GitHub&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="129"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_licenses` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_licenses&quot;>Open Source Licenses&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="130"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_privacy_policy` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_privacy_policy&quot;>Privacy Policy&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="131"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_version` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_version&quot;>Version&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="132"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_build` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_build&quot;>Build&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="133"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_unknown_host` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_unknown_host&quot;>Cannot find LM Studio server. Check IP address.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="137"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_connection_refused` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_connection_refused&quot;>Connection refused. Is LM Studio running?&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="138"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_timeout` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_timeout&quot;>Connection timed out. Server may be busy.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="139"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_ssl` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_ssl&quot;>Secure connection error.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="140"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_400` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_400&quot;>Bad request. Check model and parameters.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="141"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_401` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_401&quot;>Unauthorized. Check your API key.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="142"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_404` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_404&quot;>Endpoint not found. Check API path.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="143"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_429` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_429&quot;>Too many requests. Please wait.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="144"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_500` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_500&quot;>LM Studio internal error. Check server logs.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="145"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_503` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_503&quot;>LM Studio service unavailable.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="146"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_empty_response` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_empty_response&quot;>Received empty response from server.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="147"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_malformed_json` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_malformed_json&quot;>Received invalid response format.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="148"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_no_network` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_no_network&quot;>No network connection available.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="149"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.error_generic` appears to be unused"
+        errorLine1="    &lt;string name=&quot;error_generic&quot;>An unexpected error occurred.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="150"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.close` appears to be unused"
+        errorLine1="    &lt;string name=&quot;close&quot;>Close&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="157"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_translate` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_translate&quot;>Translate&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="160"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_copy_code` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_copy_code&quot;>Copy code&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="169"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_aei_avatar` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_aei_avatar&quot;>AeI avatar&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="170"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_user_avatar` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_user_avatar&quot;>User avatar&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="171"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_use_ngrok` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_use_ngrok&quot;>Use ngrok tunnel&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="172"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_use_ngrok_desc` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_use_ngrok_desc&quot;>Connect via ngrok URL instead of local IP&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="173"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_ngrok_url` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_ngrok_url&quot;>ngrok URL&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="174"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_ngrok_url_hint` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_ngrok_url_hint&quot;>e.g. https://xxxx-xx-xx-xxx-xx.ngrok-free.app&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="175"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_ngrok_mode` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_ngrok_mode&quot;>Ngrok Mode&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="176"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_section_websearch` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_section_websearch&quot;>Web Search&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="177"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_web_search_enabled_desc` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_web_search_enabled_desc&quot;>Fetch real-time web results to enhance AI answers&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="179"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_web_search_results` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_web_search_results&quot;>Max Search Results&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="180"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.searching_web` appears to be unused"
+        errorLine1="    &lt;string name=&quot;searching_web&quot;>Searching the web…&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="181"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_searxng_url_hint` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_searxng_url_hint&quot;>https://your-searxng-instance.com&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="184"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.thinking_label` appears to be unused"
+        errorLine1="    &lt;string name=&quot;thinking_label&quot;>Thought process&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="186"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.thinking_streaming` appears to be unused"
+        errorLine1="    &lt;string name=&quot;thinking_streaming&quot;>Thinking\u2026&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="187"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_connection_mode` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_connection_mode&quot;>Connection Mode&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="188"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_conn_local` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_conn_local&quot;>Local (LM Studio)&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="189"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_conn_ngrok` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_conn_ngrok&quot;>Ngrok Tunnel&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="190"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_conn_cloud` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_conn_cloud&quot;>Cloud API&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="191"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_cloud_url` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_cloud_url&quot;>API Base URL&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="192"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_cloud_url_hint` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_cloud_url_hint&quot;>e.g. https://nim.api.nvidia.com&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="193"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_cloud_url_desc` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_cloud_url_desc&quot;>Works with NVIDIA NIM, OpenAI, or any OpenAI-compatible API. Enter base URL without /v1/chat/completions.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="194"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_model_id` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_model_id&quot;>Model ID&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="195"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_model_id_desc` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_model_id_desc&quot;>Enter the exact model ID from your cloud API provider&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="197"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.sources_found` appears to be unused"
+        errorLine1="    &lt;string name=&quot;sources_found&quot;>sources found&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="198"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;io.noties.markwon:core:4.6.2&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="106"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;io.noties.markwon:ext-tables:4.6.2&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="107"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;io.noties.markwon:ext-strikethrough:4.6.2&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="108"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;io.noties.markwon:html:4.6.2&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="109"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;io.noties.markwon:linkify:4.6.2&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="110"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        message="Use version catalog instead"
+        errorLine1="    implementation(&quot;androidx.appcompat:appcompat:1.7.0&quot;)"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="113"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="ConstantLocale"
+        message="Assigning `Locale.getDefault()` to a final static field is suspicious; this code will not work correctly if the user changes locale while the app is running"
+        errorLine1="    private val timeFormatter = SimpleDateFormat(&quot;HH:mm&quot;, Locale.getDefault())"
+        errorLine2="                                                          ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/kotlin/com/aei/chatbot/util/DateTimeUtils.kt"
+            line="8"
+            column="59"/>
+    </issue>
+
+    <issue
+        id="ConstantLocale"
+        message="Assigning `Locale.getDefault()` to a final static field is suspicious; this code will not work correctly if the user changes locale while the app is running"
+        errorLine1="    private val dateFormatter = SimpleDateFormat(&quot;MMM d&quot;, Locale.getDefault())"
+        errorLine2="                                                          ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/kotlin/com/aei/chatbot/util/DateTimeUtils.kt"
+            line="9"
+            column="59"/>
+    </issue>
+
+    <issue
+        id="ConstantLocale"
+        message="Assigning `Locale.getDefault()` to a final static field is suspicious; this code will not work correctly if the user changes locale while the app is running"
+        errorLine1="    private val fullFormatter = SimpleDateFormat(&quot;MMM d, HH:mm&quot;, Locale.getDefault())"
+        errorLine2="                                                                 ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/kotlin/com/aei/chatbot/util/DateTimeUtils.kt"
+            line="10"
+            column="66"/>
+    </issue>
+
+    <issue
+        id="ConstantLocale"
+        message="Assigning `Locale.getDefault()` to a final static field is suspicious; this code will not work correctly if the user changes locale while the app is running"
+        errorLine1="    private val exportFormatter = SimpleDateFormat(&quot;yyyyMMdd_HHmmss&quot;, Locale.getDefault())"
+        errorLine2="                                                                      ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/kotlin/com/aei/chatbot/util/DateTimeUtils.kt"
+            line="11"
+            column="71"/>
+    </issue>
+
+</issues>

@@ -43,6 +43,7 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
     var showNewChatDialog by remember { mutableStateOf(false) }
     var contextMessage by remember { mutableStateOf<ChatMessage?>(null) }
     var showContextMenu by remember { mutableStateOf(false) }
+    var showModelPicker by remember { mutableStateOf(false) }
     val micPermission = rememberPermissionState(Manifest.permission.RECORD_AUDIO)
     val speechLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { viewModel.handleSpeechResult(it) }
 
@@ -53,6 +54,31 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
             val total = uiState.messages.size + (if (uiState.isStreaming) 1 else 0)
             if (total > 0) try { listState.animateScrollToItem(total - 1) } catch (_: Exception) {}
         }
+    }
+
+    if (showModelPicker) {
+        AlertDialog(
+            onDismissRequest = { showModelPicker = false },
+            title = { Text("Select Model") },
+            text = {
+                Column {
+                    Text("Current: ${settings.selectedModel.ifBlank { "Not set" }}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                    Spacer(Modifier.height(8.dp))
+                    Text("To change models, go to Settings > Model tab.",
+                        style = MaterialTheme.typography.bodyMedium)
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showModelPicker = false; onNavigateToSettings() }) {
+                    Text("Go to Settings")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showModelPicker = false }) { Text("Close") }
+            }
+        )
     }
 
     if (showNewChatDialog) {

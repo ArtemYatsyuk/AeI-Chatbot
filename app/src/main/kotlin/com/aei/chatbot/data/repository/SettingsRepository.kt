@@ -19,6 +19,9 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override val settingsFlow: Flow<AppSettings> = dataStore.settingsFlow
 
+            private val defaultEnhancementInstruction = "You are a master prompt engineer. Analyze and enhance the following prompt for generative AI. Add context, structure, specificity. Instruct the AI to use headers, tables for comparisons, bullet points for lists, bold for key terms. Return only the enhanced version. Do not ask anything else, answer only!"
+
+    
     override suspend fun saveSettings(update: suspend (AppSettings) -> AppSettings) {
         dataStore.updateSettings { p ->
             val c = AppSettings(
@@ -37,6 +40,7 @@ class SettingsRepositoryImpl @Inject constructor(
                 webSearchEnabled = p[UserPreferencesDataStore.KEY_WEB_SEARCH_ENABLED] ?: false,
                 searxngUrl = p[UserPreferencesDataStore.KEY_SEARXNG_URL] ?: "",
                 webSearchResultCount = p[UserPreferencesDataStore.KEY_WEB_SEARCH_RESULT_COUNT] ?: 3,
+                webSearchMode = p[UserPreferencesDataStore.KEY_WEB_SEARCH_MODE] ?: "manual",
                 appLanguage = p[UserPreferencesDataStore.KEY_APP_LANGUAGE] ?: "en-US",
                 translationLanguage = p[UserPreferencesDataStore.KEY_TRANSLATION_LANGUAGE] ?: "",
                 voiceInputLanguage = p[UserPreferencesDataStore.KEY_VOICE_INPUT_LANGUAGE] ?: "en-US",
@@ -54,7 +58,9 @@ class SettingsRepositoryImpl @Inject constructor(
                 autoScroll = p[UserPreferencesDataStore.KEY_AUTO_SCROLL] ?: true,
                 clearOnNewSession = p[UserPreferencesDataStore.KEY_CLEAR_ON_NEW_SESSION] ?: false,
                 isFirstLaunch = p[UserPreferencesDataStore.KEY_IS_FIRST_LAUNCH] ?: true,
-                activeChatId = p[UserPreferencesDataStore.KEY_ACTIVE_CHAT_ID] ?: ""
+                activeChatId = p[UserPreferencesDataStore.KEY_ACTIVE_CHAT_ID] ?: "",
+                promptEnhancementEnabled = p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_ENABLED] ?: false,
+                promptEnhancementInstruction = p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_INSTRUCTION] ?: defaultEnhancementInstruction
             )
             val u = update(c)
             p[UserPreferencesDataStore.KEY_SERVER_IP] = u.serverIp
@@ -72,6 +78,7 @@ class SettingsRepositoryImpl @Inject constructor(
             p[UserPreferencesDataStore.KEY_WEB_SEARCH_ENABLED] = u.webSearchEnabled
             p[UserPreferencesDataStore.KEY_SEARXNG_URL] = u.searxngUrl
             p[UserPreferencesDataStore.KEY_WEB_SEARCH_RESULT_COUNT] = u.webSearchResultCount
+            p[UserPreferencesDataStore.KEY_WEB_SEARCH_MODE] = u.webSearchMode
             p[UserPreferencesDataStore.KEY_APP_LANGUAGE] = u.appLanguage
             p[UserPreferencesDataStore.KEY_TRANSLATION_LANGUAGE] = u.translationLanguage
             p[UserPreferencesDataStore.KEY_VOICE_INPUT_LANGUAGE] = u.voiceInputLanguage
@@ -90,6 +97,8 @@ class SettingsRepositoryImpl @Inject constructor(
             p[UserPreferencesDataStore.KEY_CLEAR_ON_NEW_SESSION] = u.clearOnNewSession
             p[UserPreferencesDataStore.KEY_IS_FIRST_LAUNCH] = u.isFirstLaunch
             p[UserPreferencesDataStore.KEY_ACTIVE_CHAT_ID] = u.activeChatId
+            p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_ENABLED] = u.promptEnhancementEnabled
+            p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_INSTRUCTION] = u.promptEnhancementInstruction
         }
     }
 

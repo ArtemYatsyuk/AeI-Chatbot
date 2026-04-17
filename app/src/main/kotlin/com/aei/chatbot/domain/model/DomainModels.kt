@@ -94,7 +94,9 @@ data class AppSettings(
     val autoScroll: Boolean = true,
     val clearOnNewSession: Boolean = false,
     val isFirstLaunch: Boolean = true,
-    val activeChatId: String = ""
+    val activeChatId: String = "",
+    val promptEnhancementEnabled: Boolean = false,
+    val promptEnhancementInstruction: String = "Rewrite the following user message to be clearer, more detailed, and better structured for an AI assistant. Keep the original intent. Return ONLY the enhanced prompt, nothing else:"
 )
 
 sealed class ApiResult<out T> {

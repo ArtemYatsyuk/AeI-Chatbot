@@ -129,7 +129,8 @@ fun ChatInputBar(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun ChatTopBar(sessionName: String, onSessionNameChange: (String) -> Unit, onTranslateClick: () -> Unit,
-    onNewChatClick: () -> Unit, onHistoryClick: () -> Unit, onSettingsClick: () -> Unit) {
+    onNewChatClick: () -> Unit, onHistoryClick: () -> Unit, onSettingsClick: () -> Unit,
+    currentModel: String = "", onModelClick: () -> Unit = {}) {
     var editingName by remember { mutableStateOf(false) }
     var nameValue by remember(sessionName) { mutableStateOf(sessionName) }
     TopAppBar(title = {

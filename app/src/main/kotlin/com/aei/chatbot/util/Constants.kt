@@ -6,7 +6,7 @@ object Constants {
     const val DEFAULT_SERVER_IP = "192.168.1.100"
     const val DEFAULT_PORT = 1234
     const val DEFAULT_API_ENDPOINT = "v1/chat/completions"
-    const val DEFAULT_SYSTEM_PROMPT = "You are AeI, a helpful, friendly, and intelligent AI assistant."
+    const val DEFAULT_SYSTEM_PROMPT = "You are a helpful AI assistant. Always reply in the same language the user writes in. If the user writes in English, reply in English. If the user writes in Czech, reply in Czech. If the user writes in any other language, reply in that same language. Use markdown formatting: headers (##), tables (| col | col |) for comparisons, bullet points (- item) for lists, and **bold** for key terms. Keep responses clear and well-structured."
     const val DEFAULT_MAX_TOKENS = 2048
     const val DEFAULT_TEMPERATURE = 0.7f
     const val DEFAULT_TIMEOUT = 30

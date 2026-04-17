@@ -91,6 +91,8 @@ class SettingsViewModel @Inject constructor(
     fun updateClearOnNewSession(v: Boolean) = update { it.copy(clearOnNewSession = v) }
     fun updateDefaultChatModel(m: String) = update { it.copy(defaultChatModel = m) }
     fun updateDefaultToolsModel(m: String) = update { it.copy(defaultToolsModel = m) }
+    fun updatePromptEnhancementEnabled(v: Boolean) = update { it.copy(promptEnhancementEnabled = v) }
+    fun updatePromptEnhancementInstruction(s: String) = update { it.copy(promptEnhancementInstruction = s) }
 
     // Model management
     fun showAddModelDialog() = _uiState.update { it.copy(showAddModelDialog = true, editingModel = null) }
@@ -241,5 +243,9 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun resetSettings() { viewModelScope.launch { saveSettingsUseCase.reset() } }
+    fun importChats() {
+        _uiState.update { it.copy(snackbarMessage = "Import feature coming soon") }
+    }
+
     fun dismissSnackbar() { _uiState.update { it.copy(snackbarMessage = null) } }
 }

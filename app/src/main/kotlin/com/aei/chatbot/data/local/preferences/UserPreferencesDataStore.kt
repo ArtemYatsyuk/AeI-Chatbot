@@ -56,8 +56,13 @@ class UserPreferencesDataStore @Inject constructor(
         val KEY_CLEAR_ON_NEW_SESSION = booleanPreferencesKey("clear_on_new_session")
         val KEY_IS_FIRST_LAUNCH = booleanPreferencesKey("is_first_launch")
         val KEY_ACTIVE_CHAT_ID = stringPreferencesKey("active_chat_id")
+        val KEY_PROMPT_ENHANCEMENT_ENABLED = booleanPreferencesKey("prompt_enhancement_enabled")
+        val KEY_PROMPT_ENHANCEMENT_INSTRUCTION = stringPreferencesKey("prompt_enhancement_instruction")
     }
 
+            private val defaultEnhancementInstruction = "You are a master prompt engineer. Analyze and enhance the following prompt for generative AI. Add context, structure, specificity. Instruct the AI to use headers, tables for comparisons, bullet points for lists, bold for key terms. Return only the enhanced version. Do not ask anything else, answer only!"
+
+    
     val settingsFlow: Flow<AppSettings> = dataStore.data
         .catch { emit(emptyPreferences()) }
         .map { p ->
@@ -77,6 +82,7 @@ class UserPreferencesDataStore @Inject constructor(
                 webSearchEnabled = p[KEY_WEB_SEARCH_ENABLED] ?: false,
                 searxngUrl = p[KEY_SEARXNG_URL] ?: "https://407d-77-48-159-55.ngrok-free.app",
                 webSearchResultCount = p[KEY_WEB_SEARCH_RESULT_COUNT] ?: 3,
+                webSearchMode = p[KEY_WEB_SEARCH_MODE] ?: "manual",
                 appLanguage = p[KEY_APP_LANGUAGE] ?: Constants.LANG_EN_US,
                 translationLanguage = p[KEY_TRANSLATION_LANGUAGE] ?: "",
                 voiceInputLanguage = p[KEY_VOICE_INPUT_LANGUAGE] ?: Constants.LANG_EN_US,
@@ -94,7 +100,9 @@ class UserPreferencesDataStore @Inject constructor(
                 autoScroll = p[KEY_AUTO_SCROLL] ?: true,
                 clearOnNewSession = p[KEY_CLEAR_ON_NEW_SESSION] ?: false,
                 isFirstLaunch = p[KEY_IS_FIRST_LAUNCH] ?: true,
-                activeChatId = p[KEY_ACTIVE_CHAT_ID] ?: ""
+                activeChatId = p[KEY_ACTIVE_CHAT_ID] ?: "",
+                promptEnhancementEnabled = p[KEY_PROMPT_ENHANCEMENT_ENABLED] ?: false,
+                promptEnhancementInstruction = p[KEY_PROMPT_ENHANCEMENT_INSTRUCTION] ?: defaultEnhancementInstruction
             )
         }
 
@@ -104,21 +112,40 @@ class UserPreferencesDataStore @Inject constructor(
 
     suspend fun resetToDefaults() {
         dataStore.edit { p ->
-            p[KEY_SERVER_IP] = Constants.DEFAULT_SERVER_IP; p[KEY_SERVER_PORT] = Constants.DEFAULT_PORT
-            p[KEY_API_ENDPOINT] = Constants.DEFAULT_API_ENDPOINT; p[KEY_API_KEY] = ""
-            p[KEY_SELECTED_MODEL] = ""; p[KEY_SYSTEM_PROMPT] = Constants.DEFAULT_SYSTEM_PROMPT
-            p[KEY_MAX_TOKENS] = Constants.DEFAULT_MAX_TOKENS; p[KEY_TEMPERATURE] = Constants.DEFAULT_TEMPERATURE
-            p[KEY_STREAMING_ENABLED] = Constants.DEFAULT_STREAMING; p[KEY_TIMEOUT_SECONDS] = Constants.DEFAULT_TIMEOUT
-            p[KEY_CONNECTION_MODE] = "local"; p[KEY_REMOTE_URL] = ""
-            p[KEY_WEB_SEARCH_ENABLED] = false; p[KEY_SEARXNG_URL] = "https://407d-77-48-159-55.ngrok-free.app"
-            p[KEY_WEB_SEARCH_RESULT_COUNT] = 3; p[KEY_APP_LANGUAGE] = Constants.LANG_EN_US
-            p[KEY_TRANSLATION_LANGUAGE] = ""; p[KEY_VOICE_INPUT_LANGUAGE] = Constants.LANG_EN_US
-            p[KEY_AUTO_DETECT_LANGUAGE] = false; p[KEY_THEME_MODE] = Constants.THEME_SYSTEM
-            p[KEY_DYNAMIC_COLOR] = true; p[KEY_BUBBLE_STYLE] = Constants.BUBBLE_ROUNDED
-            p[KEY_FONT_SIZE] = Constants.FONT_MEDIUM; p[KEY_SHOW_TIMESTAMPS] = true
-            p[KEY_SHOW_AVATARS] = true; p[KEY_USER_INITIALS] = "U"; p[KEY_AVATAR_COLOR] = "violet"
-            p[KEY_HAPTIC_FEEDBACK] = true; p[KEY_SOUND_EFFECTS] = false; p[KEY_AUTO_SCROLL] = true
+            p[KEY_SERVER_IP] = Constants.DEFAULT_SERVER_IP
+            p[KEY_SERVER_PORT] = Constants.DEFAULT_PORT
+            p[KEY_API_ENDPOINT] = Constants.DEFAULT_API_ENDPOINT
+            p[KEY_API_KEY] = ""
+            p[KEY_SELECTED_MODEL] = ""
+            p[KEY_SYSTEM_PROMPT] = Constants.DEFAULT_SYSTEM_PROMPT
+            p[KEY_MAX_TOKENS] = Constants.DEFAULT_MAX_TOKENS
+            p[KEY_TEMPERATURE] = Constants.DEFAULT_TEMPERATURE
+            p[KEY_STREAMING_ENABLED] = Constants.DEFAULT_STREAMING
+            p[KEY_TIMEOUT_SECONDS] = Constants.DEFAULT_TIMEOUT
+            p[KEY_CONNECTION_MODE] = "local"
+            p[KEY_REMOTE_URL] = ""
+            p[KEY_WEB_SEARCH_ENABLED] = false
+            p[KEY_SEARXNG_URL] = "https://407d-77-48-159-55.ngrok-free.app"
+            p[KEY_WEB_SEARCH_RESULT_COUNT] = 3
+            p[KEY_WEB_SEARCH_MODE] = "manual"
+            p[KEY_APP_LANGUAGE] = Constants.LANG_EN_US
+            p[KEY_TRANSLATION_LANGUAGE] = ""
+            p[KEY_VOICE_INPUT_LANGUAGE] = Constants.LANG_EN_US
+            p[KEY_AUTO_DETECT_LANGUAGE] = false
+            p[KEY_THEME_MODE] = Constants.THEME_SYSTEM
+            p[KEY_DYNAMIC_COLOR] = true
+            p[KEY_BUBBLE_STYLE] = Constants.BUBBLE_ROUNDED
+            p[KEY_FONT_SIZE] = Constants.FONT_MEDIUM
+            p[KEY_SHOW_TIMESTAMPS] = true
+            p[KEY_SHOW_AVATARS] = true
+            p[KEY_USER_INITIALS] = "U"
+            p[KEY_AVATAR_COLOR] = "violet"
+            p[KEY_HAPTIC_FEEDBACK] = true
+            p[KEY_SOUND_EFFECTS] = false
+            p[KEY_AUTO_SCROLL] = true
             p[KEY_CLEAR_ON_NEW_SESSION] = false
+            p[KEY_PROMPT_ENHANCEMENT_ENABLED] = false
+            p[KEY_PROMPT_ENHANCEMENT_INSTRUCTION] = defaultEnhancementInstruction
         }
     }
 }
