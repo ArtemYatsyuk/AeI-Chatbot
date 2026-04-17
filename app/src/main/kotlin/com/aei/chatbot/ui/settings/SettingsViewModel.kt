@@ -103,6 +103,8 @@ class SettingsViewModel @Inject constructor(
         update { s ->
             val newModel = model.copy(id = UUID.randomUUID().toString())
             s.copy(providers = if (s.providers.isEmpty()) {
+                listOf(ProviderConfig(id = "default", name = "Default Provider", models = listOf(newModel)))
+            } else {
                 listOf(ProviderConfig(id = UUID.randomUUID().toString(), name = "Default Provider",
                     apiMode = "openai_compatible", models = listOf(newModel)))
             } else {
@@ -197,6 +199,8 @@ class SettingsViewModel @Inject constructor(
                     if (newModels.isNotEmpty()) {
                         update { s ->
                             s.copy(providers = if (s.providers.isEmpty()) {
+                listOf(ProviderConfig(id = "default", name = "Default Provider", models = listOf(newModel)))
+            } else {
                                 listOf(ProviderConfig(id = UUID.randomUUID().toString(), name = "Default",
                                     models = newModels))
                             } else {
@@ -249,3 +253,4 @@ class SettingsViewModel @Inject constructor(
 
     fun dismissSnackbar() { _uiState.update { it.copy(snackbarMessage = null) } }
 }
+

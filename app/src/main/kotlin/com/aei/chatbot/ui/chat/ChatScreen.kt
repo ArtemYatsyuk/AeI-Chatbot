@@ -169,3 +169,4 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
         }
     }
 }
+
