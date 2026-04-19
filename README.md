@@ -1,18 +1,12 @@
-<img width="1024" height="1024" alt="logo" src="https://github.com/user-attachments/assets/81b85c1e-f07a-4df8-a2a1-180f954adc96" />
-
-> **Last updated: April 19, 2026**
-
----
+<img width="200" height="200" alt="logo" src="https://github.com/user-attachments/assets/81b85c1e-f07a-4df8-a2a1-180f954adc96" align="left" />
 
 # 👋 Welcome!
-
 Hi there! I'm an aspiring developer passionate about learning how AI works. This project is my hands-on approach to understanding artificial intelligence by building something real and functional.
 
----
-
 ## 📱 About This App
-
 This application features a **simple yet powerful AI Chatbot** built natively for **Android** — designed to be clean, lightweight, and easy to use.
+
+<br clear="left"/>
 
 ---
 
