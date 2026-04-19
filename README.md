@@ -26,5 +26,14 @@ This application features a **simple yet powerful AI Chatbot** built natively fo
 > If you find this project helpful or interesting, please consider giving it a ⭐ **star** — it means the world to me and keeps me motivated to keep building! 🙏
 
 ---
+## Star History
+
+<a href="https://www.star-history.com/?repos=ArtemYatsyuk%2FAeI-Chatbot&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ArtemYatsyuk/AeI-Chatbot&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ArtemYatsyuk/AeI-Chatbot&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ArtemYatsyuk/AeI-Chatbot&type=date&legend=top-left" />
+ </picture>
+</a>
 
 > *Built with curiosity, caffeine, and a lot of trial & error. ❤️*
