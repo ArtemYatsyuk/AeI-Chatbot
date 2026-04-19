@@ -96,6 +96,8 @@ data class AppSettings(
     val isFirstLaunch: Boolean = true,
     val activeChatId: String = "",
     val promptEnhancementEnabled: Boolean = false,
+    val quickModels: List<String> = emptyList(),
+    val enhancementModel: String = "",
     val promptEnhancementInstruction: String = "Rewrite the following user message to be clearer, more detailed, and better structured for an AI assistant. Keep the original intent. Return ONLY the enhanced prompt, nothing else:"
 )
 

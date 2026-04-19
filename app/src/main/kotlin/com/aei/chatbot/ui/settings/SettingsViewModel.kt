@@ -50,13 +50,13 @@ class SettingsViewModel @Inject constructor(
     private val deleteChatUseCase: DeleteChatUseCase,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
+
     val settings: StateFlow<AppSettings> = loadSettingsUseCase.settings
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AppSettings())
 
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
-    // Basic settings
     fun updateServerIp(ip: String) = update { it.copy(serverIp = ip) }
     fun updatePort(port: Int) = update { it.copy(serverPort = port) }
     fun updateApiEndpoint(ep: String) = update { it.copy(apiEndpoint = ep) }
@@ -92,9 +92,22 @@ class SettingsViewModel @Inject constructor(
     fun updateDefaultChatModel(m: String) = update { it.copy(defaultChatModel = m) }
     fun updateDefaultToolsModel(m: String) = update { it.copy(defaultToolsModel = m) }
     fun updatePromptEnhancementEnabled(v: Boolean) = update { it.copy(promptEnhancementEnabled = v) }
+    fun addQuickModel(modelId: String) {
+        update { s ->
+            if (modelId.isNotBlank() && modelId !in s.quickModels) {
+                s.copy(quickModels = s.quickModels + modelId)
+            } else s
+        }
+    }
+
+    fun removeQuickModel(modelId: String) {
+        update { s -> s.copy(quickModels = s.quickModels.filter { it != modelId }) }
+    }
+
+    fun updateEnhancementModel(m: String) = update { it.copy(enhancementModel = m) }
+
     fun updatePromptEnhancementInstruction(s: String) = update { it.copy(promptEnhancementInstruction = s) }
 
-    // Model management
     fun showAddModelDialog() = _uiState.update { it.copy(showAddModelDialog = true, editingModel = null) }
     fun showEditModelDialog(model: ModelConfig) = _uiState.update { it.copy(showEditModelDialog = true, editingModel = model) }
     fun dismissModelDialog() = _uiState.update { it.copy(showAddModelDialog = false, showEditModelDialog = false, editingModel = null) }
@@ -102,14 +115,14 @@ class SettingsViewModel @Inject constructor(
     fun addModel(model: ModelConfig) {
         update { s ->
             val newModel = model.copy(id = UUID.randomUUID().toString())
-            s.copy(providers = if (s.providers.isEmpty()) {
+            val updatedProviders = if (s.providers.isEmpty()) {
                 listOf(ProviderConfig(id = "default", name = "Default Provider", models = listOf(newModel)))
             } else {
-                listOf(ProviderConfig(id = UUID.randomUUID().toString(), name = "Default Provider",
-                    apiMode = "openai_compatible", models = listOf(newModel)))
-            } else {
-                s.providers.mapIndexed { i, p -> if (i == 0) p.copy(models = p.models + newModel) else p }
-            })
+                s.providers.mapIndexed { index, provider ->
+                    if (index == 0) provider.copy(models = provider.models + newModel) else provider
+                }
+            }
+            s.copy(providers = updatedProviders)
         }
         _uiState.update { it.copy(showAddModelDialog = false, editingModel = null) }
         _uiState.update { it.copy(snackbarMessage = "Model added: ${model.displayName}") }
@@ -117,8 +130,8 @@ class SettingsViewModel @Inject constructor(
 
     fun updateModel(model: ModelConfig) {
         update { s ->
-            s.copy(providers = s.providers.map { p ->
-                p.copy(models = p.models.map { m -> if (m.id == model.id) model else m })
+            s.copy(providers = s.providers.map { provider ->
+                provider.copy(models = provider.models.map { m -> if (m.id == model.id) model else m })
             })
         }
         _uiState.update { it.copy(showEditModelDialog = false, editingModel = null) }
@@ -127,8 +140,8 @@ class SettingsViewModel @Inject constructor(
 
     fun deleteModel(modelId: String) {
         update { s ->
-            s.copy(providers = s.providers.map { p ->
-                p.copy(models = p.models.filter { m -> m.id != modelId })
+            s.copy(providers = s.providers.map { provider ->
+                provider.copy(models = provider.models.filter { m -> m.id != modelId })
             })
         }
         _uiState.update { it.copy(snackbarMessage = "Model deleted") }
@@ -137,12 +150,14 @@ class SettingsViewModel @Inject constructor(
     fun testModel(model: ModelConfig) {
         viewModelScope.launch {
             _uiState.update { it.copy(showTestModelDialog = true, isTestingModel = true, testModelResult = "") }
-            val s = settings.value
-            when (val result = translateUseCase.testConnection(s)) {
-                is ApiResult.Success -> _uiState.update { it.copy(isTestingModel = false,
-                    testModelResult = "✓ Connected successfully! Model '${model.displayName}' is reachable.") }
-                is ApiResult.Error -> _uiState.update { it.copy(isTestingModel = false,
-                    testModelResult = "✗ Error: ${result.message}") }
+            when (val result = translateUseCase.testConnection(settings.value)) {
+                is ApiResult.Success -> _uiState.update {
+                    it.copy(isTestingModel = false,
+                        testModelResult = "Connected! Model '${model.displayName}' is reachable.")
+                }
+                is ApiResult.Error -> _uiState.update {
+                    it.copy(isTestingModel = false, testModelResult = "Error: ${result.message}")
+                }
                 else -> {}
             }
         }
@@ -157,7 +172,6 @@ class SettingsViewModel @Inject constructor(
 
     fun fetchModels() = loadModels()
 
-    // All models from all providers
     fun getAllModels(): List<ModelConfig> = settings.value.providers.flatMap { it.models }
 
     private fun update(block: (AppSettings) -> AppSettings) {
@@ -190,22 +204,35 @@ class SettingsViewModel @Inject constructor(
             when (val r = translateUseCase.getModels(settings.value)) {
                 is ApiResult.Success -> {
                     _uiState.update { it.copy(availableModels = r.data, isLoadingModels = false) }
-                    // Auto-add fetched models as ModelConfig if not already present
-                    val existing = settings.value.providers.flatMap { p -> p.models.map { m -> m.modelId } }.toSet()
-                    val newModels = r.data.filter { it !in existing }.map { modelId ->
-                        ModelConfig(id = UUID.randomUUID().toString(), displayName = modelId, modelId = modelId,
-                            capabilities = guessCapabilities(modelId))
-                    }
+                    val existingIds = settings.value.providers
+                        .flatMap { it.models }
+                        .map { it.modelId }
+                        .toSet()
+                    val newModels = r.data
+                        .filter { it !in existingIds }
+                        .map { modelId ->
+                            ModelConfig(
+                                id = UUID.randomUUID().toString(),
+                                displayName = modelId,
+                                modelId = modelId,
+                                capabilities = guessCapabilities(modelId)
+                            )
+                        }
                     if (newModels.isNotEmpty()) {
                         update { s ->
-                            s.copy(providers = if (s.providers.isEmpty()) {
-                listOf(ProviderConfig(id = "default", name = "Default Provider", models = listOf(newModel)))
-            } else {
-                                listOf(ProviderConfig(id = UUID.randomUUID().toString(), name = "Default",
-                                    models = newModels))
+                            val updatedProviders = if (s.providers.isEmpty()) {
+                                listOf(ProviderConfig(
+                                    id = UUID.randomUUID().toString(),
+                                    name = "Default",
+                                    models = newModels
+                                ))
                             } else {
-                                s.providers.mapIndexed { i, p -> if (i == 0) p.copy(models = p.models + newModels) else p }
-                            })
+                                s.providers.mapIndexed { index, provider ->
+                                    if (index == 0) provider.copy(models = provider.models + newModels)
+                                    else provider
+                                }
+                            }
+                            s.copy(providers = updatedProviders)
                         }
                     }
                 }
@@ -231,11 +258,15 @@ class SettingsViewModel @Inject constructor(
             try {
                 val chats = getChatHistoryUseCase.allChats().first()
                 val json = Gson().toJson(chats)
-                val f = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                    "${Constants.EXPORT_FILE_PREFIX}${com.aei.chatbot.util.DateTimeUtils.formatExportTimestamp()}.json")
+                val f = File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    "${Constants.EXPORT_FILE_PREFIX}${com.aei.chatbot.util.DateTimeUtils.formatExportTimestamp()}.json"
+                )
                 f.writeText(json)
                 _uiState.update { it.copy(snackbarMessage = "${context.getString(com.aei.chatbot.R.string.export_success)}: ${f.name}") }
-            } catch (e: Exception) { _uiState.update { it.copy(snackbarMessage = "Export failed: ${e.message}") } }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(snackbarMessage = "Export failed: ${e.message}") }
+            }
         }
     }
 
@@ -247,10 +278,10 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun resetSettings() { viewModelScope.launch { saveSettingsUseCase.reset() } }
+
     fun importChats() {
         _uiState.update { it.copy(snackbarMessage = "Import feature coming soon") }
     }
 
     fun dismissSnackbar() { _uiState.update { it.copy(snackbarMessage = null) } }
 }
-

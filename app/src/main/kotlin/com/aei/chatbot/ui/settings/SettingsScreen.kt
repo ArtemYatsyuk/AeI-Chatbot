@@ -3,11 +3,16 @@
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,11 +24,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -40,13 +42,8 @@ import com.aei.chatbot.R
 import com.aei.chatbot.ui.theme.avatarColorFromString
 import com.aei.chatbot.ui.theme.fontSizeMultiplier
 import com.aei.chatbot.util.Constants
-import kotlinx.coroutines.delay
 
 data class SettingsTab(val label: String, val icon: ImageVector)
-
-// ─────────────────────────────────────────────────────────────────────────────
-// ROOT SCREEN
-// ─────────────────────────────────────────────────────────────────────────────
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,9 +52,9 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
-    val uiState  by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
-    val context  = LocalContext.current
+    val context = LocalContext.current
     var selectedTab by remember { mutableIntStateOf(0) }
 
     val tabs = listOf(
@@ -70,7 +67,6 @@ fun SettingsScreen(
         SettingsTab("Features", Icons.Default.AutoAwesome)
     )
 
-    // Show snackbar on message
     LaunchedEffect(uiState.snackbarMessage) {
         uiState.snackbarMessage?.let {
             snackbarHostState.showSnackbar(it)
@@ -78,34 +74,25 @@ fun SettingsScreen(
         }
     }
 
-    // Auto-clear connection status after 4 s so it doesn't linger forever
-    LaunchedEffect(uiState.connectionStatus) {
-        if (uiState.connectionStatus == ConnectionStatus.SUCCESS ||
-            uiState.connectionStatus == ConnectionStatus.FAILURE) {
-            delay(4_000)
-            viewModel.testConnection()
-        }
-    }
-
-    var showClearAllDialog   by remember { mutableStateOf(false) }
-    var showResetDialog      by remember { mutableStateOf(false) }
+    var showClearAllDialog by remember { mutableStateOf(false) }
+    var showResetDialog by remember { mutableStateOf(false) }
     var showSystemPromptInfo by remember { mutableStateOf(false) }
 
     if (showClearAllDialog) {
         ConfirmDialog(
-            title   = stringResource(R.string.settings_clear_all_confirm1),
-            body    = stringResource(R.string.settings_clear_all_confirm2),
-            confirmLabel  = stringResource(R.string.delete),
-            confirmColor  = MaterialTheme.colorScheme.error,
+            title = stringResource(R.string.settings_clear_all_confirm1),
+            body = stringResource(R.string.settings_clear_all_confirm2),
+            confirmLabel = stringResource(R.string.delete),
+            confirmColor = MaterialTheme.colorScheme.error,
             onConfirm = { showClearAllDialog = false; viewModel.clearAllChats() },
             onDismiss = { showClearAllDialog = false }
         )
     }
     if (showResetDialog) {
         ConfirmDialog(
-            title   = stringResource(R.string.settings_reset_settings),
-            body    = stringResource(R.string.settings_reset_confirm),
-            confirmLabel  = stringResource(R.string.confirm),
+            title = stringResource(R.string.settings_reset_settings),
+            body = stringResource(R.string.settings_reset_confirm),
+            confirmLabel = stringResource(R.string.confirm),
             onConfirm = { showResetDialog = false; viewModel.resetSettings() },
             onDismiss = { showResetDialog = false }
         )
@@ -115,82 +102,43 @@ fun SettingsScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
-                title = {
-                    Text(
-                        stringResource(R.string.settings_title),
-                        fontWeight = FontWeight.Bold
-                    )
-                },
+                title = { Text(stringResource(R.string.settings_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, stringResource(R.string.cd_back))
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
+                }
             )
         }
     ) { paddingValues ->
         Column(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
-            // ── Tab Row ──────────────────────────────────────────────────────
+
             ScrollableTabRow(
                 selectedTabIndex = selectedTab,
-                edgePadding      = 8.dp,
-                containerColor   = MaterialTheme.colorScheme.surface,
-                contentColor     = MaterialTheme.colorScheme.primary,
-                indicator        = { tabPositions ->
-                    // Custom pill indicator drawn behind content
-                    if (selectedTab < tabPositions.size) {
-                        val pos = tabPositions[selectedTab]
-                        Box(
-                            Modifier
-                                .fillMaxWidth()
-                                .wrapContentSize(Alignment.BottomStart)
-                                .offset(x = pos.left)
-                                .width(pos.width)
-                                .height(3.dp)
-                                .background(
-                                    MaterialTheme.colorScheme.primary,
-                                    RoundedCornerShape(topStart = 3.dp, topEnd = 3.dp)
-                                )
-                        )
-                    }
-                }
+                edgePadding = 8.dp,
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.primary
             ) {
                 tabs.forEachIndexed { index, tab ->
-                    val selected = selectedTab == index
                     Tab(
-                        selected  = selected,
-                        onClick   = { selectedTab = index },
-                        modifier  = Modifier.height(56.dp),
-                        selectedContentColor   = MaterialTheme.colorScheme.primary,
-                        unselectedContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f)
+                        selected = selectedTab == index,
+                        onClick = { selectedTab = index },
+                        modifier = Modifier.height(56.dp)
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
-                            Icon(
-                                tab.icon, null,
-                                Modifier.size(if (selected) 20.dp else 18.dp),
-                                tint = if (selected) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f)
-                            )
+                            Icon(tab.icon, null, Modifier.size(18.dp))
                             Spacer(Modifier.height(2.dp))
-                            Text(
-                                tab.label,
-                                fontSize   = 11.sp,
-                                fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
-                            )
+                            Text(tab.label, fontSize = 11.sp)
                         }
                     }
                 }
             }
 
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            HorizontalDivider()
 
-            // ── Tab Content ───────────────────────────────────────────────────
             when (selectedTab) {
                 0 -> ProviderTab(settings, uiState, viewModel, context)
                 1 -> ModelTab(settings, uiState, viewModel)
@@ -205,16 +153,21 @@ fun SettingsScreen(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// TAB 2 · MODEL (with Search)
+// ─────────────────────────────────────────────────────────────────────────────
+
+
+// ─────────────────────────────────────────────────────────────────────────────
 // TAB 1 · PROVIDER
 // ─────────────────────────────────────────────────────────────────────────────
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProviderTab(
-    settings  : com.aei.chatbot.domain.model.AppSettings,
-    uiState   : SettingsUiState,
-    viewModel : SettingsViewModel,
-    context   : android.content.Context
+    settings: com.aei.chatbot.domain.model.AppSettings,
+    uiState: SettingsUiState,
+    viewModel: SettingsViewModel,
+    context: android.content.Context
 ) {
     var showApiKey by remember { mutableStateOf(false) }
 
@@ -227,85 +180,85 @@ fun ProviderTab(
             "ngrok" to "Ngrok Tunnel",
             "cloud" to "Cloud API"
         )
+
         DropdownSettingRow(
-            label       = "Connection Mode",
-            options     = connModes,
+            label = "Connection Mode",
+            options = connModes,
             selectedKey = settings.connectionMode,
-            onSelect    = viewModel::updateConnectionMode
+            onSelect = viewModel::updateConnectionMode
         )
 
         AnimatedVisibility(
             visible = settings.connectionMode == "local",
-            enter   = expandVertically() + fadeIn(),
-            exit    = shrinkVertically() + fadeOut()
+            enter = expandVertically() + fadeIn(),
+            exit = shrinkVertically() + fadeOut()
         ) {
             Column {
-                var ipError   by remember { mutableStateOf("") }
+                var ipError by remember { mutableStateOf("") }
                 var portError by remember { mutableStateOf("") }
 
                 ValidatedTextField(
-                    value         = settings.serverIp,
+                    value = settings.serverIp,
                     onValueChange = { v ->
                         ipError = if (v.isBlank()) "IP address cannot be empty" else ""
                         viewModel.updateServerIp(v)
                     },
-                    label         = stringResource(R.string.settings_server_ip),
-                    error         = ipError,
-                    keyboardType  = KeyboardType.Uri,
-                    leadingIcon   = Icons.Default.Dns
+                    label = stringResource(R.string.settings_server_ip),
+                    error = ipError,
+                    keyboardType = KeyboardType.Uri,
+                    leadingIcon = Icons.Default.Dns
                 )
+
                 ValidatedTextField(
-                    value         = settings.serverPort.toString(),
+                    value = settings.serverPort.toString(),
                     onValueChange = { v ->
                         val port = v.toIntOrNull()
                         portError = when {
-                            port == null          -> "Must be a number"
-                            port !in 1..65535     -> "Port must be 1–65535"
-                            else                  -> ""
+                            port == null -> "Must be a number"
+                            port !in 1..65535 -> "Port must be 1–65535"
+                            else -> ""
                         }
-                        if (port != null && portError.isEmpty()) viewModel.updatePort(port)
+                        if (port != null && portError.isEmpty()) {
+                            viewModel.updatePort(port)
+                        }
                     },
-                    label         = stringResource(R.string.settings_port),
-                    error         = portError,
-                    keyboardType  = KeyboardType.Number,
-                    leadingIcon   = Icons.Default.SettingsEthernet
+                    label = stringResource(R.string.settings_port),
+                    error = portError,
+                    keyboardType = KeyboardType.Number,
+                    leadingIcon = Icons.Default.SettingsEthernet
                 )
             }
         }
 
         AnimatedVisibility(
             visible = settings.connectionMode != "local",
-            enter   = expandVertically() + fadeIn(),
-            exit    = shrinkVertically() + fadeOut()
+            enter = expandVertically() + fadeIn(),
+            exit = shrinkVertically() + fadeOut()
         ) {
             Column {
                 OutlinedTextField(
-                    value         = settings.remoteUrl,
+                    value = settings.remoteUrl,
                     onValueChange = viewModel::updateRemoteUrl,
-                    label         = { Text(if (settings.connectionMode == "cloud") "API Host" else "Ngrok URL") },
-                    placeholder   = {
+                    label = { Text(if (settings.connectionMode == "cloud") "API Host" else "Ngrok URL") },
+                    placeholder = {
                         Text(
                             if (settings.connectionMode == "cloud") "https://api.example.com"
                             else "https://xxxx.ngrok-free.app"
                         )
                     },
-                    modifier      = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
-                    singleLine    = true,
-                    shape         = RoundedCornerShape(12.dp),
-                    leadingIcon   = { Icon(Icons.Default.Link, null) }
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+                    singleLine = true,
+                    shape = RoundedCornerShape(12.dp),
+                    leadingIcon = { Icon(Icons.Default.Link, null) }
                 )
 
-                // Full URL preview
                 if (settings.connectionMode == "cloud" && settings.remoteUrl.isNotBlank()) {
                     val preview = "${settings.remoteUrl.trimEnd('/')}/${settings.apiEndpoint.trimStart('/')}"
                     Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp),
-                        colors   = CardDefaults.cardColors(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+                        colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
-                        ),
-                        border   = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
+                        )
                     ) {
                         Row(
                             Modifier.padding(12.dp),
@@ -313,7 +266,8 @@ fun ProviderTab(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             Icon(
-                                Icons.Default.OpenInBrowser, null,
+                                Icons.Default.OpenInBrowser,
+                                null,
                                 Modifier.size(16.dp),
                                 tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
                             )
@@ -325,8 +279,8 @@ fun ProviderTab(
                                 )
                                 Text(
                                     preview,
-                                    style      = MaterialTheme.typography.bodySmall,
-                                    color      = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                                     fontWeight = FontWeight.Medium
                                 )
                             }
@@ -337,102 +291,93 @@ fun ProviderTab(
         }
 
         SectionHeader("API Endpoint", Icons.Default.Route)
+
         OutlinedTextField(
-            value         = settings.apiEndpoint,
+            value = settings.apiEndpoint,
             onValueChange = viewModel::updateApiEndpoint,
-            label         = { Text(stringResource(R.string.settings_api_endpoint)) },
+            label = { Text(stringResource(R.string.settings_api_endpoint)) },
             supportingText = { Text("Default: v1/chat/completions") },
-            modifier      = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
-            shape         = RoundedCornerShape(12.dp)
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+            shape = RoundedCornerShape(12.dp)
         )
 
         SectionHeader("Authentication", Icons.Default.Lock)
+
         OutlinedTextField(
-            value         = settings.apiKey,
+            value = settings.apiKey,
             onValueChange = viewModel::updateApiKey,
-            label         = { Text(stringResource(R.string.settings_api_key)) },
-            placeholder   = {
-                Text(if (settings.connectionMode == "cloud") "nvapi-… or sk-…" else "Optional")
-            },
-            modifier             = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
-            shape                = RoundedCornerShape(12.dp),
+            label = { Text(stringResource(R.string.settings_api_key)) },
+            placeholder = { Text(if (settings.connectionMode == "cloud") "nvapi-... or sk-..." else "Optional") },
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+            shape = RoundedCornerShape(12.dp),
             visualTransformation = if (showApiKey) VisualTransformation.None else PasswordVisualTransformation(),
-            leadingIcon          = { Icon(Icons.Default.Key, null) },
-            trailingIcon         = {
+            leadingIcon = { Icon(Icons.Default.Key, null) },
+            trailingIcon = {
                 IconButton(onClick = { showApiKey = !showApiKey }) {
                     Icon(
                         if (showApiKey) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                        contentDescription = if (showApiKey) "Hide key" else "Show key"
+                        contentDescription = null
                     )
                 }
             }
         )
 
         SectionHeader("Timeout", Icons.Default.Timer)
+
         SliderRow(
-            label    = stringResource(R.string.settings_timeout),
-            value    = settings.timeoutSeconds.toFloat(),
-            range    = Constants.MIN_TIMEOUT.toFloat()..Constants.MAX_TIMEOUT.toFloat(),
-            display  = "${settings.timeoutSeconds}s",
+            label = stringResource(R.string.settings_timeout),
+            value = settings.timeoutSeconds.toFloat(),
+            range = Constants.MIN_TIMEOUT.toFloat()..Constants.MAX_TIMEOUT.toFloat(),
+            display = "${settings.timeoutSeconds}s",
             onChange = { viewModel.updateTimeout(it.toInt()) }
         )
 
         SectionHeader("Options", Icons.Default.Tune)
+
         ToggleRow(
-            label       = stringResource(R.string.settings_streaming),
+            label = stringResource(R.string.settings_streaming),
             description = stringResource(R.string.settings_streaming_desc),
-            checked     = settings.streamingEnabled,
-            onChange    = viewModel::updateStreamingEnabled,
-            icon        = Icons.Default.Stream
+            checked = settings.streamingEnabled,
+            onChange = viewModel::updateStreamingEnabled,
+            icon = Icons.Default.Stream
         )
 
-        // ── Test Connection Button ─────────────────────────────────────────
         Spacer(Modifier.height(8.dp))
 
-        val btnContainerColor = when (uiState.connectionStatus) {
+        val buttonColor = when (uiState.connectionStatus) {
             ConnectionStatus.SUCCESS -> Color(0xFF2E7D32)
             ConnectionStatus.FAILURE -> MaterialTheme.colorScheme.error
-            else                     -> MaterialTheme.colorScheme.primary
+            else -> MaterialTheme.colorScheme.primary
         }
-        val animatedColor by animateColorAsState(btnContainerColor, label = "btnColor")
+
+        val animatedColor by animateColorAsState(buttonColor, label = "btnColor")
 
         Button(
-            onClick  = viewModel::testConnection,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-                .height(52.dp),
-            shape  = RoundedCornerShape(14.dp),
+            onClick = viewModel::testConnection,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp).height(52.dp),
+            shape = RoundedCornerShape(14.dp),
             colors = ButtonDefaults.buttonColors(containerColor = animatedColor)
         ) {
-            AnimatedContent(
-                targetState = uiState.connectionStatus,
-                transitionSpec = { fadeIn() togetherWith fadeOut() },
-                label = "connBtn"
-            ) { status ->
-                Row(
-                    verticalAlignment      = Alignment.CenterVertically,
-                    horizontalArrangement  = Arrangement.spacedBy(8.dp)
-                ) {
-                    when (status) {
-                        ConnectionStatus.TESTING -> {
-                            CircularProgressIndicator(
-                                Modifier.size(18.dp), Color.White, 2.dp
-                            )
-                            Text(stringResource(R.string.settings_testing), color = Color.White)
-                        }
-                        ConnectionStatus.SUCCESS -> {
-                            Icon(Icons.Default.CheckCircle, null, tint = Color.White)
-                            Text(stringResource(R.string.settings_connected), color = Color.White)
-                        }
-                        ConnectionStatus.FAILURE -> {
-                            Icon(Icons.Default.ErrorOutline, null, tint = Color.White)
-                            Text(stringResource(R.string.settings_connection_failed), color = Color.White)
-                        }
-                        ConnectionStatus.IDLE -> {
-                            Icon(Icons.Default.Wifi, null, tint = Color.White)
-                            Text(stringResource(R.string.settings_test_connection), color = Color.White)
-                        }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                when (uiState.connectionStatus) {
+                    ConnectionStatus.TESTING -> {
+                        CircularProgressIndicator(Modifier.size(18.dp), color = Color.White, strokeWidth = 2.dp)
+                        Text(stringResource(R.string.settings_testing), color = Color.White)
+                    }
+                    ConnectionStatus.SUCCESS -> {
+                        Icon(Icons.Default.CheckCircle, null, tint = Color.White)
+                        Text(stringResource(R.string.settings_connected), color = Color.White)
+                    }
+                    ConnectionStatus.FAILURE -> {
+                        Icon(Icons.Default.ErrorOutline, null, tint = Color.White)
+                        Text(stringResource(R.string.settings_connection_failed), color = Color.White)
+                    }
+                    ConnectionStatus.IDLE -> {
+                        Icon(Icons.Default.Wifi, null, tint = Color.White)
+                        Text(stringResource(R.string.settings_test_connection), color = Color.White)
                     }
                 }
             }
@@ -442,22 +387,15 @@ fun ProviderTab(
             visible = uiState.connectionStatus == ConnectionStatus.FAILURE && uiState.connectionError.isNotEmpty()
         ) {
             Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha = 0.4f))
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
             ) {
                 Row(
                     Modifier.padding(12.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment     = Alignment.Top
+                    verticalAlignment = Alignment.Top
                 ) {
-                    Icon(
-                        Icons.Default.Warning, null,
-                        Modifier.size(16.dp).padding(top = 2.dp),
-                        tint = MaterialTheme.colorScheme.error
-                    )
+                    Icon(Icons.Default.Warning, null, Modifier.size(16.dp), tint = MaterialTheme.colorScheme.error)
                     Text(
                         uiState.connectionError,
                         color = MaterialTheme.colorScheme.onErrorContainer,
@@ -470,11 +408,6 @@ fun ProviderTab(
         Spacer(Modifier.height(16.dp))
     }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// TAB 2 · MODEL
-// ─────────────────────────────────────────────────────────────────────────────
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ModelTab(
@@ -482,34 +415,49 @@ fun ModelTab(
     uiState   : SettingsUiState,
     viewModel : SettingsViewModel
 ) {
-    val allModels         = settings.providers.flatMap { it.models }
-    var showAddDialog     by remember { mutableStateOf(false) }
-    var editingModel      by remember { mutableStateOf<com.aei.chatbot.domain.model.ModelConfig?>(null) }
-    var showTestDialog    by remember { mutableStateOf(false) }
-    var testingModel      by remember { mutableStateOf<com.aei.chatbot.domain.model.ModelConfig?>(null) }
-    var showResetConfirm  by remember { mutableStateOf(false) }
+    val allModels = settings.providers.flatMap { it.models }
+    var modelSearchQuery by remember { mutableStateOf("") }
+    var showAddDialog by remember { mutableStateOf(false) }
+    var editingModel by remember { mutableStateOf<com.aei.chatbot.domain.model.ModelConfig?>(null) }
+    var showTestDialog by remember { mutableStateOf(false) }
+    var testingModel by remember { mutableStateOf<com.aei.chatbot.domain.model.ModelConfig?>(null) }
+    var showResetConfirm by remember { mutableStateOf(false) }
+
+    val filteredModels = if (modelSearchQuery.isBlank()) allModels
+    else allModels.filter {
+        it.displayName.contains(modelSearchQuery, ignoreCase = true) ||
+        it.modelId.contains(modelSearchQuery, ignoreCase = true)
+    }
 
     if (showResetConfirm) {
         ConfirmDialog(
-            title        = "Reset Models",
-            body         = "Remove all configured models? This cannot be undone.",
+            title = "Reset Models",
+            body = "Remove all configured models? This cannot be undone.",
             confirmLabel = "Reset",
             confirmColor = MaterialTheme.colorScheme.error,
-            onConfirm    = { viewModel.resetProviderModels(); showResetConfirm = false },
-            onDismiss    = { showResetConfirm = false }
+            onConfirm = { viewModel.resetProviderModels(); showResetConfirm = false },
+            onDismiss = { showResetConfirm = false }
         )
     }
     if (showAddDialog) {
-        ModelEditDialog(model = null, onSave = { viewModel.addModel(it); showAddDialog = false }, onDismiss = { showAddDialog = false })
+        ModelEditDialog(
+            model = null,
+            onSave = { viewModel.addModel(it); showAddDialog = false },
+            onDismiss = { showAddDialog = false }
+        )
     }
     editingModel?.let { model ->
-        ModelEditDialog(model = model, onSave = { viewModel.updateModel(it); editingModel = null }, onDismiss = { editingModel = null })
+        ModelEditDialog(
+            model = model,
+            onSave = { viewModel.updateModel(it); editingModel = null },
+            onDismiss = { editingModel = null }
+        )
     }
     if (showTestDialog && testingModel != null) {
         AlertDialog(
             onDismissRequest = { showTestDialog = false; testingModel = null },
             title = { Text("Test · ${testingModel!!.displayName}", fontWeight = FontWeight.SemiBold) },
-            text  = {
+            text = {
                 Column {
                     if (uiState.isTestingModel) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -535,31 +483,27 @@ fun ModelTab(
         SectionHeader("Model Management", Icons.Default.ManageAccounts)
 
         // Action strip
-        Row(
-            modifier             = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
+        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             OutlinedButton(onClick = { showAddDialog = true }, modifier = Modifier.weight(1f)) {
                 Icon(Icons.Default.Add, null, Modifier.size(16.dp))
                 Spacer(Modifier.width(4.dp))
                 Text("NEW")
             }
             OutlinedButton(
-                onClick  = { viewModel.fetchModels() },
+                onClick = { viewModel.fetchModels() },
                 modifier = Modifier.weight(1f),
-                enabled  = !uiState.isLoadingModels
+                enabled = !uiState.isLoadingModels
             ) {
-                if (uiState.isLoadingModels)
-                    CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp)
-                else
-                    Icon(Icons.Default.Refresh, null, Modifier.size(16.dp))
+                if (uiState.isLoadingModels) CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp)
+                else Icon(Icons.Default.Refresh, null, Modifier.size(16.dp))
                 Spacer(Modifier.width(4.dp))
                 Text("FETCH")
             }
             OutlinedButton(
-                onClick  = { showResetConfirm = true },
+                onClick = { showResetConfirm = true },
                 modifier = Modifier.weight(1f),
-                colors   = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)
             ) {
                 Icon(Icons.Default.RestartAlt, null, Modifier.size(16.dp))
                 Spacer(Modifier.width(4.dp))
@@ -567,76 +511,201 @@ fun ModelTab(
             }
         }
 
-        SectionHeader("Active Model", Icons.Default.RadioButtonChecked)
+        // Search bar
+        SectionHeader("Search Models", Icons.Default.Search)
+        OutlinedTextField(
+            value = modelSearchQuery,
+            onValueChange = { modelSearchQuery = it },
+            placeholder = { Text("Search by name or model ID...") },
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+            singleLine = true,
+            shape = RoundedCornerShape(12.dp),
+            leadingIcon = { Icon(Icons.Default.Search, null, Modifier.size(18.dp)) },
+            trailingIcon = {
+                if (modelSearchQuery.isNotBlank()) {
+                    IconButton(onClick = { modelSearchQuery = "" }) {
+                        Icon(Icons.Default.Clear, null, Modifier.size(18.dp))
+                    }
+                }
+            }
+        )
 
-        if (settings.connectionMode == "local" && uiState.availableModels.isNotEmpty()) {
-            var modelExpanded by remember { mutableStateOf(false) }
-            ExposedDropdownMenuBox(
-                expanded        = modelExpanded,
-                onExpandedChange = { modelExpanded = it },
-                modifier        = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)
+        // Active model text field
+        SectionHeader("Active Model", Icons.Default.RadioButtonChecked)
+        OutlinedTextField(
+            value = settings.selectedModel,
+            onValueChange = viewModel::updateSelectedModel,
+            label = { Text("Current Model ID") },
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+            singleLine = true,
+            shape = RoundedCornerShape(12.dp),
+            leadingIcon = { Icon(Icons.Default.SmartToy, null) },
+            trailingIcon = {
+                if (settings.selectedModel.isNotBlank()) {
+                    IconButton(onClick = { viewModel.updateSelectedModel("") }) {
+                        Icon(Icons.Default.Clear, null)
+                    }
+                }
+            }
+        )
+
+        // Model list with search results
+                // ── Quick Models ─────────────────────────────────────────────────
+        SectionHeader("Quick Models", Icons.Default.FlashOn)
+        Text(
+            "Add models here for fast switching in the chat. The quick-select appears when you have 2+ models.",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+        )
+
+        // Add to quick models
+        var quickModelInput by remember { mutableStateOf("") }
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            OutlinedTextField(
+                value = quickModelInput,
+                onValueChange = { quickModelInput = it },
+                label = { Text("Model ID to add") },
+                placeholder = { Text("e.g. gpt-4o or pick from list") },
+                modifier = Modifier.weight(1f),
+                singleLine = true,
+                shape = RoundedCornerShape(12.dp),
+                leadingIcon = { Icon(Icons.Default.FlashOn, null, Modifier.size(18.dp)) }
+            )
+            IconButton(
+                onClick = {
+                    if (quickModelInput.isNotBlank()) {
+                        viewModel.addQuickModel(quickModelInput.trim())
+                        quickModelInput = ""
+                    }
+                },
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(12.dp))
             ) {
-                OutlinedTextField(
-                    value        = if (uiState.isLoadingModels) "Loading…"
-                    else settings.selectedModel.ifBlank { "Select a model" },
-                    onValueChange = {},
-                    readOnly     = true,
-                    label        = { Text("Active Model") },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = modelExpanded) },
-                    leadingIcon  = { Icon(Icons.Default.SmartToy, null) },
-                    modifier     = Modifier.fillMaxWidth().menuAnchor(),
-                    shape        = RoundedCornerShape(12.dp)
+                Icon(Icons.Default.Add, "Add", tint = Color.White)
+            }
+        }
+
+        // Quick add from configured models
+        if (allModels.isNotEmpty()) {
+            val nonQuickModels = allModels.filter { it.modelId !in settings.quickModels }
+            if (nonQuickModels.isNotEmpty()) {
+                Text(
+                    "Quick add from configured models:",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 4.dp)
                 )
-                ExposedDropdownMenu(expanded = modelExpanded, onDismissRequest = { modelExpanded = false }) {
-                    uiState.availableModels.forEach { model ->
-                        DropdownMenuItem(
-                            text    = { Text(model) },
-                            onClick = { viewModel.updateSelectedModel(model); modelExpanded = false },
-                            trailingIcon = if (model == settings.selectedModel) ({
-                                Icon(Icons.Default.Check, null, tint = MaterialTheme.colorScheme.primary)
-                            }) else null
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    nonQuickModels.forEach { model ->
+                        SuggestionChip(
+                            onClick = { viewModel.addQuickModel(model.modelId) },
+                            label = { Text(model.displayName.take(20), fontSize = 11.sp) },
+                            icon = { Icon(Icons.Default.Add, null, Modifier.size(14.dp)) }
                         )
                     }
                 }
             }
-        } else {
-            OutlinedTextField(
-                value         = settings.selectedModel,
-                onValueChange = viewModel::updateSelectedModel,
-                label         = { Text("Model ID") },
-                placeholder   = { Text(stringResource(R.string.settings_model_id_hint)) },
-                modifier      = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
-                singleLine    = true,
-                shape         = RoundedCornerShape(12.dp),
-                leadingIcon   = { Icon(Icons.Default.SmartToy, null) },
-                trailingIcon  = {
-                    if (settings.selectedModel.isNotBlank()) {
-                        IconButton(onClick = { viewModel.updateSelectedModel("") }) {
-                            Icon(Icons.Default.Clear, null)
+        }
+
+        // Current quick models list
+        if (settings.quickModels.isNotEmpty()) {
+            Spacer(Modifier.height(8.dp))
+            settings.quickModels.forEachIndexed { index, modelId ->
+                val configuredModel = allModels.find { it.modelId == modelId }
+                val displayName = configuredModel?.displayName ?: modelId
+                val isActive = settings.selectedModel == modelId
+
+                Card(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 3.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = if (isActive)
+                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
+                        else MaterialTheme.colorScheme.surfaceVariant
+                    ),
+                    border = if (isActive) BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.4f)) else null
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            Icons.Default.FlashOn,
+                            null,
+                            Modifier.size(18.dp),
+                            tint = if (isActive) MaterialTheme.colorScheme.primary
+                            else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                        )
+                        Spacer(Modifier.width(10.dp))
+                        Column(Modifier.weight(1f)) {
+                            Text(displayName, style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = if (isActive) FontWeight.SemiBold else FontWeight.Normal)
+                            if (displayName != modelId) {
+                                Text(modelId, style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                            }
+                        }
+                        if (isActive) {
+                            Surface(color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(4.dp)) {
+                                Text("ACTIVE", Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                                    fontSize = 9.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                            }
+                            Spacer(Modifier.width(4.dp))
+                        }
+                        IconButton(onClick = { viewModel.removeQuickModel(modelId) }, modifier = Modifier.size(32.dp)) {
+                            Icon(Icons.Default.Close, "Remove", Modifier.size(16.dp),
+                                tint = MaterialTheme.colorScheme.error.copy(alpha = 0.7f))
                         }
                     }
                 }
-            )
+            }
+        } else {
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            ) {
+                Row(Modifier.padding(16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.Info, null, tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+                    Text("Add 2 or more models above to enable quick model switching in chat.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                }
+            }
         }
 
-        // Configured models list
-        if (allModels.isNotEmpty()) {
-            SectionHeader("Configured Models (${allModels.size})", Icons.Default.ViewList)
-            allModels.forEach { model ->
+        Spacer(Modifier.height(12.dp))
+        if (filteredModels.isNotEmpty()) {
+            val headerText = when {
+                modelSearchQuery.isBlank() -> "Configured Models (${allModels.size})"
+                filteredModels.size == allModels.size -> "All Models (${allModels.size})"
+                else -> "Found ${filteredModels.size} of ${allModels.size} models"
+            }
+            SectionHeader(headerText, Icons.Default.ViewList)
+            filteredModels.forEach { model ->
                 ModelCard(
-                    model      = model,
+                    model = model,
                     isSelected = settings.selectedModel == model.modelId,
-                    onSelect   = { viewModel.updateSelectedModel(model.modelId) },
-                    onEdit     = { editingModel = model },
-                    onDelete   = { viewModel.deleteModel(model.id) },
-                    onTest     = { testingModel = model; showTestDialog = true; viewModel.testModel(model) }
+                    onSelect = { viewModel.updateSelectedModel(model.modelId) },
+                    onEdit = { editingModel = model },
+                    onDelete = { viewModel.deleteModel(model.id) },
+                    onTest = { testingModel = model; showTestDialog = true; viewModel.testModel(model) }
                 )
             }
-        } else if (!uiState.isLoadingModels) {
+        } else {
             EmptyState(
-                icon    = Icons.Default.SmartToy,
-                title   = "No models configured",
-                subtitle = "Tap NEW to add manually or FETCH to load from provider"
+                icon = Icons.Default.SmartToy,
+                title = if (modelSearchQuery.isBlank()) "No models configured" else "No models match \"$modelSearchQuery\"",
+                subtitle = if (modelSearchQuery.isBlank()) "Tap NEW to add manually or FETCH to load from provider"
+                else "Try a different search term"
             )
         }
 
@@ -1540,6 +1609,60 @@ fun FeaturesTab(
         ) {
             Column {
                 SectionHeader("Enhancement Instruction", Icons.Default.EditNote)
+
+                SectionHeader("Enhancement Model", Icons.Default.SmartToy)
+                Text(
+                    "Choose which model rewrites your prompts. Leave empty to use the same model as chat.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
+                )
+                OutlinedTextField(
+                    value = settings.enhancementModel,
+                    onValueChange = viewModel::updateEnhancementModel,
+                    label = { Text("Enhancement Model ID") },
+                    placeholder = { Text("Leave empty = use chat model") },
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+                    singleLine = true,
+                    shape = RoundedCornerShape(12.dp),
+                    leadingIcon = { Icon(Icons.Default.AutoAwesome, null, Modifier.size(18.dp)) },
+                    trailingIcon = {
+                        if (settings.enhancementModel.isNotBlank()) {
+                            IconButton(onClick = { viewModel.updateEnhancementModel("") }) {
+                                Icon(Icons.Default.Clear, null, Modifier.size(18.dp))
+                            }
+                        }
+                    }
+                )
+                // Quick pick from configured models
+                val enhanceModels = settings.providers.flatMap { it.models }
+                if (enhanceModels.isNotEmpty()) {
+                    Text(
+                        "Or pick from configured models:",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)
+                            .horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        enhanceModels.forEach { model ->
+                            val isActive = settings.enhancementModel == model.modelId
+                            FilterChip(
+                                selected = isActive,
+                                onClick = {
+                                    viewModel.updateEnhancementModel(
+                                        if (isActive) "" else model.modelId
+                                    )
+                                },
+                                label = { Text(model.displayName.take(20), fontSize = 11.sp) }
+                            )
+                        }
+                    }
+                }
+
                 Text(
                     "Customize how the AI rewrites your prompts.",
                     style    = MaterialTheme.typography.bodySmall,
@@ -2074,3 +2197,4 @@ fun DropdownSettingRow(
         }
     }
 }
+

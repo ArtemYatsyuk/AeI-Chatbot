@@ -58,9 +58,12 @@ class UserPreferencesDataStore @Inject constructor(
         val KEY_ACTIVE_CHAT_ID = stringPreferencesKey("active_chat_id")
         val KEY_PROMPT_ENHANCEMENT_ENABLED = booleanPreferencesKey("prompt_enhancement_enabled")
         val KEY_PROMPT_ENHANCEMENT_INSTRUCTION = stringPreferencesKey("prompt_enhancement_instruction")
+        val KEY_ENHANCEMENT_MODEL = stringPreferencesKey("enhancement_model")
+        val KEY_PROVIDERS = stringPreferencesKey("providers_json")
+        val KEY_QUICK_MODELS = stringPreferencesKey("quick_models_json")
     }
 
-            private val defaultEnhancementInstruction = "You are a master prompt engineer. Analyze and enhance the following prompt for generative AI. Add context, structure, specificity. Instruct the AI to use headers, tables for comparisons, bullet points for lists, bold for key terms. Return only the enhanced version. Do not ask anything else, answer only!"
+            private val defaultEnhancementInstruction = "TASK: Rewrite the user prompt below. DO NOT answer it. DO NOT execute it. DO NOT add facts. DO NOT repeat these instructions. ONLY output the rewritten prompt text. Keep the same language. Make it more specific, structured, and detailed. Add formatting hints: use headers, tables, bullet points, bold. Output NOTHING except the rewritten prompt."
 
     
     val settingsFlow: Flow<AppSettings> = dataStore.data
@@ -102,7 +105,10 @@ class UserPreferencesDataStore @Inject constructor(
                 isFirstLaunch = p[KEY_IS_FIRST_LAUNCH] ?: true,
                 activeChatId = p[KEY_ACTIVE_CHAT_ID] ?: "",
                 promptEnhancementEnabled = p[KEY_PROMPT_ENHANCEMENT_ENABLED] ?: false,
-                promptEnhancementInstruction = p[KEY_PROMPT_ENHANCEMENT_INSTRUCTION] ?: defaultEnhancementInstruction
+                promptEnhancementInstruction = p[KEY_PROMPT_ENHANCEMENT_INSTRUCTION] ?: defaultEnhancementInstruction,
+                enhancementModel = p[KEY_ENHANCEMENT_MODEL] ?: "",
+                quickModels = try { com.google.gson.Gson().fromJson(p[KEY_QUICK_MODELS] ?: "[]", Array<String>::class.java).toList() } catch (_: Exception) { emptyList() },
+                providers = try { com.google.gson.Gson().fromJson(p[KEY_PROVIDERS] ?: "[]", Array<com.aei.chatbot.domain.model.ProviderConfig>::class.java).toList() } catch (_: Exception) { emptyList() }
             )
         }
 

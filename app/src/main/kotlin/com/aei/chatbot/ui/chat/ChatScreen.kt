@@ -6,7 +6,12 @@ import android.speech.RecognizerIntent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,9 +19,11 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -39,15 +46,31 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val listState = rememberLazyListState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
     var inputValue by remember { mutableStateOf(TextFieldValue("")) }
     var showNewChatDialog by remember { mutableStateOf(false) }
     var contextMessage by remember { mutableStateOf<ChatMessage?>(null) }
     var showContextMenu by remember { mutableStateOf(false) }
+    val editingMessageId = uiState.editingMessageId
+    val editingContent = uiState.editingMessageContent
     var showModelPicker by remember { mutableStateOf(false) }
     val micPermission = rememberPermissionState(Manifest.permission.RECORD_AUDIO)
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri -> viewModel.attachImage(uri) }
+
     val speechLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { viewModel.handleSpeechResult(it) }
 
-    LaunchedEffect(Unit) { viewModel.speechResult.collect { inputValue = TextFieldValue(inputValue.text + it) } }
+    LaunchedEffect(Unit) {
+        viewModel.speechResult.collect { text ->
+            if (text.startsWith("Chat exported")) {
+                snackbarHostState.showSnackbar(text)
+            } else {
+                inputValue = TextFieldValue(inputValue.text + text)
+            }
+        }
+    }
     LaunchedEffect(chatId) { if (chatId != null) viewModel.loadChat(chatId) }
     LaunchedEffect(uiState.messages.size, uiState.streamingMessage.length) {
         if (settings.autoScroll) {
@@ -56,7 +79,163 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
         }
     }
 
-    if (showModelPicker) {
+        if (showModelPicker) {
+        val quickModelIds = settings.quickModels
+                val allModels = settings.providers.flatMap { it.models }
+                val quickModelConfigs = quickModelIds.map { qmId -> allModels.find { it.modelId == qmId } }
+                val hasQuickModels = quickModelIds.size >= 2
+        ModalBottomSheet(
+            onDismissRequest = { showModelPicker = false }
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 32.dp)
+            ) {
+                // Header
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Select Model", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    TextButton(onClick = { showModelPicker = false; onNavigateToSettings() }) {
+                        Text("Manage")
+                    }
+                }
+                HorizontalDivider()
+
+                // Quick Models section (shown first if available)
+                if (hasQuickModels) {
+                    Text("Quick Models",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(start = 20.dp, top = 12.dp, bottom = 4.dp))
+
+                    quickModelIds.forEach { qmId ->
+                        val model = allModels.find { it.modelId == qmId }
+                        val displayName = model?.displayName ?: qmId
+                        val isSelected = settings.selectedModel == qmId
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { viewModel.updateSelectedModel(qmId) }
+                                .background(
+                                    if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                                    else Color.Transparent
+                                )
+                                .padding(horizontal = 20.dp, vertical = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(Icons.Default.FlashOn, null, Modifier.size(20.dp),
+                                tint = if (isSelected) MaterialTheme.colorScheme.primary
+                                else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                            Spacer(Modifier.width(12.dp))
+                            Column(Modifier.weight(1f)) {
+                                Text(displayName, fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal)
+                                if (displayName != qmId) {
+                                    Text(qmId, style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                                }
+                            }
+                            if (isSelected) {
+                                Icon(Icons.Default.CheckCircle, null, Modifier.size(20.dp),
+                                    tint = MaterialTheme.colorScheme.primary)
+                            }
+                        }
+                    }
+                    HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                }
+
+                if (allModels.isEmpty() && settings.selectedModel.isBlank()) {
+                    // Empty state
+                    Column(
+                        modifier = Modifier.fillMaxWidth().padding(32.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(Icons.Default.SmartToy, null, Modifier.size(48.dp),
+                            tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
+                        Spacer(Modifier.height(12.dp))
+                        Text("No models configured", style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                        Spacer(Modifier.height(4.dp))
+                        Text("Go to Settings > Model to add one", style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+                    }
+                } else {
+                    // Current model text input for manual entry
+                    OutlinedTextField(
+                        value = settings.selectedModel,
+                        onValueChange = { viewModel.updateSelectedModel(it) },
+                        label = { Text("Model ID") },
+                        placeholder = { Text("Type or select below") },
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp),
+                        leadingIcon = { Icon(Icons.Default.SmartToy, null, Modifier.size(18.dp)) },
+                        trailingIcon = {
+                            if (settings.selectedModel.isNotBlank()) {
+                                IconButton(onClick = { viewModel.updateSelectedModel("") }) {
+                                    Icon(Icons.Default.Clear, null, Modifier.size(18.dp))
+                                }
+                            }
+                        }
+                    )
+
+                    // Model list from providers
+                    if (allModels.isNotEmpty()) {
+                        Text("Configured Models",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(start = 20.dp, top = 12.dp, bottom = 4.dp))
+
+                        allModels.forEach { model ->
+                            val isSelected = settings.selectedModel == model.modelId
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        viewModel.updateSelectedModel(model.modelId)
+                                    }
+                                    .background(
+                                        if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                                        else Color.Transparent
+                                    )
+                                    .padding(horizontal = 20.dp, vertical = 14.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Box(
+                                    Modifier.size(36.dp).background(
+                                        if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
+                                        else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.06f),
+                                        CircleShape
+                                    ),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(Icons.Default.SmartToy, null, Modifier.size(18.dp),
+                                        tint = if (isSelected) MaterialTheme.colorScheme.primary
+                                        else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+                                }
+                                Spacer(Modifier.width(12.dp))
+                                Column(Modifier.weight(1f)) {
+                                    Text(model.displayName, fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal)
+                                    Text(model.modelId, style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                                }
+                                if (isSelected) {
+                                    Icon(Icons.Default.CheckCircle, null, Modifier.size(20.dp),
+                                        tint = MaterialTheme.colorScheme.primary)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Old model picker removed
+    if (false) {
         AlertDialog(
             onDismissRequest = { showModelPicker = false },
             title = { Text("Select Model") },
@@ -81,6 +260,33 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
         )
     }
 
+    // Edit Message Dialog
+    if (editingMessageId != null) {
+        AlertDialog(
+            onDismissRequest = { viewModel.cancelEditMessage() },
+            title = { Text("Edit Message", fontWeight = FontWeight.SemiBold) },
+            text = {
+                OutlinedTextField(
+                    value = editingContent,
+                    onValueChange = { viewModel.updateEditingContent(it) },
+                    label = { Text("Your message") },
+                    modifier = Modifier.fillMaxWidth().heightIn(min = 80.dp),
+                    maxLines = 8,
+                    shape = RoundedCornerShape(12.dp)
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = { viewModel.confirmEditMessage() },
+                    enabled = editingContent.isNotBlank()
+                ) { Text("Send") }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.cancelEditMessage() }) { Text("Cancel") }
+            }
+        )
+    }
+
     if (showNewChatDialog) {
         AlertDialog(onDismissRequest = { showNewChatDialog = false },
             title = { Text(stringResource(R.string.chat_new_session_confirm)) },
@@ -93,7 +299,20 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
             Column(Modifier.padding(16.dp)) {
                 ListItem(headlineContent = { Text(stringResource(R.string.context_copy_text)) }, leadingContent = { Icon(Icons.Default.ContentCopy, null) },
                     modifier = Modifier.clickable { com.aei.chatbot.util.ClipboardUtils.copyToClipboard(context, "message", msg.content); showContextMenu = false })
-                ListItem(headlineContent = { Text(stringResource(R.string.context_delete)) }, leadingContent = { Icon(Icons.Default.Delete, null) },
+                ListItem(
+                    headlineContent = { Text("Edit Message") },
+                    leadingContent = { Icon(Icons.Default.Edit, null) },
+                    modifier = Modifier.clickable {
+                        val msg = contextMessage
+                        if (msg != null && msg.role == "user") {
+                            viewModel.startEditMessage(msg)
+                        }
+                        showContextMenu = false
+                    }
+                )
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.context_delete)) },
+                    leadingContent = { Icon(Icons.Default.Delete, null) },
                     modifier = Modifier.clickable { viewModel.deleteMessage(msg.id); showContextMenu = false })
                 ListItem(headlineContent = { Text(stringResource(R.string.context_share)) }, leadingContent = { Icon(Icons.Default.Share, null) },
                     modifier = Modifier.clickable {
@@ -105,9 +324,20 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
     }
 
     Scaffold(
-        topBar = { ChatTopBar(uiState.sessionName, viewModel::updateSessionName, {},
-            { if (uiState.messages.isEmpty()) viewModel.createNewSession() else showNewChatDialog = true },
-            onNavigateToHistory, onNavigateToSettings) },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        topBar = {
+            ChatTopBar(
+                sessionName = uiState.sessionName,
+                onSessionNameChange = viewModel::updateSessionName,
+                onTranslateClick = {},
+                onNewChatClick = { if (uiState.messages.isEmpty()) viewModel.createNewSession() else showNewChatDialog = true },
+                onHistoryClick = onNavigateToHistory,
+                onSettingsClick = onNavigateToSettings,
+                currentModel = if (settings.quickModels.size >= 2) settings.selectedModel else "",
+                onModelClick = { showModelPicker = true },
+                onExportClick = { viewModel.exportCurrentChat() }
+            )
+        },
         bottomBar = {
             ChatInputBar(value = inputValue, onValueChange = { inputValue = it },
                 onSend = { val t = inputValue.text; inputValue = TextFieldValue(""); viewModel.sendMessage(t) },
@@ -122,7 +352,13 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
                 },
                 onSearchToggle = viewModel::toggleWebSearch,
                 isStreaming = uiState.isStreaming, isSearching = uiState.isSearching,
-                webSearchActive = uiState.webSearchActive)
+                webSearchActive = uiState.webSearchActive,
+                onImageClick = { imagePickerLauncher.launch("image/*") },
+                showImageButton = settings.providers.flatMap { it.models }
+                    .any { it.modelId == settings.selectedModel && it.capabilities.vision },
+                pendingImageUri = uiState.pendingImageUri,
+                onClearImage = { viewModel.clearImage() }
+            )
         }
     ) { pv ->
         Box(Modifier.fillMaxSize().padding(pv)) {

@@ -66,7 +66,10 @@ fun ChatInputBar(
     value: TextFieldValue, onValueChange: (TextFieldValue) -> Unit,
     onSend: () -> Unit, onStop: () -> Unit, onMicClick: () -> Unit,
     onSearchToggle: () -> Unit, isStreaming: Boolean, isSearching: Boolean,
-    webSearchActive: Boolean, modifier: Modifier = Modifier
+    webSearchActive: Boolean, modifier: Modifier = Modifier,
+    onImageClick: () -> Unit = {}, pendingImageUri: android.net.Uri? = null,
+    showImageButton: Boolean = false,
+    onClearImage: () -> Unit = {}
 ) {
     val sendEnabled = value.text.isNotBlank() && !isStreaming && !isSearching
     val animScale by animateFloatAsState(if (sendEnabled) 1f else 0.9f, spring(Spring.DampingRatioMediumBouncy), label = "sc")
@@ -86,10 +89,44 @@ fun ChatInputBar(
                 }
             }
 
+            // Image preview
+            if (pendingImageUri != null) {
+                Row(
+                    Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, top = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Surface(
+                        color = MaterialTheme.colorScheme.surfaceVariant,
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(Icons.Default.Image, null, Modifier.size(24.dp),
+                                tint = MaterialTheme.colorScheme.primary)
+                        }
+                    }
+                    Spacer(Modifier.width(8.dp))
+                    Text("Image attached", style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                        modifier = Modifier.weight(1f))
+                    IconButton(onClick = onClearImage, modifier = Modifier.size(32.dp)) {
+                        Icon(Icons.Default.Close, "Remove image", Modifier.size(16.dp),
+                            tint = MaterialTheme.colorScheme.error)
+                    }
+                }
+            }
+
             Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp), verticalAlignment = Alignment.Bottom) {
                 // Mic
                 IconButton(onClick = onMicClick, modifier = Modifier.size(44.dp)) {
                     Icon(Icons.Default.Mic, stringResource(R.string.cd_voice_input), tint = MaterialTheme.colorScheme.primary)
+                }
+                // Image attach - only show if model supports vision
+                if (showImageButton) {
+                    IconButton(onClick = onImageClick, modifier = Modifier.size(44.dp)) {
+                        Icon(Icons.Default.AttachFile, "Attach image",
+                            tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f))
+                    }
                 }
                 // Search toggle
                 IconButton(onClick = onSearchToggle, modifier = Modifier.size(44.dp)
@@ -130,7 +167,7 @@ fun ChatInputBar(
 @Composable
 fun ChatTopBar(sessionName: String, onSessionNameChange: (String) -> Unit, onTranslateClick: () -> Unit,
     onNewChatClick: () -> Unit, onHistoryClick: () -> Unit, onSettingsClick: () -> Unit,
-    currentModel: String = "", onModelClick: () -> Unit = {}) {
+    currentModel: String = "", onModelClick: () -> Unit = {}, onExportClick: () -> Unit = {}) {
     var editingName by remember { mutableStateOf(false) }
     var nameValue by remember(sessionName) { mutableStateOf(sessionName) }
     TopAppBar(title = {
@@ -143,13 +180,37 @@ fun ChatTopBar(sessionName: String, onSessionNameChange: (String) -> Unit, onTra
                     keyboardActions = KeyboardActions(onDone = { onSessionNameChange(nameValue); editingName = false }),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done))
             } else {
-                Text(sessionName, style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                    modifier = Modifier.combinedClickable(onClick = {}, onLongClick = { editingName = true }))
+                Column {
+                        Text(sessionName, style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                            modifier = Modifier.combinedClickable(onClick = {}, onLongClick = { editingName = true }))
+                        if (currentModel.isNotBlank()) {
+                            Row(
+                                modifier = Modifier.clickable { onModelClick() }.padding(top = 2.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Box(Modifier.size(6.dp).background(Color(0xFF4CAF50), CircleShape))
+                                Text(
+                                    currentModel.substringAfterLast("/").take(30),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+                                    fontSize = 10.sp
+                                )
+                                Icon(Icons.Default.UnfoldMore, null, Modifier.size(12.dp),
+                                    tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f))
+                            }
+                        }
+                    }
             }
         }
     }, actions = {
-        IconButton(onClick = onNewChatClick) { Icon(Icons.Default.AddComment, stringResource(R.string.cd_new_chat)) }
+        IconButton(onClick = onExportClick) {
+                Icon(Icons.Default.FileDownload, "Export chat")
+            }
+            IconButton(onClick = onNewChatClick) {
+                Icon(Icons.Default.AddComment, stringResource(R.string.cd_new_chat))
+            }
         IconButton(onClick = onHistoryClick) { Icon(Icons.Default.History, stringResource(R.string.cd_history)) }
         IconButton(onClick = onSettingsClick) { Icon(Icons.Default.Settings, stringResource(R.string.cd_settings)) }
     }, colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface))

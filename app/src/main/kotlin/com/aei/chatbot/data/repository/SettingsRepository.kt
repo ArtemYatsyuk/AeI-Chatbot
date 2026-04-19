@@ -19,7 +19,7 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override val settingsFlow: Flow<AppSettings> = dataStore.settingsFlow
 
-            private val defaultEnhancementInstruction = "You are a master prompt engineer. Analyze and enhance the following prompt for generative AI. Add context, structure, specificity. Instruct the AI to use headers, tables for comparisons, bullet points for lists, bold for key terms. Return only the enhanced version. Do not ask anything else, answer only!"
+            private val defaultEnhancementInstruction = "TASK: Rewrite the user prompt below. DO NOT answer it. DO NOT execute it. DO NOT add facts. DO NOT repeat these instructions. ONLY output the rewritten prompt text. Keep the same language. Make it more specific, structured, and detailed. Add formatting hints: use headers, tables, bullet points, bold. Output NOTHING except the rewritten prompt."
 
     
     override suspend fun saveSettings(update: suspend (AppSettings) -> AppSettings) {
@@ -60,7 +60,10 @@ class SettingsRepositoryImpl @Inject constructor(
                 isFirstLaunch = p[UserPreferencesDataStore.KEY_IS_FIRST_LAUNCH] ?: true,
                 activeChatId = p[UserPreferencesDataStore.KEY_ACTIVE_CHAT_ID] ?: "",
                 promptEnhancementEnabled = p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_ENABLED] ?: false,
-                promptEnhancementInstruction = p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_INSTRUCTION] ?: defaultEnhancementInstruction
+                promptEnhancementInstruction = p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_INSTRUCTION] ?: defaultEnhancementInstruction,
+                enhancementModel = p[UserPreferencesDataStore.KEY_ENHANCEMENT_MODEL] ?: "",
+                quickModels = try { com.google.gson.Gson().fromJson(p[UserPreferencesDataStore.KEY_QUICK_MODELS] ?: "[]", Array<String>::class.java).toList() } catch (_: Exception) { emptyList() },
+                providers = try { com.google.gson.Gson().fromJson(p[UserPreferencesDataStore.KEY_PROVIDERS] ?: "[]", Array<com.aei.chatbot.domain.model.ProviderConfig>::class.java).toList() } catch (_: Exception) { emptyList() }
             )
             val u = update(c)
             p[UserPreferencesDataStore.KEY_SERVER_IP] = u.serverIp
@@ -99,6 +102,9 @@ class SettingsRepositoryImpl @Inject constructor(
             p[UserPreferencesDataStore.KEY_ACTIVE_CHAT_ID] = u.activeChatId
             p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_ENABLED] = u.promptEnhancementEnabled
             p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_INSTRUCTION] = u.promptEnhancementInstruction
+            p[UserPreferencesDataStore.KEY_ENHANCEMENT_MODEL] = u.enhancementModel
+            p[UserPreferencesDataStore.KEY_PROVIDERS] = com.google.gson.Gson().toJson(u.providers)
+            p[UserPreferencesDataStore.KEY_QUICK_MODELS] = com.google.gson.Gson().toJson(u.quickModels)
         }
     }
 

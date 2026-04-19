@@ -55,7 +55,10 @@ data class ChatUiState(
     val lastSearchResults: List<WebSearchResult> = emptyList(),
     val autoSearchTriggered: Boolean = false,
     val isEnhancingPrompt: Boolean = false,
-    val enhancedPrompt: String? = null
+    val enhancedPrompt: String? = null,
+    val editingMessageId: String? = null,
+    val editingMessageContent: String = "",
+    val pendingImageUri: android.net.Uri? = null
 )
 
 @HiltViewModel
@@ -95,8 +98,7 @@ class ChatViewModel @Inject constructor(
         "when did", "when is", "what happened", "2024", "2025", "2026"
     )
 
-    private val defaultEnhancementInstruction =
-        "You are a master prompt engineer. Analyze and enhance the following prompt for generative AI. Add context, structure, specificity. Instruct the AI to use headers, tables for comparisons, bullet points for lists, bold for key terms. Return only the enhanced version. Do not ask anything else, answer only!"
+    private val defaultEnhancementInstruction = "TASK: Rewrite the user prompt below. DO NOT answer it. DO NOT execute it. DO NOT add facts. DO NOT repeat these instructions. ONLY output the rewritten prompt text. Keep the same language. Make it more specific, structured, and detailed. Add formatting hints: use headers, tables, bullet points, bold. Output NOTHING except the rewritten prompt."
 
     init {
         viewModelScope.launch {
@@ -426,6 +428,83 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    fun regenerateLastResponse() {
+        if (_uiState.value.isStreaming) return
+        viewModelScope.launch {
+            val messages = _uiState.value.messages.filter { it.role != "enhanced" }
+            val lastAiIndex = messages.indexOfLast { it.role == Constants.ROLE_ASSISTANT }
+            val lastUserIndex = messages.indexOfLast { it.role == Constants.ROLE_USER }
+            if (lastAiIndex == -1 || lastUserIndex == -1) return@launch
+
+            // Delete last AI message from DB
+            val lastAiMsg = messages[lastAiIndex]
+            deleteChatUseCase.deleteMessage(lastAiMsg.id, currentChatId)
+
+            // Re-send last user message
+            val lastUserMsg = messages[lastUserIndex]
+            val s = settings.value
+            _uiState.value = _uiState.value.copy(isStreaming = true, streamingMessage = "", error = null, lastSearchResults = emptyList())
+
+            val apiMessages = _uiState.value.messages
+                .filter { it.role != "enhanced" && it.id != lastAiMsg.id }
+                .filter { !it.isError && it.content.isNotBlank() }
+
+            if (apiMessages.none { !it.isError && it.content.isNotBlank() }) {
+                _uiState.value = _uiState.value.copy(isStreaming = false, error = "No messages to regenerate from.")
+                return@launch
+            }
+
+            streamResponse(s, apiMessages)
+            haptic()
+        }
+    }
+
+    fun startEditMessage(message: com.aei.chatbot.domain.model.ChatMessage) {
+        _uiState.value = _uiState.value.copy(
+            editingMessageId = message.id,
+            editingMessageContent = message.content
+        )
+    }
+
+    fun cancelEditMessage() {
+        _uiState.value = _uiState.value.copy(
+            editingMessageId = null,
+            editingMessageContent = ""
+        )
+    }
+
+    fun updateEditingContent(content: String) {
+        _uiState.value = _uiState.value.copy(editingMessageContent = content)
+    }
+
+    fun confirmEditMessage() {
+        val editingId = _uiState.value.editingMessageId ?: return
+        val newContent = _uiState.value.editingMessageContent.trim()
+        if (newContent.isBlank() || _uiState.value.isStreaming) return
+
+        viewModelScope.launch {
+            val messages = _uiState.value.messages
+            val editIndex = messages.indexOfFirst { it.id == editingId }
+            if (editIndex == -1) return@launch
+
+            // Delete all messages after (and including) the edited message
+            val messagesToDelete = messages.subList(editIndex, messages.size)
+            messagesToDelete.forEach { msg ->
+                deleteChatUseCase.deleteMessage(msg.id, currentChatId)
+            }
+
+            _uiState.value = _uiState.value.copy(
+                editingMessageId = null,
+                editingMessageContent = ""
+            )
+
+            kotlinx.coroutines.delay(100)
+
+            // Re-send with new content
+            sendMessage(newContent)
+        }
+    }
+
     fun deleteMessage(messageId: String) {
         viewModelScope.launch {
             deleteChatUseCase.deleteMessage(messageId, currentChatId)
@@ -463,6 +542,70 @@ class ChatViewModel @Inject constructor(
                 viewModelScope.launch { _speechResult.emit(text) }
             }
         }
+    }
+
+    fun updateSelectedModel(model: String) {
+        viewModelScope.launch { saveSettingsUseCase { it.copy(selectedModel = model) } }
+    }
+
+    fun exportCurrentChat() {
+        viewModelScope.launch {
+            try {
+                val messages = _uiState.value.messages.filter { it.role != "enhanced" }
+                if (messages.isEmpty()) {
+                    _uiState.value = _uiState.value.copy(error = "No messages to export")
+                    return@launch
+                }
+
+                val sb = StringBuilder()
+                sb.appendLine("# ${_uiState.value.sessionName}")
+                sb.appendLine()
+                sb.appendLine("**Model:** ${settings.value.selectedModel.ifBlank { "Not set" }}")
+                sb.appendLine("**Exported:** ${java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", java.util.Locale.getDefault()).format(java.util.Date())}")
+                sb.appendLine()
+                sb.appendLine("---")
+                sb.appendLine()
+
+                messages.forEach { msg ->
+                    val time = java.text.SimpleDateFormat("HH:mm", java.util.Locale.getDefault()).format(java.util.Date(msg.timestamp))
+                    when (msg.role) {
+                        "user" -> {
+                            sb.appendLine("### 👤 You [$time]")
+                            sb.appendLine()
+                            sb.appendLine(msg.content)
+                            sb.appendLine()
+                        }
+                        "assistant" -> {
+                            sb.appendLine("### 🤖 AeI [$time]")
+                            sb.appendLine()
+                            sb.appendLine(msg.content)
+                            sb.appendLine()
+                        }
+                    }
+                    sb.appendLine("---")
+                    sb.appendLine()
+                }
+
+                val filename = "AeI_${_uiState.value.sessionName.take(20).replace(" ", "_")}_${System.currentTimeMillis()}.md"
+                val downloadsDir = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS)
+                val file = java.io.File(downloadsDir, filename)
+                file.writeText(sb.toString())
+
+                _uiState.value = _uiState.value.copy(error = null)
+                // Show success via snackbar-like mechanism
+                _speechResult.emit("Chat exported to Downloads/$filename")
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(error = "Export failed: ${e.message}")
+            }
+        }
+    }
+
+    fun attachImage(uri: android.net.Uri?) {
+        _uiState.value = _uiState.value.copy(pendingImageUri = uri)
+    }
+
+    fun clearImage() {
+        _uiState.value = _uiState.value.copy(pendingImageUri = null)
     }
 
     fun dismissError() {
