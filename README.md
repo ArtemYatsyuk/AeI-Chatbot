@@ -22,7 +22,7 @@ Just click the ⭐ **Star** button at the top right of this page!
 > Every star gets me one step closer to accessing
 > Claude API for building amazing open source tools **for everyone!**
 
-[![Stars](https://img.shields.io/github/stars/ArtemYatsyuk/AeI-Chatbo?style=social)](https://github.com/ArtemYatsyuk/AeI-Chatbo/stargazers)
+[![Stars](https://img.shields.io/github/stars/ArtemYatsyuk/AeI-Chatbot?style=social)](https://github.com/ArtemYatsyuk/AeI-Chatbot/stargazers)
 
 </td>
 </tr>
@@ -42,10 +42,10 @@ Just click the ⭐ **Star** button at the top right of this page!
 ![LM Studio](https://img.shields.io/badge/LM%20Studio-Compatible-blue?style=for-the-badge)
 ![Ngrok](https://img.shields.io/badge/Ngrok-Free%20Tier-orange?style=for-the-badge)
 
-[![Stars](https://img.shields.io/github/stars/ArtemYatsyuk/AeI-Chatbo?style=flat-square)](https://github.com/ArtemYatsyuk/AeI-Chatbo/stargazers)
-[![Release](https://img.shields.io/github/v/release/ArtemYatsyuk/AeI-Chatbo?style=flat-square)](https://github.com/ArtemYatsyuk/AeI-Chatbo/releases/latest)
-[![Issues](https://img.shields.io/github/issues/ArtemYatsyuk/AeI-Chatbo?style=flat-square)](https://github.com/ArtemYatsyuk/AeI-Chatbo/issues)
-[![License](https://img.shields.io/github/license/ArtemYatsyuk/AeI-Chatbo?style=flat-square)](https://github.com/ArtemYatsyuk/AeI-Chatbo/blob/main/LICENSE)
+[![Stars](https://img.shields.io/github/stars/ArtemYatsyuk/AeI-Chatbot?style=flat-square)](https://github.com/ArtemYatsyuk/AeI-Chatbot/stargazers)
+[![Release](https://img.shields.io/github/v/release/ArtemYatsyuk/AeI-Chatbot?style=flat-square)](https://github.com/ArtemYatsyuk/AeI-Chatbot/releases/latest)
+[![Issues](https://img.shields.io/github/issues/ArtemYatsyuk/AeI-Chatbot?style=flat-square)](https://github.com/ArtemYatsyuk/AeI-Chatbot/issues)
+[![License](https://img.shields.io/github/license/ArtemYatsyuk/AeI-Chatbot?style=flat-square)](https://github.com/ArtemYatsyuk/AeI-Chatbot/blob/main/LICENSE)
 
 </div>
 
@@ -200,7 +200,7 @@ Contributions are always welcome! Here's how you can help:
 ## 🐛 Found a Bug?
 
 If you find a bug or have a feature request, please
-[open an issue](https://github.com/ArtemYatsyuk/AeI-Chatbo/issues) —
+[open an issue](https://github.com/ArtemYatsyuk/AeI-Chatbot/issues) —
 I'll try to fix it as soon as possible!
 
 ---
@@ -208,7 +208,7 @@ I'll try to fix it as soon as possible!
 ## 📄 License
 
 This project is open source and available under the
-[MIT License](https://github.com/ArtemYatsyuk/AeI-Chatbo/blob/main/LICENSE).
+[MIT License](https://github.com/ArtemYatsyuk/AeI-Chatbot/blob/main/LICENSE).
 
 ---
 
@@ -220,7 +220,7 @@ This project is open source and available under the
 <br/>
 *It helps me get access to Claude API for building even better open source tools!*
 
-[![Stars](https://img.shields.io/github/stars/ArtemYatsyuk/AeI-Chatbo?style=social)](https://github.com/ArtemYatsyuk/AeI-Chatbo/stargazers)
+[![Stars](https://img.shields.io/github/stars/ArtemYatsyuk/AeI-Chatbot?style=social)](https://github.com/ArtemYatsyuk/AeI-Chatbot/stargazers)
 
 </div>
 ```
