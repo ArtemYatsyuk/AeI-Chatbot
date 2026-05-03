@@ -1,5 +1,6 @@
 ﻿package com.aei.chatbot.ui.chat
 
+import androidx.compose.ui.unit.sp
 import android.Manifest
 import android.content.Intent
 import android.speech.RecognizerIntent
@@ -72,11 +73,32 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
         }
     }
     LaunchedEffect(chatId) { if (chatId != null) viewModel.loadChat(chatId) }
-    LaunchedEffect(uiState.messages.size, uiState.streamingMessage.length) {
-        if (settings.autoScroll) {
+    // Auto-scroll: only scroll to bottom when a NEW message arrives (not every token),
+    // AND only if the user hasn't scrolled up (i.e. is already near the bottom).
+    // This lets users freely scroll while AI is generating.
+    val userHasScrolledUp by remember {
+        derivedStateOf {
+            val layoutInfo = listState.layoutInfo
+            val lastVisible = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+            val totalItems = layoutInfo.totalItemsCount
+            totalItems > 0 && lastVisible < totalItems - 2
+        }
+    }
+    // Scroll when a new message is finalized
+    LaunchedEffect(uiState.messages.size) {
+        if (settings.autoScroll && !userHasScrolledUp) {
             val total = uiState.messages.size + (if (uiState.isStreaming) 1 else 0)
             if (total > 0) try { listState.animateScrollToItem(total - 1) } catch (_: Exception) {}
         }
+    }
+    // Scroll to bottom when streaming starts (first token), then leave user alone
+    var wasStreaming by remember { mutableStateOf(false) }
+    LaunchedEffect(uiState.isStreaming) {
+        if (uiState.isStreaming && !wasStreaming && settings.autoScroll) {
+            val total = uiState.messages.size + 1
+            try { listState.animateScrollToItem(total - 1) } catch (_: Exception) {}
+        }
+        wasStreaming = uiState.isStreaming
     }
 
         if (showModelPicker) {
@@ -334,8 +356,7 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
                 onHistoryClick = onNavigateToHistory,
                 onSettingsClick = onNavigateToSettings,
                 currentModel = if (settings.quickModels.size >= 2) settings.selectedModel else "",
-                onModelClick = { showModelPicker = true },
-                onExportClick = { viewModel.exportCurrentChat() }
+                onModelClick = { showModelPicker = true }
             )
         },
         bottomBar = {
@@ -353,6 +374,7 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
                 onSearchToggle = viewModel::toggleWebSearch,
                 isStreaming = uiState.isStreaming, isSearching = uiState.isSearching,
                 webSearchActive = uiState.webSearchActive,
+                webSearchEnabled = settings.webSearchEnabled,
                 onImageClick = { imagePickerLauncher.launch("image/*") },
                 showImageButton = settings.providers.flatMap { it.models }
                     .any { it.modelId == settings.selectedModel && it.capabilities.vision },
@@ -364,11 +386,27 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
         Box(Modifier.fillMaxSize().padding(pv)) {
             Column(Modifier.fillMaxSize()) {
                 AnimatedVisibility(uiState.error != null, enter = slideInVertically() + fadeIn(), exit = slideOutVertically() + fadeOut()) {
-                    Surface(color = MaterialTheme.colorScheme.errorContainer) {
-                        Row(Modifier.fillMaxWidth().padding(12.dp), Arrangement.SpaceBetween, Alignment.CenterVertically) {
-                            Text(uiState.error ?: "", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onErrorContainer, modifier = Modifier.weight(1f))
-                            Row { TextButton(onClick = { viewModel.dismissError() }) { Text(stringResource(R.string.ok)) }
-                                TextButton(onClick = onNavigateToSettings) { Text(stringResource(R.string.chat_error_go_to_settings)) } }
+                    Surface(
+                        color = MaterialTheme.colorScheme.errorContainer,
+                        tonalElevation = 2.dp
+                    ) {
+                        Row(
+                            Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 10.dp),
+                            Arrangement.SpaceBetween,
+                            Alignment.CenterVertically
+                        ) {
+                            Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Default.ErrorOutline, null, Modifier.size(16.dp), tint = MaterialTheme.colorScheme.error)
+                                Text(
+                                    uiState.error ?: "",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onErrorContainer
+                                )
+                            }
+                            Row {
+                                TextButton(onClick = { viewModel.dismissError() }) { Text(stringResource(R.string.ok), style = MaterialTheme.typography.labelMedium) }
+                                TextButton(onClick = onNavigateToSettings) { Text(stringResource(R.string.chat_error_go_to_settings), style = MaterialTheme.typography.labelMedium) }
+                            }
                         }
                     }
                 }
@@ -378,11 +416,40 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        Icon(Icons.Default.ChatBubbleOutline, null, Modifier.size(80.dp), MaterialTheme.colorScheme.primary.copy(alpha = 0.4f))
-                        Spacer(Modifier.height(16.dp))
-                        Text(stringResource(R.string.chat_empty_title), style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center)
+                        // Gradient logo circle
+                        Box(
+                            Modifier
+                                .size(88.dp)
+                                .background(
+                                    androidx.compose.ui.graphics.Brush.linearGradient(
+                                        listOf(Color(0xFF5A3FCC), Color(0xFF9D5CFF))
+                                    ),
+                                    androidx.compose.foundation.shape.CircleShape
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                "AeI",
+                                fontSize = 26.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color.White,
+                                letterSpacing = (-1).sp
+                            )
+                        }
+                        Spacer(Modifier.height(24.dp))
+                        Text(
+                            stringResource(R.string.chat_empty_title),
+                            style = MaterialTheme.typography.titleLarge,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.SemiBold
+                        )
                         Spacer(Modifier.height(8.dp))
-                        Text(stringResource(R.string.chat_empty_subtitle), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                        Text(
+                            stringResource(R.string.chat_empty_subtitle),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f),
+                            textAlign = TextAlign.Center
+                        )
                     }
                 } else {
                     val fs = fontSizeMultiplier(settings.fontSize)
@@ -390,6 +457,15 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
                         items(uiState.messages, key = { it.id }) { msg ->
                             MessageBubble(msg, settings.showTimestamps, settings.showAvatars, settings.userInitials, settings.avatarColor, fs, settings.bubbleStyle,
                                 onLongPress = { contextMessage = it; showContextMenu = true })
+                        }
+                        // Show web search results inline in chat after messages
+                        if (uiState.lastSearchResults.isNotEmpty() && !uiState.isSearching) {
+                            item(key = "search_results_card") {
+                                SearchResultsCard(
+                                    results = uiState.lastSearchResults,
+                                    autoTriggered = uiState.autoSearchTriggered
+                                )
+                            }
                         }
                         if (uiState.isSearching) { item(key = "searching") { SearchingIndicator() } }
                         if (uiState.isStreaming) {
@@ -405,4 +481,3 @@ fun ChatScreen(chatId: String?, onNavigateToHistory: () -> Unit, onNavigateToSet
         }
     }
 }
-

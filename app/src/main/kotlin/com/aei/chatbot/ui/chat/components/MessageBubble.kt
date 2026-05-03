@@ -133,23 +133,30 @@ fun MessageBubble(
         return
     }
 
-    Row(modifier = modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 4.dp),
+    Row(modifier = modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 5.dp),
         horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start,
         verticalAlignment = Alignment.Bottom) {
 
         if (!isUser && showAvatars) {
-            Box(Modifier.size(32.dp).background(
-                Brush.linearGradient(listOf(Color(0xFF7B61FF), Color(0xFF03DAC6))), CircleShape),
+            Box(Modifier.size(34.dp).background(
+                Brush.linearGradient(listOf(Color(0xFF7B61FF), Color(0xFF9D5CFF))), CircleShape),
                 contentAlignment = Alignment.Center) {
-                Text("A", color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                Text("Ae", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = (-0.5).sp)
             }
             Spacer(Modifier.width(8.dp))
         }
 
-        Box(Modifier.widthIn(max = if (isUser) 280.dp else 320.dp).clip(bubbleShape)
-            .background(if (isUser) aeIColors.userBubble else aeIColors.aiBubble)
+        Box(Modifier
+            .widthIn(max = if (isUser) 300.dp else 340.dp)
+            .clip(bubbleShape)
+            .then(
+                if (isUser) Modifier.background(
+                    Brush.linearGradient(listOf(Color(0xFF4A30BB), Color(0xFF8B6FFF)))
+                ) else Modifier.background(aeIColors.aiBubble)
+            )
             .combinedClickable(onClick = {}, onLongClick = { onLongPress(message) })
-            .padding(horizontal = 12.dp, vertical = 8.dp)) {
+            .padding(horizontal = 14.dp, vertical = 10.dp)) {
             Column {
                 val displayContent = if (message.translatedContent != null && showTranslation)
                     message.translatedContent else message.content
@@ -167,9 +174,11 @@ fun MessageBubble(
                     } else {
                         MarkwonText(
                             markdown = mainText,
-                            fontSize = 14f * fontScale,
-                            textColor = MaterialTheme.colorScheme.onSurface.toArgb(),
-                            linkColor = MaterialTheme.colorScheme.primary.toArgb()
+                            fontSize = 14.5f * fontScale,
+                            textColor = if (isUser) android.graphics.Color.WHITE
+                                        else MaterialTheme.colorScheme.onSurface.toArgb(),
+                            linkColor = if (isUser) android.graphics.Color.WHITE
+                                        else MaterialTheme.colorScheme.primary.toArgb()
                         )
                     }
                 } else if (isStreamingBubble && parsed.hasThinking) {
@@ -192,7 +201,8 @@ fun MessageBubble(
                 if (showTimestamp && !isStreamingBubble) {
                     Text(DateTimeUtils.formatTime(message.timestamp),
                         fontSize = (10 * fontScale).sp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        color = if (isUser) Color.White.copy(alpha = 0.6f)
+                                else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f),
                         modifier = Modifier.align(if (isUser) Alignment.End else Alignment.Start))
                 }
             }
@@ -200,10 +210,60 @@ fun MessageBubble(
 
         if (isUser && showAvatars) {
             Spacer(Modifier.width(8.dp))
-            Box(Modifier.size(32.dp).background(avatarColorFromString(avatarColorName), CircleShape),
+            Box(Modifier.size(34.dp).background(avatarColorFromString(avatarColorName), CircleShape),
                 contentAlignment = Alignment.Center) {
-                Text(userInitials.take(2).uppercase(), color = Color.White, fontSize = 12.sp,
+                Text(userInitials.take(2).uppercase(), color = Color.White, fontSize = 13.sp,
                     fontWeight = FontWeight.Bold)
+            }
+        }
+    }
+
+    // Copy button row — shown below every non-streaming bubble
+    if (!isStreamingBubble) {
+        val ctx = LocalContext.current
+        val copyText = if (message.translatedContent != null && showTranslation)
+            message.translatedContent else message.content
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(
+                    start  = if (isUser) 0.dp else if (showAvatars) 42.dp else 12.dp,
+                    end    = if (isUser) if (showAvatars) 42.dp else 12.dp else 0.dp,
+                    top    = 1.dp,
+                    bottom = 2.dp
+                ),
+            horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start
+        ) {
+            var copied by remember { mutableStateOf(false) }
+            IconButton(
+                onClick = {
+                    ClipboardUtils.copyToClipboard(ctx, "message", copyText)
+                    copied = true
+                },
+                modifier = Modifier.size(26.dp)
+            ) {
+                if (copied) {
+                    Text(
+                        "✓",
+                        fontSize = 11.sp,
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+                        fontWeight = FontWeight.Bold
+                    )
+                } else {
+                    Icon(
+                        Icons.Default.ContentCopy,
+                        contentDescription = "Copy message",
+                        modifier = Modifier.size(13.dp),
+                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f)
+                    )
+                }
+            }
+            // Reset copied state after 2s
+            if (copied) {
+                LaunchedEffect(Unit) {
+                    kotlinx.coroutines.delay(2000)
+                    copied = false
+                }
             }
         }
     }

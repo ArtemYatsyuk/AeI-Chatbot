@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.androidx.browser)
     implementation(libs.androidx.appcompat)
 
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.7.5")
     implementation(libs.markwon.core)
     implementation(libs.markwon.tables)
     implementation(libs.markwon.strikethrough)

@@ -2,38 +2,51 @@
 <resources>
     <string name="app_name">AeI</string>
     <string name="tagline">Ваш інтелектуальний помічник</string>
+
+    <!-- Onboarding -->
     <string name="onboarding_skip">Пропустити</string>
     <string name="onboarding_next">Далі</string>
     <string name="onboarding_get_started">Почати</string>
     <string name="onboarding_page1_title">Ласкаво просимо до AeI</string>
-    <string name="onboarding_page1_desc">Ваш персональний ШІ-помічник на базі LM Studio.</string>
+    <string name="onboarding_page1_desc">Ваш персональний ШІ-помічник на базі LM Studio. Спілкуйтесь, досліджуйте та отримуйте відповіді — все на вашому пристрої.</string>
     <string name="onboarding_page2_title">Підключення до LM Studio</string>
-    <string name="onboarding_page2_desc">AeI підключається до вашого локального LM Studio.</string>
+    <string name="onboarding_page2_desc">AeI підключається до вашого локального LM Studio. Переконайтеся, що LM Studio запущено та доступне в мережі.</string>
     <string name="onboarding_page3_title">Оберіть мову</string>
-    <string name="onboarding_page3_desc">Оберіть бажану мову відображення та увімкніть переклад відповідей ШІ.</string>
+    <string name="onboarding_page3_desc">Оберіть бажану мову відображення та увімкніть переклад відповідей ШІ для спілкування будь-якою мовою.</string>
+
+    <!-- Chat -->
     <string name="chat_input_placeholder">Повідомлення AeI</string>
     <string name="chat_empty_title">Почніть розмову з AeI</string>
     <string name="chat_empty_subtitle">Запитайте мене про що завгодно</string>
-    <string name="chat_new_session_confirm">Почати новий чат? Поточна розмова буде збережена.</string>
+    <string name="chat_new_session_confirm">Почати новий чат? Поточна розмова буде збережена в історії.</string>
     <string name="chat_error_banner">Неможливо підключитися до LM Studio. Перевірте налаштування сервера.</string>
     <string name="chat_error_go_to_settings">Налаштування</string>
     <string name="aei_is_thinking">AeI думає</string>
     <string name="listening">Слухаю…</string>
+    <string name="microphone_permission_rationale">Доступ до мікрофона потрібен для голосового введення. Будь ласка, надайте дозвіл.</string>
+    <string name="microphone_permission_denied">Дозвіл на мікрофон назавжди відхилено. Відкрийте налаштування додатку.</string>
+    <string name="open_settings">Відкрити налаштування</string>
     <string name="translated">Переклад</string>
     <string name="show_original">Показати оригінал</string>
     <string name="show_translation">Показати переклад</string>
     <string name="downloading_translation_model">Завантаження моделі перекладу…</string>
     <string name="copy_code">Копіювати</string>
+
+    <!-- Context Menu -->
     <string name="context_copy_text">Копіювати текст</string>
     <string name="context_translate">Перекласти повідомлення</string>
     <string name="context_delete">Видалити повідомлення</string>
     <string name="context_share">Поділитися повідомленням</string>
+
+    <!-- History -->
     <string name="history_title">Історія чатів</string>
     <string name="history_empty">Немає попередніх чатів</string>
     <string name="history_search_hint">Пошук чатів…</string>
     <string name="history_delete_snackbar">Чат видалено. Скасувати.</string>
     <string name="history_undo">Скасувати</string>
     <string name="history_messages">повідомлень</string>
+
+    <!-- Settings general -->
     <string name="settings_title">Налаштування</string>
     <string name="settings_section_server">Підключення до сервера</string>
     <string name="settings_server_ip">IP-адреса LM Studio</string>
@@ -42,7 +55,7 @@
     <string name="settings_port">Порт</string>
     <string name="settings_port_error">Порт має бути між 1 та 65535</string>
     <string name="settings_api_endpoint">API Endpoint</string>
-    <string name="settings_api_endpoint_info">Шлях до endpoint чат-завершень на вашому сервері LM Studio.</string>
+    <string name="settings_api_endpoint_info">Шлях до endpoint чат-завершень на вашому сервері.</string>
     <string name="settings_timeout">Тайм-аут (секунди)</string>
     <string name="settings_streaming">Увімкнути потокову передачу</string>
     <string name="settings_streaming_desc">Передавати відповіді ШІ токен за токеном</string>
@@ -119,7 +132,9 @@
     <string name="settings_version">Версія</string>
     <string name="settings_build">Збірка</string>
     <string name="settings_api_key">API ключ (необов\'язково)</string>
-    <string name="error_unknown_host">Не вдалося знайти сервер LM Studio. Перевірте IP-адресу.</string>
+
+    <!-- Errors -->
+    <string name="error_unknown_host">Не вдалося знайти сервер. Перевірте IP-адресу.</string>
     <string name="error_connection_refused">З\'єднання відхилено. Чи запущений LM Studio?</string>
     <string name="error_timeout">Час очікування вичерпано. Сервер може бути зайнятий.</string>
     <string name="error_ssl">Помилка захищеного з\'єднання.</string>
@@ -127,17 +142,21 @@
     <string name="error_401">Не авторизовано. Перевірте ваш API ключ.</string>
     <string name="error_404">Endpoint не знайдено. Перевірте шлях API.</string>
     <string name="error_429">Забагато запитів. Будь ласка, зачекайте.</string>
-    <string name="error_500">Внутрішня помилка LM Studio. Перевірте журнали сервера.</string>
-    <string name="error_503">Служба LM Studio недоступна.</string>
+    <string name="error_500">Внутрішня помилка сервера. Перевірте журнали.</string>
+    <string name="error_503">Служба недоступна.</string>
     <string name="error_empty_response">Отримано порожню відповідь від сервера.</string>
     <string name="error_malformed_json">Отримано невірний формат відповіді.</string>
     <string name="error_no_network">Немає підключення до мережі.</string>
     <string name="error_generic">Виникла непередбачена помилка.</string>
+
+    <!-- Confirm / Dialog -->
     <string name="confirm">Підтвердити</string>
     <string name="cancel">Скасувати</string>
     <string name="delete">Видалити</string>
     <string name="ok">OK</string>
     <string name="close">Закрити</string>
+
+    <!-- Content Descriptions -->
     <string name="cd_translate">Перекласти</string>
     <string name="cd_new_chat">Новий чат</string>
     <string name="cd_history">Історія чатів</string>
@@ -150,7 +169,235 @@
     <string name="cd_copy_code">Копіювати код</string>
     <string name="cd_aei_avatar">Аватар AeI</string>
     <string name="cd_user_avatar">Аватар користувача</string>
-    <string name="microphone_permission_rationale">Доступ до мікрофона потрібен для голосового введення.</string>
-    <string name="microphone_permission_denied">Дозвіл на мікрофон назавжди відхилено. Відкрийте налаштування додатку.</string>
-    <string name="open_settings">Відкрити налаштування</string>
+    <string name="cd_web_search">Веб-пошук</string>
+
+    <!-- Connection / Provider -->
+    <string name="settings_use_ngrok">Використовувати ngrok тунель</string>
+    <string name="settings_use_ngrok_desc">Підключатися через ngrok URL замість локального IP</string>
+    <string name="settings_ngrok_url">ngrok URL</string>
+    <string name="settings_ngrok_url_hint">напр. https://xxxx-xx-xx-xxx-xx.ngrok-free.app</string>
+    <string name="settings_ngrok_mode">Режим Ngrok</string>
+    <string name="settings_connection_mode">Режим підключення</string>
+    <string name="settings_conn_local">Локальний (LM Studio)</string>
+    <string name="settings_conn_ngrok">Ngrok тунель</string>
+    <string name="settings_conn_cloud">Хмарний API</string>
+    <string name="settings_cloud_url">Базова URL API</string>
+    <string name="settings_cloud_url_hint">напр. https://nim.api.nvidia.com</string>
+    <string name="settings_cloud_url_desc">Підтримує NVIDIA NIM, OpenAI та будь-який сумісний API.</string>
+    <string name="settings_model_id">ID моделі</string>
+    <string name="settings_model_id_hint">напр. nicoboss/DeepSeek-R1-Distill-Qwen-32B-Uncensored</string>
+    <string name="settings_model_id_desc">Введіть точний ID моделі від вашого хмарного провайдера</string>
+    <string name="settings_connection_mode_label">Режим підключення</string>
+    <string name="settings_conn_local_label">Локальний (LM Studio)</string>
+    <string name="settings_conn_ngrok_label">Ngrok тунель</string>
+    <string name="settings_conn_cloud_label">Хмарний API</string>
+    <string name="settings_api_endpoint_label">API Endpoint</string>
+    <string name="settings_api_endpoint_default">За замовчуванням: v1/chat/completions</string>
+    <string name="settings_auth">Автентифікація</string>
+    <string name="settings_timeout_label">Тайм-аут</string>
+    <string name="settings_options">Параметри</string>
+    <string name="settings_full_url_preview">Повна URL запиту</string>
+    <string name="settings_api_host">Хост API</string>
+
+    <!-- Search tab -->
+    <string name="settings_section_websearch">Веб-пошук</string>
+    <string name="settings_web_search_enabled">Увімкнути веб-пошук</string>
+    <string name="settings_web_search_enabled_desc">Отримувати актуальні результати з веб для покращення відповідей ШІ</string>
+    <string name="settings_web_search_results">Макс. результатів пошуку</string>
+    <string name="settings_searxng_url">URL SearXNG</string>
+    <string name="settings_searxng_url_hint">https://ваш-searxng.example.com</string>
+    <string name="web_search_mode_on">Веб-пошук увімкнено для наступного повідомлення</string>
+    <string name="searching_web">Пошук у мережі…</string>
+    <string name="sources_found">джерел знайдено</string>
+    <string name="settings_web_search_label">Веб-пошук</string>
+    <string name="settings_web_search_desc">Дозволити ШІ шукати актуальну інформацію в мережі</string>
+    <string name="settings_search_mode">Режим пошуку</string>
+    <string name="settings_search_manual">Вручну</string>
+    <string name="settings_search_manual_desc">Лише при натисканні кнопки пошуку в чаті</string>
+    <string name="settings_search_auto">Авто</string>
+    <string name="settings_search_auto_desc">ШІ сам вирішує, коли шукати (незабаром)</string>
+    <string name="settings_searxng_instance">Екземпляр SearXNG</string>
+    <string name="settings_searxng_format_note">Має підтримувати параметр запиту ?format=json</string>
+    <string name="settings_result_settings">Параметри результатів</string>
+    <string name="settings_max_results">Макс. результатів пошуку</string>
+    <string name="settings_max_results_desc">Скільки результатів вводиться в контекст ШІ</string>
+    <string name="settings_safe_search">Безпечний пошук</string>
+    <string name="settings_safe_search_off">Вимк.</string>
+    <string name="settings_safe_search_moderate">Помірний</string>
+    <string name="settings_safe_search_strict">Суворий</string>
+    <string name="settings_how_it_works">Як це працює</string>
+
+    <!-- Model tab -->
+    <string name="settings_model_management">Керування моделями</string>
+    <string name="settings_model_new">НОВА</string>
+    <string name="settings_model_fetch">ЗАВАНТ.</string>
+    <string name="settings_model_reset">СКИНУТИ</string>
+    <string name="settings_model_reset_title">Скинути моделі</string>
+    <string name="settings_model_reset_body">Видалити всі налаштовані моделі? Це неможливо скасувати.</string>
+    <string name="settings_model_search">Пошук моделей</string>
+    <string name="settings_model_search_hint">Пошук за назвою або ID моделі…</string>
+    <string name="settings_model_active">Активна модель</string>
+    <string name="settings_model_current_id">Поточний ID моделі</string>
+    <string name="settings_quick_models">Швидкі моделі</string>
+    <string name="settings_quick_models_desc">Додайте моделі для швидкого перемикання в чаті. З\'являється при 2+ моделях.</string>
+    <string name="settings_quick_model_id_label">ID моделі для додавання</string>
+    <string name="settings_quick_model_id_hint">напр. gpt-4o або виберіть зі списку</string>
+    <string name="settings_quick_add_from">Швидко додати з налаштованих моделей:</string>
+    <string name="settings_quick_add_hint">Додайте 2 або більше моделей для швидкого перемикання в чаті.</string>
+    <string name="settings_configured_models">Налаштовані моделі</string>
+    <string name="settings_model_active_badge">АКТИВНА</string>
+    <string name="settings_model_select">Вибрати</string>
+    <string name="settings_model_edit">Редагувати</string>
+    <string name="settings_model_test">Тест</string>
+    <string name="settings_model_quick_add">+ Швидка</string>
+    <string name="settings_model_quick_active">⚡ Швидка</string>
+    <string name="settings_model_no_configured">Моделі не налаштовано</string>
+    <string name="settings_model_no_results">Моделей не знайдено</string>
+    <string name="settings_model_add_hint">Натисніть НОВА для ручного додавання або ЗАВАНТ. для завантаження від провайдера</string>
+    <string name="settings_model_search_hint2">Спробуйте інший пошуковий запит</string>
+    <string name="settings_model_add_title">Додати модель</string>
+    <string name="settings_model_edit_title">Редагувати модель</string>
+    <string name="settings_model_display_name">Відображувана назва</string>
+    <string name="settings_model_id_required">ID моделі *</string>
+    <string name="settings_model_context_tokens">Контекст (токени)</string>
+    <string name="settings_model_max_output">Макс. вивід</string>
+    <string name="settings_model_capabilities">Можливості</string>
+    <string name="settings_model_cap_chat">Чат</string>
+    <string name="settings_model_cap_vision">Зображення</string>
+    <string name="settings_model_cap_tools">Інструменти</string>
+    <string name="settings_model_cap_images">Генерація зображень</string>
+    <string name="settings_model_cap_audio">Аудіо</string>
+    <string name="settings_model_temperature">Температура</string>
+    <string name="settings_model_test_title">Тест</string>
+    <string name="settings_model_test_sending">Надсилання тестового запиту…</string>
+    <string name="settings_model_test_tap">Натисніть Тест для перевірки підключення.</string>
+    <string name="settings_model_test_again">Тест ще раз</string>
+    <string name="settings_model_autodetect_applied">Автовизначені налаштування застосовано:</string>
+
+    <!-- Chat tab -->
+    <string name="settings_persona">Персона / Системний промпт</string>
+    <string name="settings_system_prompt_label">Системний промпт</string>
+    <string name="settings_conversation">Поведінка розмови</string>
+    <string name="settings_autoscroll">Автопрокрутка вниз</string>
+    <string name="settings_autoscroll_desc">Прокручувати вниз автоматично при надходженні нових токенів</string>
+    <string name="settings_clear_new_session">Очищати при новому сеансі</string>
+    <string name="settings_clear_new_session_desc">Скидати контекст при початку нового чату</string>
+    <string name="settings_message_display">Відображення повідомлень</string>
+    <string name="settings_show_timestamps_label">Показувати час</string>
+    <string name="settings_show_timestamps_desc">Відображати час поруч з кожним повідомленням</string>
+    <string name="settings_show_avatars_label">Показувати аватари</string>
+    <string name="settings_show_avatars_desc">Показувати аватари користувача та ШІ в чаті</string>
+    <string name="settings_bubble_style_label">Стиль бульбашок чату</string>
+    <string name="settings_feedback">Зворотний зв\'язок</string>
+    <string name="settings_haptic_label">Тактильний зворотний зв\'язок</string>
+    <string name="settings_haptic_label_desc">Вібрувати при відправці та отриманні</string>
+    <string name="settings_sound_label">Звукові ефекти</string>
+    <string name="settings_sound_label_desc">Відтворювати звуки для подій чату</string>
+
+    <!-- General tab -->
+    <string name="settings_appearance">Зовнішній вигляд</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_your_avatar">Ваш аватар</string>
+    <string name="settings_initials_label">Ініціали</string>
+    <string name="settings_language_translation">Мова та переклад</string>
+    <string name="settings_translate_responses">Перекладати відповіді ШІ на</string>
+    <string name="settings_voice_input_language">Мова голосового введення</string>
+    <string name="settings_auto_detect_language">Автовизначення мови введення</string>
+    <string name="settings_auto_detect_language_desc">Визначати мову ваших повідомлень автоматично</string>
+    <string name="settings_data_storage">Дані та сховище</string>
+    <string name="settings_export_all">Експортувати всі чати</string>
+    <string name="settings_import">Імпортувати чати</string>
+    <string name="settings_clear_all_chats">Очистити всі чати</string>
+    <string name="settings_reset_label">Скидання</string>
+    <string name="settings_reset_all">Скинути всі налаштування</string>
+
+    <!-- Features tab -->
+    <string name="settings_prompt_enhancement">✨ Покращення промптів</string>
+    <string name="settings_prompt_enhancement_label">Покращення промптів</string>
+    <string name="settings_prompt_enhancement_active">Активно — переписує промпти перед відправкою</string>
+    <string name="settings_prompt_enhancement_inactive">Неактивно</string>
+    <string name="settings_enhancement_model">Модель покращення</string>
+    <string name="settings_enhancement_model_desc">Виберіть модель для переписування промптів. Залиште порожнім для використання моделі чату.</string>
+    <string name="settings_enhancement_model_id">ID моделі покращення</string>
+    <string name="settings_enhancement_model_hint">Порожнє = використовувати модель чату</string>
+    <string name="settings_enhancement_pick">Або виберіть з налаштованих моделей:</string>
+    <string name="settings_enhancement_instruction">Інструкція покращення</string>
+    <string name="settings_enhancement_instruction_label">Налаштуйте, як ШІ переписує ваші промпти.</string>
+    <string name="settings_enhancement_instruction_field">Інструкція покращення</string>
+    <string name="settings_enhancement_reset">Скинути до стандартного</string>
+    <string name="settings_enhancement_disabled_note">Увімкніть покращення промптів вище для налаштування. Примітка: використовує один додатковий виклик ШІ на повідомлення.</string>
+
+    <!-- About tab -->
+    <string name="settings_what_is_aei">Що таке AeI?</string>
+    <string name="settings_aei_description">AeI — це Android ШІ-чатбот з відкритим кодом, який підключається до будь-якого OpenAI-сумісного API — включаючи LM Studio (локальний), NVIDIA NIM та хмарних провайдерів.</string>
+    <string name="settings_features_label">Можливості</string>
+    <string name="settings_tech_stack">Технологічний стек</string>
+    <string name="settings_links">Посилання та підтримка</string>
+    <string name="settings_view_github">Переглянути на GitHub</string>
+    <string name="settings_github_desc">Вихідний код та документація</string>
+    <string name="settings_report_issue">Повідомити про проблему</string>
+    <string name="settings_legal">Правова відмова</string>
+    <string name="settings_legal_text">Контент, згенерований ШІ, може бути неточним або неповним. AeI не несе відповідальності за контент, згенерований сторонніми ШІ-моделями. Завжди перевіряйте важливу інформацію з авторитетних джерел.</string>
+    <string name="settings_credits">Подяки</string>
+    <string name="settings_built_with">Створено з ❤️ з використанням бібліотек з відкритим кодом.</string>
+
+    <!-- Tabs -->
+    <string name="tab_provider">Провайдер</string>
+    <string name="tab_model">Модель</string>
+    <string name="tab_search">Пошук</string>
+    <string name="tab_chat">Чат</string>
+    <string name="tab_general">Загальні</string>
+    <string name="tab_about">Про додаток</string>
+    <string name="tab_features">Функції</string>
+
+    <!-- Misc -->
+    <string name="thinking_label">Процес мислення</string>
+    <string name="thinking_streaming">Думає\u2026</string>
+    <string name="model_added">Модель додано</string>
+    <string name="model_updated">Модель оновлено</string>
+    <string name="model_deleted">Модель видалено</string>
+    <string name="models_reset">Моделі провайдера скинуто</string>
+    <string name="import_coming_soon">Функція імпорту незабаром</string>
+    <string name="export_failed">Помилка експорту</string>
+
+    <!-- Auto search -->
+    <string name="search_auto_badge">АВТО</string>
+    <string name="search_auto_desc_full">Автоматично шукає, коли ваше повідомлення містить ключові слова реального часу (новини, ціна, погода, рахунок…)</string>
+
+    <!-- Features tab beta -->
+    <string name="features_beta_title">Бета-функція</string>
+    <string name="features_beta_body">Покращення промптів є експериментальним і не завжди працює добре. Результати сильно залежать від використовуваної моделі — менші або інструктивні моделі часто ігнорують інструкцію переписування. Використовуйте на власний ризик і вимикайте для більшості розмов.</string>
+    <string name="features_active_beta">Активно (Бета) — переписує промпти перед відправкою</string>
+
+    <!-- Copied -->
+    <string name="copied">Скопійовано</string>
+
+
+    <string name="tab_beta_features">Бета</string>
+    <string name="settings_ai_actions_title">ШІ-дії</string>
+    <string name="settings_ai_actions_beta_body">ШІ-дії дозволяють ШІ відкривати додатки, створювати файли та відкривати URL на вашому пристрої на ваш запит. Кожна дія потребує вашого дозволу, якщо не ввімкнено автодозвіл.</string>
+    <string name="settings_ai_actions_enable">Увімкнути ШІ-дії</string>
+    <string name="settings_ai_actions_enable_desc_on">ШІ може відкривати додатки, створювати файли та URL на запит</string>
+    <string name="settings_ai_actions_enable_desc_off">Дозволити ШІ взаємодіяти з пристроєм на запит</string>
+    <string name="settings_ai_actions_auto_approve">Автодозвіл дій</string>
+    <string name="settings_ai_actions_auto_approve_on">⚡ Дії виконуються миттєво без запиту</string>
+    <string name="settings_ai_actions_auto_approve_off">Ви підтверджуєте кожну дію перед виконанням</string>
+    <string name="settings_ai_actions_what">Що ШІ може робити</string>
+    <string name="ai_action_open_app">Відкрити додаток</string>
+    <string name="ai_action_open_app_ex">напр. "Відкрий YouTube"</string>
+    <string name="ai_action_create_file">Створити файл</string>
+    <string name="ai_action_create_file_ex">напр. "Збережи це як notes.txt"</string>
+    <string name="ai_action_open_url">Відкрити URL</string>
+    <string name="ai_action_open_url_ex">напр. "Відкрий google.com"</string>
+    <string name="action_dialog_title">AeI хоче виконати дію</string>
+    <string name="action_dialog_subtitle">Перевірте перед дозволом</string>
+    <string name="action_dialog_hint">Автодозвіл можна ввімкнути в налаштуваннях Бета-функцій</string>
+    <string name="action_deny">Відхилити</string>
+    <string name="action_allow">Дозволити</string>
+    <string name="action_badge_app">Відкрити додаток</string>
+    <string name="action_badge_file">Створити файл</string>
+    <string name="action_badge_url">Відкрити URL</string>
+
+    <string name="image_attached_label">Зображення додано</string>
+    <string name="image_will_be_sent">Зображення буде надіслано з повідомленням</string>
 </resources>

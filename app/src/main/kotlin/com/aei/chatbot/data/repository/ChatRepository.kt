@@ -6,6 +6,15 @@ import com.aei.chatbot.data.local.entity.ChatEntity
 import com.aei.chatbot.data.local.entity.MessageEntity
 import com.aei.chatbot.data.local.preferences.UserPreferencesDataStore
 import com.aei.chatbot.data.remote.model.ChatRequest
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.util.Base64
+import com.aei.chatbot.data.remote.model.textMessage
+import com.aei.chatbot.data.remote.model.visionMessage
+import java.io.ByteArrayOutputStream
 import com.aei.chatbot.data.remote.model.Message
 import com.aei.chatbot.data.remote.network.RetrofitClient
 import com.aei.chatbot.domain.model.ApiResult
@@ -41,20 +50,26 @@ interface ChatRepository {
     suspend fun insertMessage(message: ChatMessage)
     suspend fun updateMessage(message: ChatMessage)
     suspend fun deleteMessage(messageId: String, chatId: String)
-    fun streamMessage(settings: AppSettings, messages: List<ChatMessage>): Flow<ApiResult<String>>
-    suspend fun sendMessage(settings: AppSettings, messages: List<ChatMessage>): ApiResult<String>
+    fun streamMessage(settings: AppSettings, messages: List<ChatMessage>, imageUri: android.net.Uri? = null): Flow<ApiResult<String>>
+    suspend fun sendMessage(settings: AppSettings, messages: List<ChatMessage>, imageUri: android.net.Uri? = null): ApiResult<String>
     suspend fun getAvailableModels(settings: AppSettings): ApiResult<List<String>>
     suspend fun testConnection(settings: AppSettings): ApiResult<Unit>
 }
 
 @Singleton
 class ChatRepositoryImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val chatDao: ChatDao,
     private val messageDao: MessageDao,
     private val prefsDataStore: UserPreferencesDataStore
 ) : ChatRepository {
 
-    private val gson = Gson()
+    private val gson = com.google.gson.GsonBuilder()
+        .registerTypeAdapter(
+            com.aei.chatbot.data.remote.model.Message::class.java,
+            com.aei.chatbot.data.remote.model.MessageSerializer()
+        )
+        .create()
 
     private fun buildClient(settings: AppSettings) = RetrofitClient(
         serverIp = settings.serverIp,
@@ -125,11 +140,11 @@ class ChatRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun streamMessage(settings: AppSettings, messages: List<ChatMessage>): Flow<ApiResult<String>> = channelFlow {
+    override fun streamMessage(settings: AppSettings, messages: List<ChatMessage>, imageUri: android.net.Uri?): Flow<ApiResult<String>> = channelFlow {
         send(ApiResult.Loading)
         try {
             val client = buildClient(settings)
-            val apiMessages = buildApiMessages(settings, messages)
+            val apiMessages = buildApiMessages(settings, messages, imageUri, context)
             if (apiMessages.isEmpty()) {
                 send(ApiResult.Error("No messages to send."))
                 return@channelFlow
@@ -215,11 +230,11 @@ class ChatRepositoryImpl @Inject constructor(
         }
     }.catch { e -> emit(ApiResult.Error(e.message ?: "Unexpected error.")) }
 
-    override suspend fun sendMessage(settings: AppSettings, messages: List<ChatMessage>): ApiResult<String> =
+    override suspend fun sendMessage(settings: AppSettings, messages: List<ChatMessage>, imageUri: android.net.Uri?): ApiResult<String> =
         withContext(Dispatchers.IO) {
             try {
                 val client = buildClient(settings)
-                val apiMessages = buildApiMessages(settings, messages)
+                val apiMessages = buildApiMessages(settings, messages, imageUri, context)
                 if (apiMessages.isEmpty()) return@withContext ApiResult.Error("No messages to send.")
                 val request = ChatRequest(
                     model = settings.selectedModel,
@@ -264,12 +279,56 @@ class ChatRepositoryImpl @Inject constructor(
             is ApiResult.Loading -> ApiResult.Error("Unexpected state.")
         }
 
-    private fun buildApiMessages(settings: AppSettings, messages: List<ChatMessage>): List<Message> {
+    private fun buildApiMessages(
+        settings: AppSettings,
+        messages: List<ChatMessage>,
+        pendingImageUri: Uri? = null,
+        context: Context? = null
+    ): List<Message> {
         val result = mutableListOf<Message>()
-        if (settings.systemPrompt.isNotBlank()) result.add(Message(Constants.ROLE_SYSTEM, settings.systemPrompt))
-        messages.filter { !it.isError && it.content.isNotBlank() }.forEach { result.add(Message(it.role, it.content)) }
-        if (result.isEmpty() && settings.systemPrompt.isNotBlank()) result.add(Message(Constants.ROLE_SYSTEM, settings.systemPrompt))
+        if (settings.systemPrompt.isNotBlank()) result.add(textMessage(Constants.ROLE_SYSTEM, settings.systemPrompt))
+
+        val filtered = messages.filter { !it.isError && it.content.isNotBlank() }
+        filtered.forEachIndexed { idx, msg ->
+            // Attach the pending image to the last user message
+            val isLastUser = msg.role == Constants.ROLE_USER && idx == filtered.indexOfLast { it.role == Constants.ROLE_USER }
+            if (isLastUser && pendingImageUri != null && context != null) {
+                val base64 = encodeImageToBase64(context, pendingImageUri)
+                if (base64 != null) {
+                    result.add(visionMessage(msg.role, msg.content, base64))
+                } else {
+                    result.add(textMessage(msg.role, msg.content))
+                }
+            } else {
+                result.add(textMessage(msg.role, msg.content))
+            }
+        }
+
+        // Safety: if no user messages in result, something went wrong — log it
+        if (result.none { it.role == Constants.ROLE_USER }) {
+            android.util.Log.w("AeI", "buildApiMessages: no user messages! input size=${messages.size}")
+        }
+        if (result.isEmpty() && settings.systemPrompt.isNotBlank())
+            result.add(textMessage(Constants.ROLE_SYSTEM, settings.systemPrompt))
+        android.util.Log.d("AeI", "buildApiMessages: ${result.size} messages, hasImage=${pendingImageUri != null}")
         return result
+    }
+
+    private fun encodeImageToBase64(context: Context, uri: Uri): String? {
+        return try {
+            val stream = context.contentResolver.openInputStream(uri) ?: return null
+            val bitmap = BitmapFactory.decodeStream(stream)
+            stream.close()
+            val out = ByteArrayOutputStream()
+            // Resize to max 1024px to keep token count reasonable
+            val maxDim = 1024
+            val scaled = if (bitmap.width > maxDim || bitmap.height > maxDim) {
+                val ratio = minOf(maxDim.toFloat() / bitmap.width, maxDim.toFloat() / bitmap.height)
+                Bitmap.createScaledBitmap(bitmap, (bitmap.width * ratio).toInt(), (bitmap.height * ratio).toInt(), true)
+            } else bitmap
+            scaled.compress(Bitmap.CompressFormat.JPEG, 85, out)
+            Base64.encodeToString(out.toByteArray(), Base64.NO_WRAP)
+        } catch (_: Exception) { null }
     }
 
     private fun httpErrorMessage(code: Int): String = when (code) {

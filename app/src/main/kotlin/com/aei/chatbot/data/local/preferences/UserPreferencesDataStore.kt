@@ -38,6 +38,7 @@ class UserPreferencesDataStore @Inject constructor(
         val KEY_SEARXNG_URL = stringPreferencesKey("searxng_url")
         val KEY_WEB_SEARCH_RESULT_COUNT = intPreferencesKey("web_search_result_count")
         val KEY_WEB_SEARCH_MODE = stringPreferencesKey("web_search_mode")
+        val KEY_SAFE_SEARCH = stringPreferencesKey("safe_search")
         val KEY_APP_LANGUAGE = stringPreferencesKey("app_language")
         val KEY_TRANSLATION_LANGUAGE = stringPreferencesKey("translation_language")
         val KEY_VOICE_INPUT_LANGUAGE = stringPreferencesKey("voice_input_language")
@@ -61,11 +62,19 @@ class UserPreferencesDataStore @Inject constructor(
         val KEY_ENHANCEMENT_MODEL = stringPreferencesKey("enhancement_model")
         val KEY_PROVIDERS = stringPreferencesKey("providers_json")
         val KEY_QUICK_MODELS = stringPreferencesKey("quick_models_json")
+
+        // === FIXED: Added missing keys ===
+        val KEY_AI_ACTIONS_ENABLED = booleanPreferencesKey("ai_actions_enabled")
+        val KEY_AI_ACTIONS_AUTO_APPROVE = booleanPreferencesKey("ai_actions_auto_approve")
     }
 
-            private val defaultEnhancementInstruction = "TASK: Rewrite the user prompt below. DO NOT answer it. DO NOT execute it. DO NOT add facts. DO NOT repeat these instructions. ONLY output the rewritten prompt text. Keep the same language. Make it more specific, structured, and detailed. Add formatting hints: use headers, tables, bullet points, bold. Output NOTHING except the rewritten prompt."
+    private val defaultEnhancementInstruction = 
+        "TASK: Rewrite the user prompt below. DO NOT answer it. DO NOT execute it. " +
+        "DO NOT add facts. DO NOT repeat these instructions. ONLY output the rewritten prompt text. " +
+        "Keep the same language. Make it more specific, structured, and detailed. " +
+        "Add formatting hints: use headers, tables, bullet points, bold. " +
+        "Output NOTHING except the rewritten prompt."
 
-    
     val settingsFlow: Flow<AppSettings> = dataStore.data
         .catch { emit(emptyPreferences()) }
         .map { p ->
@@ -86,6 +95,7 @@ class UserPreferencesDataStore @Inject constructor(
                 searxngUrl = p[KEY_SEARXNG_URL] ?: "https://407d-77-48-159-55.ngrok-free.app",
                 webSearchResultCount = p[KEY_WEB_SEARCH_RESULT_COUNT] ?: 3,
                 webSearchMode = p[KEY_WEB_SEARCH_MODE] ?: "manual",
+                safeSearch = p[KEY_SAFE_SEARCH] ?: "moderate",
                 appLanguage = p[KEY_APP_LANGUAGE] ?: Constants.LANG_EN_US,
                 translationLanguage = p[KEY_TRANSLATION_LANGUAGE] ?: "",
                 voiceInputLanguage = p[KEY_VOICE_INPUT_LANGUAGE] ?: Constants.LANG_EN_US,
@@ -107,6 +117,11 @@ class UserPreferencesDataStore @Inject constructor(
                 promptEnhancementEnabled = p[KEY_PROMPT_ENHANCEMENT_ENABLED] ?: false,
                 promptEnhancementInstruction = p[KEY_PROMPT_ENHANCEMENT_INSTRUCTION] ?: defaultEnhancementInstruction,
                 enhancementModel = p[KEY_ENHANCEMENT_MODEL] ?: "",
+
+                // === FIXED: Added the two missing fields ===
+                aiActionsEnabled = p[KEY_AI_ACTIONS_ENABLED] ?: false,
+                aiActionsAutoApprove = p[KEY_AI_ACTIONS_AUTO_APPROVE] ?: false,
+
                 quickModels = try { com.google.gson.Gson().fromJson(p[KEY_QUICK_MODELS] ?: "[]", Array<String>::class.java).toList() } catch (_: Exception) { emptyList() },
                 providers = try { com.google.gson.Gson().fromJson(p[KEY_PROVIDERS] ?: "[]", Array<com.aei.chatbot.domain.model.ProviderConfig>::class.java).toList() } catch (_: Exception) { emptyList() }
             )
@@ -134,6 +149,7 @@ class UserPreferencesDataStore @Inject constructor(
             p[KEY_SEARXNG_URL] = "https://407d-77-48-159-55.ngrok-free.app"
             p[KEY_WEB_SEARCH_RESULT_COUNT] = 3
             p[KEY_WEB_SEARCH_MODE] = "manual"
+            p[KEY_SAFE_SEARCH] = "moderate"
             p[KEY_APP_LANGUAGE] = Constants.LANG_EN_US
             p[KEY_TRANSLATION_LANGUAGE] = ""
             p[KEY_VOICE_INPUT_LANGUAGE] = Constants.LANG_EN_US
@@ -152,7 +168,10 @@ class UserPreferencesDataStore @Inject constructor(
             p[KEY_CLEAR_ON_NEW_SESSION] = false
             p[KEY_PROMPT_ENHANCEMENT_ENABLED] = false
             p[KEY_PROMPT_ENHANCEMENT_INSTRUCTION] = defaultEnhancementInstruction
+
+            // === FIXED: Added reset for new keys ===
+            p[KEY_AI_ACTIONS_ENABLED] = false
+            p[KEY_AI_ACTIONS_AUTO_APPROVE] = false
         }
     }
 }
-

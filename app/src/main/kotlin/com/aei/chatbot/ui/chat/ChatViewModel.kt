@@ -24,7 +24,11 @@ import com.aei.chatbot.domain.usecase.LoadSettingsUseCase
 import com.aei.chatbot.domain.usecase.SaveSettingsUseCase
 import com.aei.chatbot.domain.usecase.SendMessageUseCase
 import com.aei.chatbot.domain.usecase.UpdateChatUseCase
+import com.aei.chatbot.util.AiActionExecutor
+import com.aei.chatbot.util.AiActionParser
 import com.aei.chatbot.util.Constants
+import com.aei.chatbot.domain.model.AiAction
+import com.aei.chatbot.domain.model.PendingAiAction
 import com.aei.chatbot.util.TranslationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -58,7 +62,9 @@ data class ChatUiState(
     val enhancedPrompt: String? = null,
     val editingMessageId: String? = null,
     val editingMessageContent: String = "",
-    val pendingImageUri: android.net.Uri? = null
+    val pendingImageUri: android.net.Uri? = null,
+    val pendingAiActions: List<PendingAiAction> = emptyList(),
+    val lastActionResult: String? = null
 )
 
 @HiltViewModel
@@ -92,10 +98,25 @@ class ChatViewModel @Inject constructor(
     private var initDone = false
 
     private val searchKeywords = listOf(
-        "latest", "current", "today", "now", "recent", "news", "price", "weather",
-        "score", "live", "trending", "update", "release", "version", "stock",
-        "winner", "result", "who won", "what is the", "how much", "where is",
-        "when did", "when is", "what happened", "2024", "2025", "2026"
+        // Time-sensitive queries
+        "latest", "current", "today", "now", "recent", "news", "live",
+        "trending", "update", "right now", "at the moment", "as of",
+        "this week", "this month", "this year", "yesterday",
+        // Prices & finance
+        "price", "stock", "crypto", "bitcoin", "ethereum", "market",
+        "rate", "exchange rate", "cost", "how much does", "how much is",
+        // Sports & events
+        "score", "winner", "result", "who won", "standings", "match",
+        "game today", "fixture", "league table",
+        // Tech releases
+        "release", "version", "update", "launch", "announce",
+        "new model", "new phone", "new iphone", "new android",
+        // General factual lookups
+        "weather", "forecast", "temperature",
+        "who is", "what is the", "where is", "when did", "when is",
+        "what happened", "how many", "population of", "capital of",
+        // Year hints
+        "2024", "2025", "2026", "2027"
     )
 
     private val defaultEnhancementInstruction = "TASK: Rewrite the user prompt below. DO NOT answer it. DO NOT execute it. DO NOT add facts. DO NOT repeat these instructions. ONLY output the rewritten prompt text. Keep the same language. Make it more specific, structured, and detailed. Add formatting hints: use headers, tables, bullet points, bold. Output NOTHING except the rewritten prompt."
@@ -257,28 +278,58 @@ class ChatViewModel @Inject constructor(
                 )
             }
 
+            // Capture and clear image before streaming
+            val capturedImageUri = _uiState.value.pendingImageUri
             _uiState.value = _uiState.value.copy(
                 isStreaming = true,
                 streamingMessage = "",
                 error = null,
                 lastSearchResults = emptyList(),
-                autoSearchTriggered = false
+                autoSearchTriggered = false,
+                pendingImageUri = null
             )
 
-            val currentMessages = _uiState.value.messages.filter { it.role != "enhanced" }
-            val apiMessages =
-                if (appSettings.promptEnhancementEnabled && processedInput != userInput.trim()) {
-                    val lastUserIndex = currentMessages.indexOfLast { it.role == Constants.ROLE_USER }
-                    if (lastUserIndex != -1) {
-                        currentMessages.toMutableList().also { list ->
-                            list[lastUserIndex] = list[lastUserIndex].copy(content = processedInput)
-                        }
-                    } else {
-                        currentMessages
+            // Build the conversation history directly — don't rely on the reactive DB flow
+            // which may not have emitted the new message yet (race condition).
+            // Take the current snapshot, add the user message we just inserted, then
+            // substitute enhanced content if needed.
+            val snapshotBeforeSend = _uiState.value.messages
+                .filter { it.role != "enhanced" && !it.isError }
+
+            // If the user message is already in the snapshot (flow was fast), use it.
+            // Otherwise append it manually so context is never empty.
+            val historyWithUser = if (snapshotBeforeSend.any { it.id == userMessage.id }) {
+                snapshotBeforeSend
+            } else {
+                snapshotBeforeSend + userMessage
+            }
+
+            val apiMessages = if (appSettings.promptEnhancementEnabled && processedInput != userInput.trim()) {
+                val lastUserIndex = historyWithUser.indexOfLast { it.role == Constants.ROLE_USER }
+                if (lastUserIndex != -1) {
+                    historyWithUser.toMutableList().also { list ->
+                        list[lastUserIndex] = list[lastUserIndex].copy(content = processedInput)
                     }
                 } else {
-                    currentMessages
+                    historyWithUser
                 }
+            } else {
+                historyWithUser
+            }
+
+            // Inject AI Actions system prompt when feature is enabled
+            val apiMessagesWithActions = if (appSettings.aiActionsEnabled &&
+                apiMessages.none { it.id == "ai_actions_system" }) {
+                listOf(ChatMessage(
+                    id = "ai_actions_system",
+                    chatId = currentChatId,
+                    role = Constants.ROLE_SYSTEM,
+                    content = AiActionParser.SYSTEM_PROMPT_INJECTION,
+                    timestamp = System.currentTimeMillis()
+                )) + apiMessages
+            } else {
+                apiMessages
+            }
 
             val manualSearch = _uiState.value.webSearchActive
             val autoSearch = shouldAutoSearch(processedInput, appSettings)
@@ -306,12 +357,12 @@ class ChatViewModel @Inject constructor(
                             content = webSearchService.formatResultsForPrompt(results),
                             timestamp = System.currentTimeMillis()
                         )
-                        listOf(searchMessage) + apiMessages
+                        listOf(searchMessage) + apiMessagesWithActions
                     } else {
-                        apiMessages
+                        apiMessagesWithActions
                     }
                 } else {
-                    apiMessages
+                    apiMessagesWithActions
                 }
 
             if (messagesWithSearch.none { !it.isError && it.content.isNotBlank() }) {
@@ -322,14 +373,14 @@ class ChatViewModel @Inject constructor(
                 return@launch
             }
 
-            streamResponse(appSettings, messagesWithSearch)
+            streamResponse(appSettings, messagesWithSearch, capturedImageUri)
         }
     }
 
-    private fun streamResponse(appSettings: AppSettings, messages: List<ChatMessage>) {
+    private fun streamResponse(appSettings: AppSettings, messages: List<ChatMessage>, imageUri: android.net.Uri? = null) {
         streamingJob = viewModelScope.launch {
             var accumulated = ""
-            sendMessageUseCase.stream(appSettings, messages).collectLatest { result ->
+            sendMessageUseCase.stream(appSettings, messages, imageUri).collectLatest { result ->
                 when (result) {
                     is ApiResult.Success -> {
                         accumulated += result.data
@@ -363,11 +414,58 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    fun approveAiAction(action: PendingAiAction) {
+        _uiState.value = _uiState.value.copy(
+            pendingAiActions = _uiState.value.pendingAiActions - action
+        )
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            val result = AiActionExecutor.execute(context, action.action)
+            val msg = when (result) {
+                is AiActionExecutor.Result.Success -> "✅ ${result.message}"
+                is AiActionExecutor.Result.Failure -> "❌ ${result.reason}"
+            }
+            _uiState.value = _uiState.value.copy(lastActionResult = msg)
+        }
+    }
+
+    fun rejectAiAction(action: PendingAiAction) {
+        _uiState.value = _uiState.value.copy(
+            pendingAiActions = _uiState.value.pendingAiActions - action,
+            lastActionResult = "Action cancelled."
+        )
+    }
+
+    fun dismissActionResult() {
+        _uiState.value = _uiState.value.copy(lastActionResult = null)
+    }
+
     private suspend fun finalizeAiMessage(content: String, appSettings: AppSettings) {
+        // Parse and strip AI action tags from visible response
+        val parseResult = if (appSettings.aiActionsEnabled) {
+            AiActionParser.parse(content)
+        } else {
+            AiActionParser.ParseResult(content, emptyList())
+        }
+        val visibleContent = parseResult.cleanText
+        val detectedActions = parseResult.actions
+
+        // Handle actions: auto-approve or queue for user approval
+        if (detectedActions.isNotEmpty() && appSettings.aiActionsEnabled) {
+            if (appSettings.aiActionsAutoApprove) {
+                detectedActions.forEach { pending ->
+                    AiActionExecutor.execute(context, pending.action)
+                }
+            } else {
+                _uiState.value = _uiState.value.copy(
+                    pendingAiActions = _uiState.value.pendingAiActions + detectedActions
+                )
+            }
+        }
+
         val translatedContent =
             if (appSettings.translationLanguage.isNotEmpty()) {
                 try {
-                    translationManager.translate(content, appSettings.translationLanguage)
+                    translationManager.translate(visibleContent, appSettings.translationLanguage)
                 } catch (_: Exception) {
                     null
                 }
@@ -380,13 +478,13 @@ class ChatViewModel @Inject constructor(
                 id = UUID.randomUUID().toString(),
                 chatId = currentChatId,
                 role = Constants.ROLE_ASSISTANT,
-                content = content,
+                content = visibleContent,
                 translatedContent = translatedContent,
                 timestamp = System.currentTimeMillis()
             )
         )
 
-        updateChatMetadata(content)
+        updateChatMetadata(visibleContent)
         _uiState.value = _uiState.value.copy(
             isStreaming = false,
             streamingMessage = "",

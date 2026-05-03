@@ -74,6 +74,7 @@ data class AppSettings(
     val searxngUrl: String = "https://407d-77-48-159-55.ngrok-free.app",
     val webSearchResultCount: Int = 3,
     val webSearchMode: String = "manual",
+    val safeSearch: String = "moderate",
     val defaultChatModel: String = "",
     val defaultToolsModel: String = "",
     val providers: List<ProviderConfig> = emptyList(),
@@ -98,7 +99,10 @@ data class AppSettings(
     val promptEnhancementEnabled: Boolean = false,
     val quickModels: List<String> = emptyList(),
     val enhancementModel: String = "",
-    val promptEnhancementInstruction: String = "Rewrite the following user message to be clearer, more detailed, and better structured for an AI assistant. Keep the original intent. Return ONLY the enhanced prompt, nothing else:"
+    val promptEnhancementInstruction: String = "Rewrite the following user message to be clearer, more detailed, and better structured for an AI assistant. Keep the original intent. Return ONLY the enhanced prompt, nothing else:",
+    // AI Actions (Beta)
+    val aiActionsEnabled: Boolean = false,
+    val aiActionsAutoApprove: Boolean = false
 )
 
 sealed class ApiResult<out T> {
@@ -111,4 +115,18 @@ data class WebSearchResult(
     val title: String,
     val url: String,
     val snippet: String
+)
+
+/** Represents an action the AI wants to perform on the device. */
+sealed class AiAction {
+    data class OpenApp(val packageName: String, val appLabel: String) : AiAction()
+    data class CreateFile(val fileName: String, val content: String, val mimeType: String = "text/plain") : AiAction()
+    data class OpenUrl(val url: String, val title: String = "") : AiAction()
+    data class OpenMap(val query: String, val label: String = "") : AiAction()
+}
+
+/** State of a pending AI action awaiting user approval. */
+data class PendingAiAction(
+    val action: AiAction,
+    val description: String
 )

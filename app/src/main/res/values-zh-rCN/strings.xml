@@ -2,38 +2,51 @@
 <resources>
     <string name="app_name">AeI</string>
     <string name="tagline">您的智能伴侣</string>
+
+    <!-- Onboarding -->
     <string name="onboarding_skip">跳过</string>
     <string name="onboarding_next">下一步</string>
     <string name="onboarding_get_started">开始使用</string>
     <string name="onboarding_page1_title">欢迎使用 AeI</string>
-    <string name="onboarding_page1_desc">您的个人 AI 助手，由 LM Studio 提供支持。</string>
+    <string name="onboarding_page1_desc">您的个人 AI 助手，由 LM Studio 驱动。聊天、探索并获取答案 — 全部在您的设备上完成。</string>
     <string name="onboarding_page2_title">连接到 LM Studio</string>
-    <string name="onboarding_page2_desc">AeI 连接到您本地的 LM Studio 实例。请确保 LM Studio 正在运行。</string>
+    <string name="onboarding_page2_desc">AeI 连接到您本地的 LM Studio 实例。请确保 LM Studio 正在运行并可在您的网络上访问。</string>
     <string name="onboarding_page3_title">设置您的语言</string>
-    <string name="onboarding_page3_desc">选择您喜欢的显示语言，并启用 AI 响应翻译。</string>
+    <string name="onboarding_page3_desc">选择您偏好的显示语言，并启用 AI 响应翻译以用任何语言进行交流。</string>
+
+    <!-- Chat -->
     <string name="chat_input_placeholder">给 AeI 发消息</string>
-    <string name="chat_empty_title">开始与 AeI 对话</string>
-    <string name="chat_empty_subtitle">尽情提问吧</string>
-    <string name="chat_new_session_confirm">开始新对话？当前对话将保存到历史记录中。</string>
+    <string name="chat_empty_title">与 AeI 开始对话</string>
+    <string name="chat_empty_subtitle">问我任何问题</string>
+    <string name="chat_new_session_confirm">开始新对话？当前对话将保存到历史记录。</string>
     <string name="chat_error_banner">无法连接到 LM Studio。请检查服务器设置。</string>
     <string name="chat_error_go_to_settings">前往设置</string>
     <string name="aei_is_thinking">AeI 正在思考</string>
     <string name="listening">正在聆听…</string>
+    <string name="microphone_permission_rationale">语音输入需要麦克风访问权限。请授予该权限。</string>
+    <string name="microphone_permission_denied">麦克风权限已被永久拒绝。请打开应用设置以启用。</string>
+    <string name="open_settings">打开设置</string>
     <string name="translated">已翻译</string>
     <string name="show_original">显示原文</string>
     <string name="show_translation">显示翻译</string>
     <string name="downloading_translation_model">正在下载翻译模型…</string>
     <string name="copy_code">复制</string>
+
+    <!-- Context Menu -->
     <string name="context_copy_text">复制文本</string>
     <string name="context_translate">翻译消息</string>
     <string name="context_delete">删除消息</string>
     <string name="context_share">分享消息</string>
-    <string name="history_title">聊天记录</string>
-    <string name="history_empty">没有历史聊天记录</string>
+
+    <!-- History -->
+    <string name="history_title">聊天历史</string>
+    <string name="history_empty">没有之前的聊天</string>
     <string name="history_search_hint">搜索聊天…</string>
     <string name="history_delete_snackbar">聊天已删除。撤销。</string>
     <string name="history_undo">撤销</string>
     <string name="history_messages">条消息</string>
+
+    <!-- Settings general -->
     <string name="settings_title">设置</string>
     <string name="settings_section_server">服务器连接</string>
     <string name="settings_server_ip">LM Studio 服务器 IP</string>
@@ -42,26 +55,26 @@
     <string name="settings_port">端口</string>
     <string name="settings_port_error">端口必须在 1 到 65535 之间</string>
     <string name="settings_api_endpoint">API 端点</string>
-    <string name="settings_api_endpoint_info">LM Studio 服务器上聊天完成端点的路径。</string>
-    <string name="settings_timeout">超时（秒）</string>
+    <string name="settings_api_endpoint_info">服务器上聊天完成端点的路径。</string>
+    <string name="settings_timeout">超时时间（秒）</string>
     <string name="settings_streaming">启用流式响应</string>
-    <string name="settings_streaming_desc">逐词流式传输 AI 响应</string>
+    <string name="settings_streaming_desc">逐个 token 流式传输 AI 响应</string>
     <string name="settings_test_connection">测试连接</string>
     <string name="settings_connected">已连接</string>
     <string name="settings_connection_failed">连接失败</string>
     <string name="settings_testing">测试中…</string>
     <string name="settings_select_model">选择模型</string>
-    <string name="settings_no_models">未找到模型 — 请检查连接</string>
+    <string name="settings_no_models">未找到模型 — 检查连接</string>
     <string name="settings_system_prompt">系统提示词</string>
-    <string name="settings_system_prompt_default">您是 AeI，一个乐于助人、友好且智能的 AI 助手。</string>
-    <string name="settings_system_prompt_info">此消息在每次对话开始时发送给 AI，以定义其行为。</string>
-    <string name="settings_max_tokens">最大响应词元数</string>
+    <string name="settings_system_prompt_default">您是 AeI，一个有帮助、友好且智能的 AI 助手。</string>
+    <string name="settings_system_prompt_info">此消息在每次对话开始时作为隐藏指令发送给 AI 模型。</string>
+    <string name="settings_max_tokens">最大响应 Token 数</string>
     <string name="settings_temperature">温度</string>
     <string name="settings_temperature_subtitle">创造力</string>
-    <string name="settings_temperature_desc">较低 = 更专注。较高 = 更具创意。</string>
+    <string name="settings_temperature_desc">越低 = 越专注。越高 = 越有创意。</string>
     <string name="settings_section_language">语言和翻译</string>
     <string name="settings_app_language">应用显示语言</string>
-    <string name="settings_translate_to">将 AI 响应翻译为</string>
+    <string name="settings_translate_to">翻译 AI 响应至</string>
     <string name="settings_voice_language">语音输入语言</string>
     <string name="settings_auto_detect">自动检测输入语言</string>
     <string name="settings_none">无</string>
@@ -71,7 +84,7 @@
     <string name="language_cs">Čeština</string>
     <string name="language_zh_cn">简体中文</string>
     <string name="settings_section_appearance">外观</string>
-    <string name="settings_theme_system">跟随系统</string>
+    <string name="settings_theme_system">系统默认</string>
     <string name="settings_theme_light">浅色</string>
     <string name="settings_theme_dark">深色</string>
     <string name="settings_dynamic_color">动态颜色</string>
@@ -79,22 +92,22 @@
     <string name="settings_bubble_style">聊天气泡样式</string>
     <string name="settings_bubble_rounded">圆角</string>
     <string name="settings_bubble_sharp">直角</string>
-    <string name="settings_bubble_minimal">极简</string>
+    <string name="settings_bubble_minimal">简约</string>
     <string name="settings_font_size">字体大小</string>
     <string name="settings_font_small">小</string>
     <string name="settings_font_medium">中</string>
     <string name="settings_font_large">大</string>
     <string name="settings_font_xl">特大</string>
-    <string name="settings_show_timestamps">显示消息时间戳</string>
+    <string name="settings_show_timestamps">显示消息时间</string>
     <string name="settings_show_avatars">在聊天中显示头像</string>
     <string name="settings_user_initials">用户头像首字母</string>
     <string name="settings_avatar_color">头像颜色</string>
-    <string name="settings_font_preview">人工智能助手 AeI 随时为您服务。</string>
+    <string name="settings_font_preview">敏捷的棕色狐狸跳过了懒惰的狗。</string>
     <string name="settings_section_notifications">通知和行为</string>
     <string name="settings_haptic">触觉反馈</string>
     <string name="settings_haptic_desc">发送和接收消息时振动</string>
     <string name="settings_sound">音效</string>
-    <string name="settings_sound_desc">发送和接收时播放细微声音</string>
+    <string name="settings_sound_desc">发送和接收时播放轻柔音效</string>
     <string name="settings_auto_scroll">自动滚动到底部</string>
     <string name="settings_auto_scroll_desc">自动滚动到最新消息</string>
     <string name="settings_clear_on_new">新会话时清除聊天</string>
@@ -108,7 +121,7 @@
     <string name="settings_clear_all_done">所有聊天已删除</string>
     <string name="settings_import_confirm">导入聊天？这可能会覆盖现有数据。</string>
     <string name="settings_import_invalid">备份文件格式无效</string>
-    <string name="settings_reset_settings">重置为默认设置</string>
+    <string name="settings_reset_settings">重置设置</string>
     <string name="settings_reset_confirm">将所有设置重置为默认值？</string>
     <string name="export_success">聊天已导出到下载文件夹</string>
     <string name="settings_section_about">关于</string>
@@ -119,28 +132,34 @@
     <string name="settings_version">版本</string>
     <string name="settings_build">构建</string>
     <string name="settings_api_key">API 密钥（可选）</string>
-    <string name="error_unknown_host">找不到 LM Studio 服务器。请检查 IP 地址。</string>
-    <string name="error_connection_refused">连接被拒绝。LM Studio 是否正在运行？</string>
-    <string name="error_timeout">连接超时。服务器可能很忙。</string>
+
+    <!-- Errors -->
+    <string name="error_unknown_host">找不到服务器。检查 IP 地址。</string>
+    <string name="error_connection_refused">连接被拒绝。LM Studio 正在运行吗？</string>
+    <string name="error_timeout">连接超时。服务器可能正忙。</string>
     <string name="error_ssl">安全连接错误。</string>
-    <string name="error_400">错误请求。请检查模型和参数。</string>
-    <string name="error_401">未授权。请检查您的 API 密钥。</string>
-    <string name="error_404">未找到端点。请检查 API 路径。</string>
-    <string name="error_429">请求过多。请稍等。</string>
-    <string name="error_500">LM Studio 内部错误。请检查服务器日志。</string>
-    <string name="error_503">LM Studio 服务不可用。</string>
+    <string name="error_400">请求错误。检查模型和参数。</string>
+    <string name="error_401">未授权。检查您的 API 密钥。</string>
+    <string name="error_404">端点未找到。检查 API 路径。</string>
+    <string name="error_429">请求太多。请稍候。</string>
+    <string name="error_500">服务器内部错误。检查日志。</string>
+    <string name="error_503">服务不可用。</string>
     <string name="error_empty_response">从服务器收到空响应。</string>
-    <string name="error_malformed_json">收到无效的响应格式。</string>
+    <string name="error_malformed_json">收到无效响应格式。</string>
     <string name="error_no_network">没有可用的网络连接。</string>
-    <string name="error_generic">发生意外错误。</string>
+    <string name="error_generic">发生了意外错误。</string>
+
+    <!-- Confirm / Dialog -->
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
     <string name="delete">删除</string>
-    <string name="ok">好的</string>
+    <string name="ok">确定</string>
     <string name="close">关闭</string>
+
+    <!-- Content Descriptions -->
     <string name="cd_translate">翻译</string>
-    <string name="cd_new_chat">新建聊天</string>
-    <string name="cd_history">聊天记录</string>
+    <string name="cd_new_chat">新聊天</string>
+    <string name="cd_history">聊天历史</string>
     <string name="cd_settings">设置</string>
     <string name="cd_voice_input">语音输入</string>
     <string name="cd_send">发送消息</string>
@@ -150,7 +169,230 @@
     <string name="cd_copy_code">复制代码</string>
     <string name="cd_aei_avatar">AeI 头像</string>
     <string name="cd_user_avatar">用户头像</string>
-    <string name="microphone_permission_rationale">语音输入需要麦克风权限。请授予权限以使用此功能。</string>
-    <string name="microphone_permission_denied">麦克风权限被永久拒绝。请在应用设置中启用它。</string>
-    <string name="open_settings">打开设置</string>
+    <string name="cd_web_search">网络搜索</string>
+
+    <!-- Connection / Provider -->
+    <string name="settings_use_ngrok">使用 ngrok 隧道</string>
+    <string name="settings_use_ngrok_desc">通过 ngrok URL 而非本地 IP 连接</string>
+    <string name="settings_ngrok_url">ngrok URL</string>
+    <string name="settings_ngrok_url_hint">例如 https://xxxx-xx-xx-xxx-xx.ngrok-free.app</string>
+    <string name="settings_ngrok_mode">Ngrok 模式</string>
+    <string name="settings_connection_mode">连接模式</string>
+    <string name="settings_conn_local">本地（LM Studio）</string>
+    <string name="settings_conn_ngrok">Ngrok 隧道</string>
+    <string name="settings_conn_cloud">云端 API</string>
+    <string name="settings_cloud_url">API 基础 URL</string>
+    <string name="settings_cloud_url_hint">例如 https://nim.api.nvidia.com</string>
+    <string name="settings_cloud_url_desc">兼容 NVIDIA NIM、OpenAI 或任何 OpenAI 兼容 API。</string>
+    <string name="settings_model_id">模型 ID</string>
+    <string name="settings_model_id_hint">例如 nicoboss/DeepSeek-R1-Distill-Qwen-32B-Uncensored</string>
+    <string name="settings_model_id_desc">输入您云端 API 提供商的确切模型 ID</string>
+    <string name="settings_connection_mode_label">连接模式</string>
+    <string name="settings_conn_local_label">本地（LM Studio）</string>
+    <string name="settings_conn_ngrok_label">Ngrok 隧道</string>
+    <string name="settings_conn_cloud_label">云端 API</string>
+    <string name="settings_api_endpoint_label">API 端点</string>
+    <string name="settings_api_endpoint_default">默认：v1/chat/completions</string>
+    <string name="settings_auth">认证</string>
+    <string name="settings_timeout_label">超时</string>
+    <string name="settings_options">选项</string>
+    <string name="settings_full_url_preview">完整请求 URL</string>
+    <string name="settings_api_host">API 主机</string>
+
+    <!-- Search tab -->
+    <string name="settings_section_websearch">网络搜索</string>
+    <string name="settings_web_search_enabled">启用网络搜索</string>
+    <string name="settings_web_search_enabled_desc">获取实时网络结果以增强 AI 回答</string>
+    <string name="settings_web_search_results">最大搜索结果数</string>
+    <string name="settings_searxng_url">SearXNG URL</string>
+    <string name="settings_searxng_url_hint">https://您的-searxng.example.com</string>
+    <string name="web_search_mode_on">下一条消息已启用网络搜索</string>
+    <string name="searching_web">正在搜索网络…</string>
+    <string name="sources_found">个来源</string>
+    <string name="settings_web_search_label">网络搜索</string>
+    <string name="settings_web_search_desc">允许 AI 搜索最新的网络信息</string>
+    <string name="settings_search_mode">搜索模式</string>
+    <string name="settings_search_manual">手动</string>
+    <string name="settings_search_manual_desc">仅在您点击聊天中的搜索按钮时</string>
+    <string name="settings_search_auto">自动</string>
+    <string name="settings_search_auto_desc">AI 自行决定何时搜索（即将推出）</string>
+    <string name="settings_searxng_instance">SearXNG 实例</string>
+    <string name="settings_searxng_format_note">必须支持 ?format=json 查询参数</string>
+    <string name="settings_result_settings">结果设置</string>
+    <string name="settings_max_results">每次搜索最大结果数</string>
+    <string name="settings_max_results_desc">注入 AI 上下文的结果数量</string>
+    <string name="settings_safe_search">安全搜索</string>
+    <string name="settings_safe_search_off">关闭</string>
+    <string name="settings_safe_search_moderate">适中</string>
+    <string name="settings_safe_search_strict">严格</string>
+    <string name="settings_how_it_works">工作原理</string>
+
+    <!-- Model tab -->
+    <string name="settings_model_management">模型管理</string>
+    <string name="settings_model_new">新建</string>
+    <string name="settings_model_fetch">获取</string>
+    <string name="settings_model_reset">重置</string>
+    <string name="settings_model_reset_title">重置模型</string>
+    <string name="settings_model_reset_body">删除所有已配置的模型？此操作无法撤销。</string>
+    <string name="settings_model_search">搜索模型</string>
+    <string name="settings_model_search_hint">按名称或模型 ID 搜索…</string>
+    <string name="settings_model_active">活动模型</string>
+    <string name="settings_model_current_id">当前模型 ID</string>
+    <string name="settings_quick_models">快速模型</string>
+    <string name="settings_quick_models_desc">在此添加模型以在聊天中快速切换。有 2 个以上模型时显示。</string>
+    <string name="settings_quick_model_id_label">要添加的模型 ID</string>
+    <string name="settings_quick_model_id_hint">例如 gpt-4o 或从列表中选择</string>
+    <string name="settings_quick_add_from">从已配置的模型中快速添加：</string>
+    <string name="settings_quick_add_hint">添加 2 个或更多模型以在聊天中启用快速模型切换。</string>
+    <string name="settings_configured_models">已配置模型</string>
+    <string name="settings_model_active_badge">活动</string>
+    <string name="settings_model_select">选择</string>
+    <string name="settings_model_edit">编辑</string>
+    <string name="settings_model_test">测试</string>
+    <string name="settings_model_quick_add">+ 快速</string>
+    <string name="settings_model_quick_active">⚡ 快速</string>
+    <string name="settings_model_no_configured">未配置模型</string>
+    <string name="settings_model_no_results">未找到匹配模型</string>
+    <string name="settings_model_add_hint">点击新建手动添加，或点击获取从提供商加载</string>
+    <string name="settings_model_search_hint2">尝试不同的搜索词</string>
+    <string name="settings_model_add_title">添加模型</string>
+    <string name="settings_model_edit_title">编辑模型</string>
+    <string name="settings_model_display_name">显示名称</string>
+    <string name="settings_model_id_required">模型 ID *</string>
+    <string name="settings_model_context_tokens">上下文（token）</string>
+    <string name="settings_model_max_output">最大输出</string>
+    <string name="settings_model_capabilities">能力</string>
+    <string name="settings_model_cap_chat">聊天</string>
+    <string name="settings_model_cap_vision">视觉</string>
+    <string name="settings_model_cap_tools">工具</string>
+    <string name="settings_model_cap_images">图像生成</string>
+    <string name="settings_model_cap_audio">音频</string>
+    <string name="settings_model_temperature">温度</string>
+    <string name="settings_model_test_title">测试</string>
+    <string name="settings_model_test_sending">正在发送测试请求…</string>
+    <string name="settings_model_test_tap">点击测试检查连接。</string>
+    <string name="settings_model_test_again">再次测试</string>
+    <string name="settings_model_autodetect_applied">自动检测设置已应用：</string>
+
+    <!-- Chat tab -->
+    <string name="settings_persona">角色 / 系统提示词</string>
+    <string name="settings_system_prompt_label">系统提示词</string>
+    <string name="settings_conversation">对话行为</string>
+    <string name="settings_autoscroll">自动滚动到底部</string>
+    <string name="settings_autoscroll_desc">新 token 到达时自动向下滚动</string>
+    <string name="settings_clear_new_session">新会话时清除</string>
+    <string name="settings_clear_new_session_desc">开始新聊天时重置上下文</string>
+    <string name="settings_message_display">消息显示</string>
+    <string name="settings_show_timestamps_label">显示时间戳</string>
+    <string name="settings_show_timestamps_desc">在每条消息旁显示时间</string>
+    <string name="settings_show_avatars_label">显示头像</string>
+    <string name="settings_show_avatars_desc">在聊天中显示用户和 AI 头像</string>
+    <string name="settings_bubble_style_label">聊天气泡样式</string>
+    <string name="settings_feedback">反馈</string>
+    <string name="settings_haptic_label">触觉反馈</string>
+    <string name="settings_haptic_label_desc">发送和接收时振动</string>
+    <string name="settings_sound_label">音效</string>
+    <string name="settings_sound_label_desc">聊天事件播放轻柔音效</string>
+
+    <!-- General tab -->
+    <string name="settings_appearance">外观</string>
+    <string name="settings_theme">主题</string>
+    <string name="settings_your_avatar">您的头像</string>
+    <string name="settings_initials_label">首字母</string>
+    <string name="settings_language_translation">语言和翻译</string>
+    <string name="settings_translate_responses">翻译 AI 响应至</string>
+    <string name="settings_voice_input_language">语音输入语言</string>
+    <string name="settings_auto_detect_language">自动检测输入语言</string>
+    <string name="settings_auto_detect_language_desc">自动检测您消息的语言</string>
+    <string name="settings_data_storage">数据和存储</string>
+    <string name="settings_export_all">导出所有聊天</string>
+    <string name="settings_import">导入聊天</string>
+    <string name="settings_clear_all_chats">清除所有聊天</string>
+    <string name="settings_reset_label">重置</string>
+    <string name="settings_reset_all">将所有设置重置为默认值</string>
+
+    <!-- Features tab -->
+    <string name="settings_prompt_enhancement">✨ 提示词增强</string>
+    <string name="settings_prompt_enhancement_label">提示词增强</string>
+    <string name="settings_prompt_enhancement_active">活动 — 发送前重写提示词</string>
+    <string name="settings_prompt_enhancement_inactive">未激活</string>
+    <string name="settings_enhancement_model">增强模型</string>
+    <string name="settings_enhancement_model_desc">选择用于重写提示词的模型。留空则使用聊天模型。</string>
+    <string name="settings_enhancement_model_id">增强模型 ID</string>
+    <string name="settings_enhancement_model_hint">留空 = 使用聊天模型</string>
+    <string name="settings_enhancement_pick">或从已配置的模型中选择：</string>
+    <string name="settings_enhancement_instruction">增强说明</string>
+    <string name="settings_enhancement_instruction_label">自定义 AI 如何重写您的提示词。</string>
+    <string name="settings_enhancement_instruction_field">增强说明</string>
+    <string name="settings_enhancement_reset">重置为默认</string>
+    <string name="settings_enhancement_disabled_note">在上方启用提示词增强以配置此功能。注意：每条消息额外使用一次 AI 调用。</string>
+
+    <!-- About tab -->
+    <string name="settings_what_is_aei">什么是 AeI？</string>
+    <string name="settings_aei_description">AeI 是一款开源 Android AI 聊天机器人，可连接到任何 OpenAI 兼容 API — 包括 LM Studio（本地）、NVIDIA NIM 和云端提供商。</string>
+    <string name="settings_features_label">功能</string>
+    <string name="settings_tech_stack">技术栈</string>
+    <string name="settings_links">链接和支持</string>
+    <string name="settings_view_github">在 GitHub 上查看</string>
+    <string name="settings_github_desc">源代码和文档</string>
+    <string name="settings_report_issue">报告问题</string>
+    <string name="settings_legal">法律声明</string>
+    <string name="settings_legal_text">AI 生成的内容可能不准确、不完整或具有误导性。AeI 不对第三方 AI 模型生成的内容负责。请始终从权威来源核实重要信息。</string>
+    <string name="settings_credits">致谢</string>
+    <string name="settings_built_with">用 ❤️ 和开源库构建。</string>
+
+    <!-- Tabs -->
+    <string name="tab_provider">提供商</string>
+    <string name="tab_model">模型</string>
+    <string name="tab_search">搜索</string>
+    <string name="tab_chat">聊天</string>
+    <string name="tab_general">通用</string>
+    <string name="tab_about">关于</string>
+    <string name="tab_features">功能</string>
+
+    <!-- Misc -->
+    <string name="thinking_label">思考过程</string>
+    <string name="thinking_streaming">思考中\u2026</string>
+    <string name="model_added">模型已添加</string>
+    <string name="model_updated">模型已更新</string>
+    <string name="model_deleted">模型已删除</string>
+    <string name="models_reset">提供商模型已重置</string>
+    <string name="import_coming_soon">导入功能即将推出</string>
+    <string name="export_failed">导出失败</string>
+
+    <string name="search_auto_badge">自动</string>
+    <string name="search_auto_desc_full">当您的消息包含时效性关键词（新闻、价格、天气、比分…）时自动搜索</string>
+    <string name="features_beta_title">Beta 功能</string>
+    <string name="features_beta_body">提示词增强是实验性功能，效果并不总是令人满意。结果很大程度上取决于所用模型 — 较小或指令微调的模型通常会忽略重写指令，可能产生意外输出。请自行承担风险，在大多数对话中保持关闭状态。</string>
+    <string name="features_active_beta">活动 (Beta) — 发送前重写提示词</string>
+    <string name="copied">已复制</string>
+
+
+    <string name="tab_beta_features">Beta</string>
+    <string name="settings_ai_actions_title">AI 操作</string>
+    <string name="settings_ai_actions_beta_body">AI 操作允许 AI 在您要求时在您的设备上打开应用、创建文件和打开 URL。每个操作都需要您的批准，除非启用了自动批准。</string>
+    <string name="settings_ai_actions_enable">启用 AI 操作</string>
+    <string name="settings_ai_actions_enable_desc_on">AI 可以在您要求时打开应用、创建文件和 URL</string>
+    <string name="settings_ai_actions_enable_desc_off">允许 AI 在您要求时与设备交互</string>
+    <string name="settings_ai_actions_auto_approve">自动批准操作</string>
+    <string name="settings_ai_actions_auto_approve_on">⚡ 操作立即执行无需询问</string>
+    <string name="settings_ai_actions_auto_approve_off">每个操作执行前需要您批准</string>
+    <string name="settings_ai_actions_what">AI 能做什么</string>
+    <string name="ai_action_open_app">打开应用</string>
+    <string name="ai_action_open_app_ex">例如"打开 YouTube"</string>
+    <string name="ai_action_create_file">创建文件</string>
+    <string name="ai_action_create_file_ex">例如"将这个保存为 notes.txt"</string>
+    <string name="ai_action_open_url">打开网址</string>
+    <string name="ai_action_open_url_ex">例如"打开 google.com"</string>
+    <string name="action_dialog_title">AeI 想要执行一个操作</string>
+    <string name="action_dialog_subtitle">允许前请审查</string>
+    <string name="action_dialog_hint">可以在 Beta 功能设置中启用自动批准</string>
+    <string name="action_deny">拒绝</string>
+    <string name="action_allow">允许</string>
+    <string name="action_badge_app">打开应用</string>
+    <string name="action_badge_file">创建文件</string>
+    <string name="action_badge_url">打开网址</string>
+
+    <string name="image_attached_label">已附加图片</string>
+    <string name="image_will_be_sent">图片将与您的消息一起发送</string>
 </resources>

@@ -58,13 +58,13 @@ fun SettingsScreen(
     var selectedTab by remember { mutableIntStateOf(0) }
 
     val tabs = listOf(
-        SettingsTab("Provider", Icons.Default.Cloud),
-        SettingsTab("Model",    Icons.Default.SmartToy),
-        SettingsTab("Search",   Icons.Default.Search),
-        SettingsTab("Chat",     Icons.Default.Chat),
-        SettingsTab("General",  Icons.Default.Settings),
-        SettingsTab("About",    Icons.Default.Info),
-        SettingsTab("Features", Icons.Default.AutoAwesome)
+        SettingsTab(stringResource(R.string.tab_provider), Icons.Default.Cloud),
+        SettingsTab(stringResource(R.string.tab_model),    Icons.Default.SmartToy),
+        SettingsTab(stringResource(R.string.tab_search),   Icons.Default.Search),
+        SettingsTab(stringResource(R.string.tab_chat),     Icons.Default.Chat),
+        SettingsTab(stringResource(R.string.tab_general),  Icons.Default.Settings),
+        SettingsTab(stringResource(R.string.tab_about),    Icons.Default.Info),
+        SettingsTab(stringResource(R.string.tab_beta_features), Icons.Default.AutoAwesome)
     )
 
     LaunchedEffect(uiState.snackbarMessage) {
@@ -266,7 +266,7 @@ fun ProviderTab(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             Icon(
-                                Icons.Default.OpenInBrowser,
+                                Icons.Default.OpenInNew,
                                 null,
                                 Modifier.size(16.dp),
                                 tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
@@ -290,7 +290,7 @@ fun ProviderTab(
             }
         }
 
-        SectionHeader("API Endpoint", Icons.Default.Route)
+        SectionHeader("API Endpoint", Icons.Default.Directions)
 
         OutlinedTextField(
             value = settings.apiEndpoint,
@@ -454,11 +454,12 @@ fun ModelTab(
         )
     }
     if (showTestDialog && testingModel != null) {
+        val testSuccess = uiState.testModelResult.startsWith("Connected")
         AlertDialog(
             onDismissRequest = { showTestDialog = false; testingModel = null },
             title = { Text("Test · ${testingModel!!.displayName}", fontWeight = FontWeight.SemiBold) },
             text = {
-                Column {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     if (uiState.isTestingModel) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                             CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
@@ -466,6 +467,29 @@ fun ModelTab(
                         }
                     } else {
                         Text(uiState.testModelResult.ifBlank { "Tap Test to check connectivity." })
+                    }
+                    // Auto-apply info card shown after a successful test
+                    if (testSuccess && !uiState.isTestingModel) {
+                        HorizontalDivider()
+                        Text(
+                            "Auto-detected settings applied:",
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        val m = testingModel!!
+                        Text("• Context: ${if (m.contextWindow > 0) m.contextWindow.toString() + " tokens" else "unknown"}",
+                            style = MaterialTheme.typography.bodySmall)
+                        Text("• Max Output: ${if (m.maxOutputTokens > 0) m.maxOutputTokens.toString() + " tokens" else "unknown"}",
+                            style = MaterialTheme.typography.bodySmall)
+                        val caps = buildList {
+                            if (m.capabilities.chat)            add("Chat")
+                            if (m.capabilities.vision)          add("Vision")
+                            if (m.capabilities.tools)           add("Tools")
+                            if (m.capabilities.imageGeneration) add("Images")
+                            if (m.capabilities.audio)           add("Audio")
+                        }
+                        Text("• Capabilities: ${if (caps.isEmpty()) "Chat" else caps.joinToString()}",
+                            style = MaterialTheme.typography.bodySmall)
                     }
                 }
             },
@@ -694,10 +718,15 @@ fun ModelTab(
                 ModelCard(
                     model = model,
                     isSelected = settings.selectedModel == model.modelId,
+                    isQuick    = model.modelId in settings.quickModels,
                     onSelect = { viewModel.updateSelectedModel(model.modelId) },
                     onEdit = { editingModel = model },
                     onDelete = { viewModel.deleteModel(model.id) },
-                    onTest = { testingModel = model; showTestDialog = true; viewModel.testModel(model) }
+                    onTest = { testingModel = model; showTestDialog = true; viewModel.testModel(model) },
+                    onQuick = {
+                        if (model.modelId in settings.quickModels) viewModel.removeQuickModel(model.modelId)
+                        else viewModel.addQuickModel(model.modelId)
+                    }
                 )
             }
         } else {
@@ -717,10 +746,12 @@ fun ModelTab(
 fun ModelCard(
     model      : com.aei.chatbot.domain.model.ModelConfig,
     isSelected : Boolean,
+    isQuick    : Boolean,
     onSelect   : () -> Unit,
     onEdit     : () -> Unit,
     onDelete   : () -> Unit,
-    onTest     : () -> Unit
+    onTest     : () -> Unit,
+    onQuick    : () -> Unit
 ) {
     val cardColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer
     else MaterialTheme.colorScheme.surfaceVariant
@@ -822,6 +853,20 @@ fun ModelCard(
                 TextButton(onClick = onSelect) { Text("Select", fontSize = 12.sp) }
                 TextButton(onClick = onEdit)   { Text("Edit",   fontSize = 12.sp) }
                 TextButton(onClick = onTest)   { Text("Test",   fontSize = 12.sp) }
+                TextButton(
+                    onClick = onQuick,
+                    colors  = ButtonDefaults.textButtonColors(
+                        contentColor = if (isQuick) MaterialTheme.colorScheme.primary
+                                       else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    )
+                ) {
+                    Icon(
+                        if (isQuick) Icons.Default.FlashOn else Icons.Default.FlashOff,
+                        null, Modifier.size(14.dp)
+                    )
+                    Spacer(Modifier.width(2.dp))
+                    Text(if (isQuick) "⚡ Quick" else "+ Quick", fontSize = 12.sp)
+                }
                 Spacer(Modifier.weight(1f))
                 IconButton(onClick = onDelete, modifier = Modifier.size(36.dp)) {
                     Icon(Icons.Default.DeleteOutline, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.error)
@@ -994,7 +1039,7 @@ fun WebSearchTab(
         SectionHeader("Web Search", Icons.Default.Language)
         ToggleRow(
             label    = stringResource(R.string.settings_web_search_enabled),
-            description = "Let the AI search the web for up-to-date information",
+            description = stringResource(R.string.settings_web_search_desc),
             checked  = settings.webSearchEnabled,
             onChange = viewModel::updateWebSearchEnabled,
             icon     = Icons.Default.TravelExplore
@@ -1013,23 +1058,22 @@ fun WebSearchTab(
                 ) {
                     Column(Modifier.padding(4.dp)) {
                         SearchModeRow(
-                            title       = "Manual",
-                            description = "Only when you tap the search button in chat",
+                            title       = stringResource(R.string.settings_search_manual),
+                            description = stringResource(R.string.settings_search_manual_desc),
                             selected    = settings.webSearchMode == "manual",
                             onClick     = { viewModel.updateWebSearchMode("manual") }
                         )
                         HorizontalDivider(Modifier.padding(horizontal = 8.dp))
                         SearchModeRow(
-                            title       = "Auto",
-                            description = "AI decides when to search (coming soon)",
+                            title       = stringResource(R.string.settings_search_auto),
+                            description = stringResource(R.string.search_auto_desc_full),
                             selected    = settings.webSearchMode == "auto",
-                            onClick     = { viewModel.updateWebSearchMode("auto") },
-                            disabled    = true
+                            onClick     = { viewModel.updateWebSearchMode("auto") }
                         )
                     }
                 }
 
-                SectionHeader("SearXNG Instance", Icons.Default.StoreMallDirectory)
+                SectionHeader("SearXNG Instance", Icons.Default.ShoppingCart)
                 OutlinedTextField(
                     value         = settings.searxngUrl,
                     onValueChange = viewModel::updateSearxngUrl,
@@ -1039,7 +1083,7 @@ fun WebSearchTab(
                     singleLine    = true,
                     shape         = RoundedCornerShape(12.dp),
                     leadingIcon   = { Icon(Icons.Default.Search, null) },
-                    supportingText = { Text("Must support ?format=json query parameter") }
+                    supportingText = { Text(stringResource(R.string.settings_searxng_format_note)) }
                 )
 
                 SectionHeader("Result Settings", Icons.Default.FilterList)
@@ -1055,9 +1099,9 @@ fun WebSearchTab(
 
                 SectionHeader("Safe Search", Icons.Default.Shield)
                 val safeSearchOptions = listOf(
-                    "off"      to "Off",
-                    "moderate" to "Moderate",
-                    "strict"   to "Strict"
+                    "off"      to stringResource(R.string.settings_safe_search_off),
+                    "moderate" to stringResource(R.string.settings_safe_search_moderate),
+                    "strict"   to stringResource(R.string.settings_safe_search_strict)
                 )
                 Row(
                     modifier             = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
@@ -1065,9 +1109,8 @@ fun WebSearchTab(
                 ) {
                     safeSearchOptions.forEach { (key, label) ->
                         FilterChip(
-                            selected = "moderate" == key,
-                            // FIX: was hardcoded to "moderate"; now wired to settings & viewModel
-                            onClick  = { /* safe search coming soon */ },
+                            selected = settings.safeSearch == key,
+                            onClick  = { viewModel.updateSafeSearch(key) },
                             label    = { Text(label) },
                             modifier = Modifier.weight(1f)
                         )
@@ -1186,43 +1229,13 @@ fun ChatSettingsTab(
             }
         }
 
-        SectionHeader("Response Parameters", Icons.Default.Tune)
-        SliderRow(
-            label    = "Max Output Tokens",
-            subLabel = "Maximum length of each AI response",
-            value    = settings.maxTokens.toFloat(),
-            range    = Constants.MIN_TOKENS.toFloat()..Constants.MAX_TOKENS.toFloat(),
-            display  = formatTokenCount(settings.maxTokens),
-            onChange = {
-                val snapped = (it / Constants.TOKEN_STEP).toInt() * Constants.TOKEN_STEP
-                viewModel.updateMaxTokens(snapped.coerceIn(Constants.MIN_TOKENS, Constants.MAX_TOKENS))
-            }
-        )
-        SliderRow(
-            label    = "Temperature",
-            subLabel = "Higher = more creative / Lower = more focused",
-            value    = settings.temperature,
-            range    = Constants.MIN_TEMP..Constants.MAX_TEMP,
-            display  = "%.1f".format(settings.temperature),
-            onChange = { viewModel.updateTemperature((it * 10).toInt() / 10f) }
-        )
-
-        SectionHeader("Streaming", Icons.Default.Stream)
-        ToggleRow(
-            label    = "Enable Streaming Responses",
-            description = "Show tokens as they arrive instead of waiting for completion",
-            checked  = settings.streamingEnabled,
-            onChange = viewModel::updateStreamingEnabled,
-            icon     = Icons.Default.Stream
-        )
-
         SectionHeader("Conversation Behaviour", Icons.Default.Forum)
         ToggleRow(
             label    = "Auto-scroll to Bottom",
             description = "Scroll down automatically as new tokens arrive",
             checked  = settings.autoScroll,
             onChange = viewModel::updateAutoScroll,
-            icon     = Icons.Default.KeyboardDoubleArrowDown
+            icon     = Icons.Default.KeyboardArrowDown
         )
         ToggleRow(
             label    = "Clear on New Session",
@@ -1429,7 +1442,7 @@ fun GeneralSettingsTab(
                 ) {
                     if (settings.avatarColor == colorName) {
                         Icon(
-                            Icons.Default.Check, null,
+                            Icons.Default.CheckCircle, null,
                             Modifier.align(Alignment.Center).size(18.dp),
                             tint = Color.White
                         )
@@ -1476,7 +1489,7 @@ fun GeneralSettingsTab(
             description = "Detect the language of your messages automatically",
             checked  = settings.autoDetectLanguage,
             onChange = viewModel::updateAutoDetectLanguage,
-            icon     = Icons.Default.GTranslate
+            icon     = Icons.Default.Translate
         )
 
         HorizontalDivider(Modifier.padding(vertical = 8.dp))
@@ -1543,6 +1556,37 @@ fun FeaturesTab(
 
         SectionHeader("✨ Prompt Enhancement", Icons.Default.AutoAwesome)
 
+        // Beta warning
+        Card(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+            colors   = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.35f)
+            ),
+            border   = BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha = 0.35f))
+        ) {
+            Row(
+                Modifier.padding(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment     = Alignment.Top
+            ) {
+                Text("⚠️", fontSize = 18.sp)
+                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                    Text(
+                        stringResource(R.string.features_beta_title),
+                        style      = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Bold,
+                        color      = MaterialTheme.colorScheme.error
+                    )
+                    Text(
+                        stringResource(R.string.features_beta_body),
+                        style     = MaterialTheme.typography.bodySmall,
+                        color     = MaterialTheme.colorScheme.onErrorContainer,
+                        lineHeight = 18.sp
+                    )
+                }
+            }
+        }
+
         // Feature toggle card
         Card(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
@@ -1577,7 +1621,7 @@ fun FeaturesTab(
                     Column {
                         Text("Prompt Enhancement", fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.bodyLarge)
                         Text(
-                            if (settings.promptEnhancementEnabled) "Active — rewriting prompts before send"
+                            if (settings.promptEnhancementEnabled) stringResource(R.string.features_active_beta)
                             else "Inactive",
                             style = MaterialTheme.typography.bodySmall,
                             color = if (settings.promptEnhancementEnabled) MaterialTheme.colorScheme.primary
@@ -1608,7 +1652,7 @@ fun FeaturesTab(
             exit    = shrinkVertically() + fadeOut()
         ) {
             Column {
-                SectionHeader("Enhancement Instruction", Icons.Default.EditNote)
+                SectionHeader("Enhancement Instruction", Icons.Default.Edit)
 
                 SectionHeader("Enhancement Model", Icons.Default.SmartToy)
                 Text(
@@ -1715,7 +1759,111 @@ fun FeaturesTab(
             }
         }
 
+        // ── AI Actions ────────────────────────────────────────────────────────
+        Spacer(Modifier.height(8.dp))
+        SectionHeader("🤖 AI Actions", Icons.Default.PlayArrow)
+
+        Card(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+            colors   = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.22f)
+            ),
+            border   = BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha = 0.22f))
+        ) {
+            Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.Top) {
+                Text("⚠️", fontSize = 18.sp)
+                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                    Text("Beta Feature", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.error)
+                    Text(
+                        "AI Actions lets the AI open apps, create files, and open URLs on your device when you ask it to. Each action requires your approval (unless auto-approve is on). Results depend on the model quality.",
+                        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onErrorContainer, lineHeight = 18.sp
+                    )
+                }
+            }
+        }
+
+        Card(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+            colors   = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Column {
+                Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text("Enable AI Actions", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                            if (settings.aiActionsEnabled) {
+                                Surface(color = Color(0xFF4CAF50).copy(alpha = 0.15f), shape = RoundedCornerShape(4.dp)) {
+                                    Text("ACTIVE", Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                                        style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = Color(0xFF4CAF50))
+                                }
+                            }
+                        }
+                        Text(
+                            if (settings.aiActionsEnabled) "AI can open apps, create files, and open URLs when asked"
+                            else "Allow the AI to interact with your device when asked",
+                            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f)
+                        )
+                    }
+                    Switch(checked = settings.aiActionsEnabled, onCheckedChange = { viewModel.updateAiActionsEnabled(it) })
+                }
+
+                AnimatedVisibility(visible = settings.aiActionsEnabled) {
+                    Column {
+                        HorizontalDivider(Modifier.padding(horizontal = 16.dp))
+                        Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                    Icon(Icons.Default.FlashOn, null, Modifier.size(15.dp),
+                                        tint = if (settings.aiActionsAutoApprove) Color(0xFFFFB300) else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+                                    Text("Auto-Approve Actions", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Medium)
+                                }
+                                Text(
+                                    if (settings.aiActionsAutoApprove) "⚡ Actions run instantly without asking you"
+                                    else "You approve each action before it runs",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = if (settings.aiActionsAutoApprove) Color(0xFFFFB300).copy(alpha = 0.8f) else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                                )
+                            }
+                            Switch(
+                                checked = settings.aiActionsAutoApprove,
+                                onCheckedChange = { viewModel.updateAiActionsAutoApprove(it) },
+                                colors = SwitchDefaults.colors(checkedThumbColor = Color(0xFFFFB300), checkedTrackColor = Color(0xFFFFB300).copy(alpha = 0.4f))
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        // Capability cards
+        Card(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+            colors   = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text("What AI can do", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                AiCapRow(Icons.Default.OpenInNew,       Color(0xFF4CAF50), "Open App",     "e.g. 'Open Viber' or 'Launch Spotify'")
+                AiCapRow(Icons.Default.Place,           Color(0xFF00BCD4), "Open Map",     "e.g. 'Find nearest pharmacy' or 'Show Eiffel Tower'")
+                AiCapRow(Icons.Default.InsertDriveFile, Color(0xFF2196F3), "Create File",  "e.g. 'Save this as notes.txt in Downloads'")
+                AiCapRow(Icons.Default.Language,        Color(0xFFFF9800), "Open URL",     "e.g. 'Open google.com' or 'Go to GitHub'")
+            }
+        }
+
         Spacer(Modifier.height(32.dp))
+    }
+}
+
+@Composable
+private fun AiCapRow(icon: ImageVector, color: Color, title: String, example: String) {
+    Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Box(
+            Modifier.size(32.dp).background(color.copy(alpha = 0.12f), RoundedCornerShape(8.dp)),
+            contentAlignment = Alignment.Center
+        ) { Icon(icon, null, Modifier.size(16.dp), tint = color) }
+        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(title, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
+            Text(example, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+        }
     }
 }
 
@@ -1850,11 +1998,11 @@ fun AboutTab(context: android.content.Context) {
             }
         }
 
-        SectionHeader("Links & Support", Icons.Default.OpenInBrowser)
+        SectionHeader("Links & Support", Icons.Default.OpenInNew)
         ListItem(
             headlineContent  = { Text("View on GitHub") },
             supportingContent = { Text("Source code & documentation") },
-            leadingContent   = { Icon(Icons.Default.OpenInBrowser, null, tint = MaterialTheme.colorScheme.primary) },
+            leadingContent   = { Icon(Icons.Default.OpenInNew, null, tint = MaterialTheme.colorScheme.primary) },
             modifier         = Modifier.clickable {
                 runCatching {
                     context.startActivity(
@@ -1876,7 +2024,7 @@ fun AboutTab(context: android.content.Context) {
             }
         )
 
-        SectionHeader("Legal Disclaimer", Icons.Default.GppMaybe)
+        SectionHeader("Legal Disclaimer", Icons.Default.Shield)
         Card(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
             colors   = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.25f)),
@@ -2190,11 +2338,10 @@ fun DropdownSettingRow(
                     text          = { Text(name) },
                     onClick       = { onSelect(key); expanded = false },
                     trailingIcon  = if (key == selectedKey) ({
-                        Icon(Icons.Default.Check, null, tint = MaterialTheme.colorScheme.primary)
+                        Icon(Icons.Default.CheckCircle, null, tint = MaterialTheme.colorScheme.primary)
                     }) else null
                 )
             }
         }
     }
 }
-

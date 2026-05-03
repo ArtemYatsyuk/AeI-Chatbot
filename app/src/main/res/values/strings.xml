@@ -196,4 +196,220 @@
     <string name="settings_model_id_hint">e.g. nicoboss/DeepSeek-R1-Distill-Qwen-32B-Uncensored</string>
     <string name="settings_model_id_desc">Enter the exact model ID from your cloud API provider</string>
     <string name="sources_found">sources found</string>
+
+    <!-- Settings — Model tab -->
+    <string name="settings_model_management">Model Management</string>
+    <string name="settings_model_new">NEW</string>
+    <string name="settings_model_fetch">FETCH</string>
+    <string name="settings_model_reset">RESET</string>
+    <string name="settings_model_reset_title">Reset Models</string>
+    <string name="settings_model_reset_body">Remove all configured models? This cannot be undone.</string>
+    <string name="settings_model_search">Search Models</string>
+    <string name="settings_model_search_hint">Search by name or model ID…</string>
+    <string name="settings_model_active">Active Model</string>
+    <string name="settings_model_current_id">Current Model ID</string>
+    <string name="settings_quick_models">Quick Models</string>
+    <string name="settings_quick_models_desc">Add models here for fast switching in the chat. The quick-select appears when you have 2+ models.</string>
+    <string name="settings_quick_model_id_label">Model ID to add</string>
+    <string name="settings_quick_model_id_hint">e.g. gpt-4o or pick from list</string>
+    <string name="settings_quick_add_from">Quick add from configured models:</string>
+    <string name="settings_quick_add_hint">Add 2 or more models above to enable quick model switching in chat.</string>
+    <string name="settings_configured_models">Configured Models</string>
+    <string name="settings_model_active_badge">ACTIVE</string>
+    <string name="settings_model_select">Select</string>
+    <string name="settings_model_edit">Edit</string>
+    <string name="settings_model_test">Test</string>
+    <string name="settings_model_quick_add">+ Quick</string>
+    <string name="settings_model_quick_active">⚡ Quick</string>
+    <string name="settings_model_no_configured">No models configured</string>
+    <string name="settings_model_no_results">No models match</string>
+    <string name="settings_model_add_hint">Tap NEW to add manually or FETCH to load from provider</string>
+    <string name="settings_model_search_hint2">Try a different search term</string>
+    <string name="settings_model_add_title">Add Model</string>
+    <string name="settings_model_edit_title">Edit Model</string>
+    <string name="settings_model_display_name">Display Name</string>
+    <string name="settings_model_id_required">Model ID *</string>
+    <string name="settings_model_context_tokens">Context (tokens)</string>
+    <string name="settings_model_max_output">Max Output</string>
+    <string name="settings_model_capabilities">Capabilities</string>
+    <string name="settings_model_cap_chat">Chat</string>
+    <string name="settings_model_cap_vision">Vision</string>
+    <string name="settings_model_cap_tools">Tools</string>
+    <string name="settings_model_cap_images">Images</string>
+    <string name="settings_model_cap_audio">Audio</string>
+    <string name="settings_model_temperature">Temperature</string>
+    <string name="settings_model_test_title">Test</string>
+    <string name="settings_model_test_sending">Sending test request…</string>
+    <string name="settings_model_test_tap">Tap Test to check connectivity.</string>
+    <string name="settings_model_test_again">Test Again</string>
+    <string name="settings_model_autodetect_applied">Auto-detected settings applied:</string>
+
+    <!-- Settings — Provider tab -->
+    <string name="settings_connection_mode_label">Connection Mode</string>
+    <string name="settings_conn_local_label">Local (LM Studio)</string>
+    <string name="settings_conn_ngrok_label">Ngrok Tunnel</string>
+    <string name="settings_conn_cloud_label">Cloud API</string>
+    <string name="settings_api_endpoint_label">API Endpoint</string>
+    <string name="settings_api_endpoint_default">Default: v1/chat/completions</string>
+    <string name="settings_auth">Authentication</string>
+    <string name="settings_timeout_label">Timeout</string>
+    <string name="settings_options">Options</string>
+    <string name="settings_full_url_preview">Full request URL</string>
+    <string name="settings_api_host">API Host</string>
+
+    <!-- Settings — Search tab -->
+    <string name="settings_web_search_label">Web Search</string>
+    <string name="settings_web_search_desc">Let the AI search the web for up-to-date information</string>
+    <string name="settings_search_mode">Search Mode</string>
+    <string name="settings_search_manual">Manual</string>
+    <string name="settings_search_manual_desc">Only when you tap the search button in chat</string>
+    <string name="settings_search_auto">Auto</string>
+    <string name="settings_search_auto_desc">AI decides when to search (coming soon)</string>
+    <string name="settings_searxng_instance">SearXNG Instance</string>
+    <string name="settings_searxng_format_note">Must support ?format=json query parameter</string>
+    <string name="settings_result_settings">Result Settings</string>
+    <string name="settings_max_results">Max Results Per Search</string>
+    <string name="settings_max_results_desc">How many results are injected into AI context</string>
+    <string name="settings_safe_search">Safe Search</string>
+    <string name="settings_safe_search_off">Off</string>
+    <string name="settings_safe_search_moderate">Moderate</string>
+    <string name="settings_safe_search_strict">Strict</string>
+    <string name="settings_how_it_works">How It Works</string>
+
+    <!-- Settings — Chat tab -->
+    <string name="settings_persona">Persona / System Prompt</string>
+    <string name="settings_system_prompt_label">System Prompt</string>
+    <string name="settings_conversation">Conversation Behaviour</string>
+    <string name="settings_autoscroll">Auto-scroll to Bottom</string>
+    <string name="settings_autoscroll_desc">Scroll down automatically as new tokens arrive</string>
+    <string name="settings_clear_new_session">Clear on New Session</string>
+    <string name="settings_clear_new_session_desc">Reset context when starting a new chat</string>
+    <string name="settings_message_display">Message Display</string>
+    <string name="settings_show_timestamps_label">Show Timestamps</string>
+    <string name="settings_show_timestamps_desc">Display time next to each message</string>
+    <string name="settings_show_avatars_label">Show Avatars</string>
+    <string name="settings_show_avatars_desc">Show user and AI avatar icons in chat</string>
+    <string name="settings_bubble_style_label">Chat Bubble Style</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_haptic_label">Haptic Feedback</string>
+    <string name="settings_haptic_label_desc">Vibrate on send and receive</string>
+    <string name="settings_sound_label">Sound Effects</string>
+    <string name="settings_sound_label_desc">Play subtle sounds for chat events</string>
+
+    <!-- Settings — General tab -->
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_your_avatar">Your Avatar</string>
+    <string name="settings_initials_label">Initials</string>
+    <string name="settings_language_translation">Language &amp; Translation</string>
+    <string name="settings_translate_responses">Translate AI Responses To</string>
+    <string name="settings_voice_input_language">Voice Input Language</string>
+    <string name="settings_auto_detect_language">Auto-Detect Input Language</string>
+    <string name="settings_auto_detect_language_desc">Detect the language of your messages automatically</string>
+    <string name="settings_data_storage">Data &amp; Storage</string>
+    <string name="settings_export_all">Export All Chats</string>
+    <string name="settings_import">Import Chats</string>
+    <string name="settings_clear_all_chats">Clear All Chats</string>
+    <string name="settings_reset_label">Reset</string>
+    <string name="settings_reset_all">Reset All Settings to Default</string>
+
+    <!-- Settings — Features tab -->
+    <string name="settings_prompt_enhancement">✨ Prompt Enhancement</string>
+    <string name="settings_prompt_enhancement_label">Prompt Enhancement</string>
+    <string name="settings_prompt_enhancement_active">Active — rewriting prompts before send</string>
+    <string name="settings_prompt_enhancement_inactive">Inactive</string>
+    <string name="settings_enhancement_model">Enhancement Model</string>
+    <string name="settings_enhancement_model_desc">Choose which model rewrites your prompts. Leave empty to use the same model as chat.</string>
+    <string name="settings_enhancement_model_id">Enhancement Model ID</string>
+    <string name="settings_enhancement_model_hint">Leave empty = use chat model</string>
+    <string name="settings_enhancement_pick">Or pick from configured models:</string>
+    <string name="settings_enhancement_instruction">Enhancement Instruction</string>
+    <string name="settings_enhancement_instruction_label">Customize how the AI rewrites your prompts.</string>
+    <string name="settings_enhancement_instruction_field">Enhancement Instruction</string>
+    <string name="settings_enhancement_reset">Reset to Default</string>
+    <string name="settings_enhancement_disabled_note">Enable Prompt Enhancement above to configure this feature. Note: it uses one extra AI call per message.</string>
+
+    <!-- Settings — About tab -->
+    <string name="settings_what_is_aei">What is AeI?</string>
+    <string name="settings_aei_description">AeI is an open-source Android AI chatbot that connects to any OpenAI-compatible API — including LM Studio (local), NVIDIA NIM, and cloud providers. Chat with powerful language models, use real-time web search, and fully customize your experience.</string>
+    <string name="settings_features_label">Features</string>
+    <string name="settings_tech_stack">Technology Stack</string>
+    <string name="settings_links">Links &amp; Support</string>
+    <string name="settings_view_github">View on GitHub</string>
+    <string name="settings_github_desc">Source code &amp; documentation</string>
+    <string name="settings_report_issue">Report an Issue</string>
+    <string name="settings_legal">Legal Disclaimer</string>
+    <string name="settings_legal_text">AI-generated content may be inaccurate, incomplete, or misleading. AeI is not responsible for content generated by third-party AI models or APIs. Always verify important information from authoritative sources. Use AeI responsibly.</string>
+    <string name="settings_credits">Credits</string>
+    <string name="settings_built_with">Built with ❤️ using open source libraries.</string>
+
+    <!-- Tabs -->
+    <string name="tab_provider">Provider</string>
+    <string name="tab_model">Model</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_chat">Chat</string>
+    <string name="tab_general">General</string>
+    <string name="tab_about">About</string>
+    <string name="tab_features">Features</string>
+
+    <!-- Misc snackbars -->
+    <string name="model_added">Model added</string>
+    <string name="model_updated">Model updated</string>
+    <string name="model_deleted">Model deleted</string>
+    <string name="models_reset">Provider models reset</string>
+    <string name="import_coming_soon">Import feature coming soon</string>
+    <string name="export_failed">Export failed</string>
+
+
+    <!-- Auto search / search results card -->
+    <string name="search_auto_badge">AUTO</string>
+    <string name="search_sources_found">%d sources found</string>
+    <string name="search_auto_desc_full">Automatically searches when your message contains time-sensitive keywords (news, price, weather, score…)</string>
+
+    <!-- Features tab beta -->
+    <string name="features_beta_title">Beta Feature</string>
+    <string name="features_beta_body">Prompt Enhancement is experimental and does not always work well. Results depend heavily on the model used — smaller or instruction-tuned models often ignore the rewriting instruction and may produce unexpected output. Use at your own risk and keep it disabled for most conversations.</string>
+    <string name="features_active_beta">Active (Beta) — rewriting prompts before send</string>
+
+    <!-- Model test result -->
+    <string name="model_test_connected">Connected! Context: %1$s, Max Output: %2$s, Capabilities auto-applied.</string>
+    <string name="model_test_error">Error: %s</string>
+    <string name="model_test_sending_label">Sending test request…</string>
+
+    <!-- Copied feedback -->
+    <string name="copied">Copied</string>
+
+
+    <!-- Beta Features tab -->
+    <string name="tab_beta_features">Beta</string>
+    <string name="settings_ai_actions_title">AI Actions</string>
+    <string name="settings_ai_actions_beta_body">AI Actions lets the AI open apps, create files, and open URLs on your device when you ask it to. Each action requires your approval unless auto-approve is on.</string>
+    <string name="settings_ai_actions_enable">Enable AI Actions</string>
+    <string name="settings_ai_actions_enable_desc_on">AI can open apps, create files, and open URLs when asked</string>
+    <string name="settings_ai_actions_enable_desc_off">Allow the AI to interact with your device when asked</string>
+    <string name="settings_ai_actions_auto_approve">Auto-Approve Actions</string>
+    <string name="settings_ai_actions_auto_approve_on">⚡ Actions run instantly without asking you</string>
+    <string name="settings_ai_actions_auto_approve_off">You approve each action before it runs</string>
+    <string name="settings_ai_actions_what">What AI can do</string>
+    <string name="ai_action_open_app">Open App</string>
+    <string name="ai_action_open_app_ex">e.g. "Open YouTube" or "Launch Spotify"</string>
+    <string name="ai_action_create_file">Create File</string>
+    <string name="ai_action_create_file_ex">e.g. "Save this as notes.txt in Downloads"</string>
+    <string name="ai_action_open_url">Open URL</string>
+    <string name="ai_action_open_url_ex">e.g. "Open google.com" or "Go to GitHub"</string>
+    <!-- Approval dialog -->
+    <string name="action_dialog_title">AeI wants to perform an action</string>
+    <string name="action_dialog_subtitle">Review before allowing</string>
+    <string name="action_dialog_hint">You can enable auto-approve in Beta Features settings</string>
+    <string name="action_deny">Deny</string>
+    <string name="action_allow">Allow</string>
+    <string name="action_badge_app">Open App</string>
+    <string name="action_badge_file">Create File</string>
+    <string name="action_badge_url">Open URL</string>
+
+
+    <!-- Image sending -->
+    <string name="image_attached_label">Image attached</string>
+    <string name="image_will_be_sent">Image will be sent with your message</string>
+
 </resources>

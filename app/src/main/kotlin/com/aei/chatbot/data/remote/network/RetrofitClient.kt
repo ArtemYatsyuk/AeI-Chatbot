@@ -3,6 +3,9 @@
 import com.aei.chatbot.BuildConfig
 import com.aei.chatbot.data.remote.api.LmStudioApiService
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.aei.chatbot.data.remote.model.MessageSerializer
+import com.aei.chatbot.data.remote.model.Message
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,32 +25,37 @@ class RetrofitClient(
     private val isNgrok = connectionMode == "ngrok" && remoteUrl.contains("ngrok", ignoreCase = true)
 
     private val cleanRemoteUrl = remoteUrl.trim().trimEnd('/')
-        .let { if (!it.startsWith("http")) "https://$it" else it }
+        .let { if (it.isNotBlank() && !it.startsWith("http")) "https://$it" else it }
 
     private val cleanEndpoint = apiEndpoint.trim().trimStart('/')
         .ifBlank { "v1/chat/completions" }
 
+    // If remoteUrl already ends with the endpoint path, don't append again
+    private fun buildChatUrl(base: String): String {
+        val ep = cleanEndpoint
+        return if (base.endsWith(ep) || base.endsWith(ep.trimStart('/'))) base
+        else "$base/$ep"
+    }
+
+    private val localBase = "http://$serverIp:$serverPort"
+
     private val baseUrl: String = when (connectionMode) {
-        "ngrok", "cloud" -> "$cleanRemoteUrl/"
-        else -> "http://$serverIp:$serverPort/"
+        "ngrok", "cloud" -> if (cleanRemoteUrl.isNotBlank()) "$cleanRemoteUrl/" else "$localBase/"
+        else -> "$localBase/"
     }
 
     val chatCompletionUrl: String = when (connectionMode) {
-        "ngrok", "cloud" -> "$cleanRemoteUrl/$cleanEndpoint"
-        else -> "http://$serverIp:$serverPort/$cleanEndpoint"
+        "ngrok", "cloud" -> if (cleanRemoteUrl.isNotBlank()) buildChatUrl(cleanRemoteUrl) else buildChatUrl(localBase)
+        else -> buildChatUrl(localBase)
     }
 
-    val modelsUrl: String = when (connectionMode) {
-        "ngrok", "cloud" -> {
-            val parts = cleanEndpoint.split("/")
-            val prefix = if (parts.size >= 2) parts[0] else "v1"
-            "$cleanRemoteUrl/$prefix/models"
+    val modelsUrl: String = run {
+        val versionPrefix = cleanEndpoint.split("/").firstOrNull()?.takeIf { it.matches(Regex("""v\d+""")) } ?: "v1"
+        val base = when (connectionMode) {
+            "ngrok", "cloud" -> if (cleanRemoteUrl.isNotBlank()) cleanRemoteUrl else localBase
+            else -> localBase
         }
-        else -> {
-            val parts = cleanEndpoint.split("/")
-            val prefix = if (parts.size >= 2) parts[0] else "v1"
-            "http://$serverIp:$serverPort/$prefix/models"
-        }
+        "$base/$versionPrefix/models"
     }
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -59,7 +67,6 @@ class RetrofitClient(
         val builder = chain.request().newBuilder()
         if (apiKey.isNotBlank()) builder.addHeader("Authorization", "Bearer $apiKey")
         if (isNgrok) builder.addHeader("ngrok-skip-browser-warning", "true")
-        // Cloud APIs use standard JSON accept
         chain.proceed(builder.build())
     }
 
@@ -74,7 +81,12 @@ class RetrofitClient(
     val apiService: LmStudioApiService = Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(okHttpClient)
-        .addConverterFactory(GsonConverterFactory.create(Gson()))
+        .addConverterFactory(GsonConverterFactory.create(
+            GsonBuilder()
+                .setLenient()
+                .registerTypeAdapter(Message::class.java, MessageSerializer())
+                .create()
+        ))
         .build()
         .create(LmStudioApiService::class.java)
 }

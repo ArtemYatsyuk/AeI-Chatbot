@@ -73,6 +73,9 @@ class SettingsViewModel @Inject constructor(
     fun updateWebSearchMode(m: String) = update { it.copy(webSearchMode = m) }
     fun updateSearxngUrl(url: String) = update { it.copy(searxngUrl = url) }
     fun updateWebSearchResultCount(c: Int) = update { it.copy(webSearchResultCount = c) }
+    fun updateSafeSearch(s: String) = update { it.copy(safeSearch = s) }
+    fun updateAiActionsEnabled(v: Boolean)     = update { it.copy(aiActionsEnabled = v) }
+    fun updateAiActionsAutoApprove(v: Boolean)  = update { it.copy(aiActionsAutoApprove = v) }
     fun updateAppLanguage(l: String) = update { it.copy(appLanguage = l) }
     fun updateTranslationLanguage(l: String) = update { it.copy(translationLanguage = l) }
     fun updateVoiceInputLanguage(l: String) = update { it.copy(voiceInputLanguage = l) }
@@ -125,7 +128,7 @@ class SettingsViewModel @Inject constructor(
             s.copy(providers = updatedProviders)
         }
         _uiState.update { it.copy(showAddModelDialog = false, editingModel = null) }
-        _uiState.update { it.copy(snackbarMessage = "Model added: ${model.displayName}") }
+        _uiState.update { it.copy(snackbarMessage = context.getString(com.aei.chatbot.R.string.model_added) + ": ${model.displayName}") }
     }
 
     fun updateModel(model: ModelConfig) {
@@ -135,7 +138,7 @@ class SettingsViewModel @Inject constructor(
             })
         }
         _uiState.update { it.copy(showEditModelDialog = false, editingModel = null) }
-        _uiState.update { it.copy(snackbarMessage = "Model updated: ${model.displayName}") }
+        _uiState.update { it.copy(snackbarMessage = context.getString(com.aei.chatbot.R.string.model_updated) + ": ${model.displayName}") }
     }
 
     fun deleteModel(modelId: String) {
@@ -144,16 +147,33 @@ class SettingsViewModel @Inject constructor(
                 provider.copy(models = provider.models.filter { m -> m.id != modelId })
             })
         }
-        _uiState.update { it.copy(snackbarMessage = "Model deleted") }
+        _uiState.update { it.copy(snackbarMessage = context.getString(com.aei.chatbot.R.string.model_deleted)) }
     }
 
     fun testModel(model: ModelConfig) {
         viewModelScope.launch {
             _uiState.update { it.copy(showTestModelDialog = true, isTestingModel = true, testModelResult = "") }
-            when (val result = translateUseCase.testConnection(settings.value)) {
-                is ApiResult.Success -> _uiState.update {
-                    it.copy(isTestingModel = false,
-                        testModelResult = "Connected! Model '${model.displayName}' is reachable.")
+            // Use a real chat completion with the specific model ID to verify it actually exists
+            val testSettings = settings.value.copy(
+                selectedModel = model.modelId,
+                streamingEnabled = false,
+                maxTokens = 8
+            )
+            when (val result = translateUseCase.sendTestMessage(testSettings)) {
+                is ApiResult.Success -> {
+                    val guessedCaps = guessCapabilities(model.modelId)
+                    val guessedCtx  = guessContextWindow(model.modelId)
+                    val guessedOut  = guessMaxOutput(model.modelId)
+                    val updated = model.copy(
+                        capabilities    = guessedCaps,
+                        contextWindow   = guessedCtx,
+                        maxOutputTokens = guessedOut
+                    )
+                    updateModel(updated)
+                    _uiState.update {
+                        it.copy(isTestingModel = false,
+                            testModelResult = "Connected! Context: ${guessedCtx.toKStr()}, Max Output: ${guessedOut.toKStr()}, Capabilities auto-applied for '${model.displayName}'.")
+                    }
                 }
                 is ApiResult.Error -> _uiState.update {
                     it.copy(isTestingModel = false, testModelResult = "Error: ${result.message}")
@@ -163,11 +183,134 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    private fun Int.toKStr(): String = if (this >= 1_000) "${this / 1_000}K" else "$this"
+
+    /** Guess context window (tokens) from model ID. */
+    private fun guessContextWindow(modelId: String): Int {
+        val l = modelId.lowercase()
+        return when {
+            // Explicit token count hints in model name
+            l.contains("1m")                               -> 1_000_000
+            l.contains("512k")                             -> 524_288
+            l.contains("256k")                             -> 262_144
+            l.contains("200k")                             -> 204_800
+            l.contains("128k")                             -> 131_072
+            l.contains("100k")                             -> 102_400
+            l.contains("64k")                              -> 65_536
+            l.contains("32k")                              -> 32_768
+            l.contains("16k")                              -> 16_384
+            l.contains("8k")                               -> 8_192
+            l.contains("4k")                               -> 4_096
+            // Anthropic
+            l.contains("claude-3-5") || l.contains("claude-3.5") -> 200_000
+            l.contains("claude-3")                         -> 200_000
+            l.contains("claude-2")                         -> 100_000
+            l.contains("claude")                           -> 100_000
+            // OpenAI
+            l.contains("gpt-4o")                           -> 128_000
+            l.contains("gpt-4-turbo")                      -> 128_000
+            l.contains("gpt-4")                            -> 128_000
+            l.contains("gpt-3.5-turbo")                    -> 16_385
+            l.contains("o1") || l.contains("o3")           -> 200_000
+            // Google
+            l.contains("gemini-2.0") || l.contains("gemini-2")    -> 1_000_000
+            l.contains("gemini-1.5")                       -> 1_000_000
+            l.contains("gemini-1.0") || l.contains("gemini")      -> 32_760
+            // Meta Llama
+            l.contains("llama-3.2") || l.contains("llama3.2")     -> 131_072
+            l.contains("llama-3.1") || l.contains("llama3.1")     -> 131_072
+            l.contains("llama-3")   || l.contains("llama3")       -> 8_192
+            l.contains("llama-2")   || l.contains("llama2")       -> 4_096
+            l.contains("llama")                            -> 4_096
+            // Mistral / Mixtral
+            l.contains("mistral-large")                    -> 131_072
+            l.contains("mistral-nemo")                     -> 128_000
+            l.contains("mistral-7b") || l.contains("mixtral")     -> 32_768
+            l.contains("mistral")                          -> 32_768
+            l.contains("codestral")                        -> 32_768
+            // Qwen
+            l.contains("qwen2.5") || l.contains("qwen-2.5")       -> 131_072
+            l.contains("qwen2")    || l.contains("qwen-2")        -> 131_072
+            l.contains("qwen")                             -> 32_768
+            // DeepSeek
+            l.contains("deepseek-r1")                      -> 65_536
+            l.contains("deepseek-v3") || l.contains("deepseek-v2") -> 131_072
+            l.contains("deepseek")                         -> 32_768
+            // Phi
+            l.contains("phi-4")                            -> 16_384
+            l.contains("phi-3.5")                          -> 131_072
+            l.contains("phi-3")                            -> 131_072
+            l.contains("phi-2")                            -> 2_048
+            l.contains("phi")                              -> 4_096
+            // Cohere
+            l.contains("command-r-plus")                   -> 128_000
+            l.contains("command-r")                        -> 128_000
+            l.contains("command")                          -> 4_096
+            // Yi
+            l.contains("yi-34b") || l.contains("yi-9b")   -> 200_000
+            l.contains("yi")                               -> 4_096
+            // Gemma
+            l.contains("gemma-2")                          -> 8_192
+            l.contains("gemma")                            -> 8_192
+            // NVIDIA / NIM
+            l.contains("nemotron")                         -> 4_096
+            // Falcon
+            l.contains("falcon")                           -> 4_096
+            // Solar
+            l.contains("solar")                            -> 4_096
+            // Vicuna / Alpaca
+            l.contains("vicuna") || l.contains("alpaca")   -> 4_096
+            else                                           -> 4_096
+        }
+    }
+
+    /** Guess max output tokens from model ID. */
+    private fun guessMaxOutput(modelId: String): Int {
+        val l = modelId.lowercase()
+        return when {
+            l.contains("claude-3-5") || l.contains("claude-3.5") -> 8_192
+            l.contains("claude-3")                         -> 4_096
+            l.contains("claude")                           -> 4_096
+            l.contains("gpt-4o-mini")                      -> 16_384
+            l.contains("gpt-4o")                           -> 16_384
+            l.contains("gpt-4-turbo")                      -> 4_096
+            l.contains("gpt-4")                            -> 4_096
+            l.contains("gpt-3.5")                          -> 4_096
+            l.contains("o1") || l.contains("o3")           -> 65_536
+            l.contains("gemini-2")                         -> 8_192
+            l.contains("gemini-1.5")                       -> 8_192
+            l.contains("gemini")                           -> 2_048
+            l.contains("llama-3.1") || l.contains("llama3.1") -> 8_192
+            l.contains("llama-3.2") || l.contains("llama3.2") -> 8_192
+            l.contains("llama-3")   || l.contains("llama3")   -> 4_096
+            l.contains("llama")                            -> 2_048
+            l.contains("mistral-large")                    -> 8_192
+            l.contains("mistral-nemo")                     -> 8_192
+            l.contains("mixtral")                          -> 4_096
+            l.contains("mistral")                          -> 4_096
+            l.contains("qwen2.5") || l.contains("qwen-2.5")   -> 8_192
+            l.contains("qwen2")    || l.contains("qwen-2")    -> 8_192
+            l.contains("qwen")                             -> 2_048
+            l.contains("deepseek-r1")                      -> 16_384
+            l.contains("deepseek-v3")                      -> 8_192
+            l.contains("deepseek")                         -> 4_096
+            l.contains("phi-4")                            -> 4_096
+            l.contains("phi-3.5")                          -> 4_096
+            l.contains("phi-3")                            -> 4_096
+            l.contains("phi")                              -> 2_048
+            l.contains("command-r")                        -> 4_096
+            l.contains("nemotron")                         -> 4_096
+            l.contains("gemma-2")                          -> 8_192
+            l.contains("gemma")                            -> 4_096
+            else                                           -> 2_048
+        }
+    }
+
     fun dismissTestModelDialog() = _uiState.update { it.copy(showTestModelDialog = false, testModelResult = "") }
 
     fun resetProviderModels() {
         update { it.copy(providers = emptyList()) }
-        _uiState.update { it.copy(snackbarMessage = "Provider models reset") }
+        _uiState.update { it.copy(snackbarMessage = context.getString(com.aei.chatbot.R.string.models_reset)) }
     }
 
     fun fetchModels() = loadModels()
@@ -241,15 +384,74 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Comprehensive capability detection from model ID.
+     * Covers LM Studio local models, OpenAI, Anthropic, Google, Mistral, Meta,
+     * Qwen, DeepSeek, NVIDIA NIM, and generic patterns.
+     */
     private fun guessCapabilities(modelId: String): ModelCapabilities {
-        val lower = modelId.lowercase()
+        val l = modelId.lowercase()
+
+        // Vision / multimodal — any model that can accept image input
+        val vision = l.contains("vision") || l.contains("-vl") || l.contains("_vl") ||
+            l.contains("visual") || l.contains("multimodal") || l.contains("omni") ||
+            l.contains("llava") || l.contains("bakllava") || l.contains("moondream") ||
+            l.contains("minicpm-v") || l.contains("cogvlm") || l.contains("internvl") ||
+            l.contains("phi-3-vision") || l.contains("phi-4-vision") ||
+            l.contains("gpt-4o") || l.contains("gpt-4-turbo") || // GPT-4o & turbo are multimodal
+            l.contains("claude-3") ||                             // all Claude 3+ are multimodal
+            l.contains("gemini") ||                               // all Gemini are multimodal
+            l.contains("pixtral") ||                              // Mistral multimodal
+            l.contains("qwen-vl") || l.contains("qwenvl") ||
+            l.contains("qwen2-vl") || l.contains("qwen2vl") ||
+            l.contains("llama-3.2") && (l.contains("11b") || l.contains("90b")) || // Llama 3.2 vision variants
+            l.contains("llama3.2") && (l.contains("11b") || l.contains("90b")) ||
+            l.contains("deepseek-vl") || l.contains("janus") ||
+            l.contains("molmo") || l.contains("idefics") ||
+            l.contains("smolvlm") || l.contains("paligemma")
+
+        // Image generation
+        val imageGen = l.contains("dall-e") || l.contains("dalle") ||
+            l.contains("sdxl") || l.contains("stable-diffusion") ||
+            l.contains("imagen") || l.contains("flux") ||
+            l.contains("midjourney") || l.contains("kandinsky") ||
+            l.contains("wuerstchen") || l.contains("aura-flow")
+
+        // Audio (speech-to-text or text-to-speech)
+        val audio = l.contains("whisper") || l.contains("tts") ||
+            l.contains("speech") || l.contains("audio") ||
+            l.contains("voicebox") || l.contains("musicgen") ||
+            l.contains("bark") || l.contains("seamless")
+
+        // Tool / function calling
+        val tools = l.contains("instruct") || l.contains("function") ||
+            l.contains("tools") || l.contains("tool-use") ||
+            l.contains("agent") || l.contains("hermes") ||
+            l.contains("gorilla") || l.contains("functionary") ||
+            l.contains("nexusraven") || l.contains("toolbench") ||
+            l.contains("gpt-4") ||   // all GPT-4 variants support tools
+            l.contains("gpt-3.5-turbo") ||
+            l.contains("claude-3") ||
+            l.contains("gemini-1.5") || l.contains("gemini-2") ||
+            l.contains("mistral-large") || l.contains("mixtral") ||
+            l.contains("qwen2.5") || l.contains("qwen-2.5") ||
+            l.contains("llama-3.1") || l.contains("llama-3.2") ||
+            l.contains("llama3.1") || l.contains("llama3.2") ||
+            l.contains("command-r") || l.contains("deepseek-v") ||
+            l.contains("nemotron") || l.contains("solar")
+
+        // Web browsing (built-in search)
+        val web = l.contains("browse") || l.contains("perplexity") ||
+            l.contains("search") || l.contains("internet") ||
+            l.contains("you.com") || l.contains("webgpt")
+
         return ModelCapabilities(
             chat = true,
-            vision = lower.contains("vision") || lower.contains("vl") || lower.contains("visual"),
-            imageGeneration = lower.contains("dall") || lower.contains("sdxl") || lower.contains("imagen"),
-            audio = lower.contains("whisper") || lower.contains("tts") || lower.contains("audio"),
-            tools = lower.contains("function") || lower.contains("tools") || lower.contains("instruct"),
-            webBrowsing = lower.contains("browse") || lower.contains("web")
+            vision = vision,
+            imageGeneration = imageGen,
+            audio = audio,
+            tools = tools,
+            webBrowsing = web
         )
     }
 
@@ -265,7 +467,7 @@ class SettingsViewModel @Inject constructor(
                 f.writeText(json)
                 _uiState.update { it.copy(snackbarMessage = "${context.getString(com.aei.chatbot.R.string.export_success)}: ${f.name}") }
             } catch (e: Exception) {
-                _uiState.update { it.copy(snackbarMessage = "Export failed: ${e.message}") }
+                _uiState.update { it.copy(snackbarMessage = context.getString(com.aei.chatbot.R.string.export_failed) + ": ${e.message}") }
             }
         }
     }
@@ -280,7 +482,7 @@ class SettingsViewModel @Inject constructor(
     fun resetSettings() { viewModelScope.launch { saveSettingsUseCase.reset() } }
 
     fun importChats() {
-        _uiState.update { it.copy(snackbarMessage = "Import feature coming soon") }
+        _uiState.update { it.copy(snackbarMessage = context.getString(com.aei.chatbot.R.string.import_coming_soon)) }
     }
 
     fun dismissSnackbar() { _uiState.update { it.copy(snackbarMessage = null) } }

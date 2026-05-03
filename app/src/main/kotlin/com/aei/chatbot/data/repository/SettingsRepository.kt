@@ -19,9 +19,13 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override val settingsFlow: Flow<AppSettings> = dataStore.settingsFlow
 
-            private val defaultEnhancementInstruction = "TASK: Rewrite the user prompt below. DO NOT answer it. DO NOT execute it. DO NOT add facts. DO NOT repeat these instructions. ONLY output the rewritten prompt text. Keep the same language. Make it more specific, structured, and detailed. Add formatting hints: use headers, tables, bullet points, bold. Output NOTHING except the rewritten prompt."
+    private val defaultEnhancementInstruction = 
+        "TASK: Rewrite the user prompt below. DO NOT answer it. DO NOT execute it. " +
+        "DO NOT add facts. DO NOT repeat these instructions. ONLY output the rewritten prompt text. " +
+        "Keep the same language. Make it more specific, structured, and detailed. " +
+        "Add formatting hints: use headers, tables, bullet points, bold. " +
+        "Output NOTHING except the rewritten prompt."
 
-    
     override suspend fun saveSettings(update: suspend (AppSettings) -> AppSettings) {
         dataStore.updateSettings { p ->
             val c = AppSettings(
@@ -41,6 +45,7 @@ class SettingsRepositoryImpl @Inject constructor(
                 searxngUrl = p[UserPreferencesDataStore.KEY_SEARXNG_URL] ?: "",
                 webSearchResultCount = p[UserPreferencesDataStore.KEY_WEB_SEARCH_RESULT_COUNT] ?: 3,
                 webSearchMode = p[UserPreferencesDataStore.KEY_WEB_SEARCH_MODE] ?: "manual",
+                safeSearch = p[UserPreferencesDataStore.KEY_SAFE_SEARCH] ?: "moderate",
                 appLanguage = p[UserPreferencesDataStore.KEY_APP_LANGUAGE] ?: "en-US",
                 translationLanguage = p[UserPreferencesDataStore.KEY_TRANSLATION_LANGUAGE] ?: "",
                 voiceInputLanguage = p[UserPreferencesDataStore.KEY_VOICE_INPUT_LANGUAGE] ?: "en-US",
@@ -62,10 +67,17 @@ class SettingsRepositoryImpl @Inject constructor(
                 promptEnhancementEnabled = p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_ENABLED] ?: false,
                 promptEnhancementInstruction = p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_INSTRUCTION] ?: defaultEnhancementInstruction,
                 enhancementModel = p[UserPreferencesDataStore.KEY_ENHANCEMENT_MODEL] ?: "",
+
+                // === FIXED: Added missing fields ===
+                aiActionsEnabled = p[UserPreferencesDataStore.KEY_AI_ACTIONS_ENABLED] ?: false,
+                aiActionsAutoApprove = p[UserPreferencesDataStore.KEY_AI_ACTIONS_AUTO_APPROVE] ?: false,
+
                 quickModels = try { com.google.gson.Gson().fromJson(p[UserPreferencesDataStore.KEY_QUICK_MODELS] ?: "[]", Array<String>::class.java).toList() } catch (_: Exception) { emptyList() },
                 providers = try { com.google.gson.Gson().fromJson(p[UserPreferencesDataStore.KEY_PROVIDERS] ?: "[]", Array<com.aei.chatbot.domain.model.ProviderConfig>::class.java).toList() } catch (_: Exception) { emptyList() }
             )
+
             val u = update(c)
+
             p[UserPreferencesDataStore.KEY_SERVER_IP] = u.serverIp
             p[UserPreferencesDataStore.KEY_SERVER_PORT] = u.serverPort
             p[UserPreferencesDataStore.KEY_API_ENDPOINT] = u.apiEndpoint
@@ -82,6 +94,7 @@ class SettingsRepositoryImpl @Inject constructor(
             p[UserPreferencesDataStore.KEY_SEARXNG_URL] = u.searxngUrl
             p[UserPreferencesDataStore.KEY_WEB_SEARCH_RESULT_COUNT] = u.webSearchResultCount
             p[UserPreferencesDataStore.KEY_WEB_SEARCH_MODE] = u.webSearchMode
+            p[UserPreferencesDataStore.KEY_SAFE_SEARCH] = u.safeSearch
             p[UserPreferencesDataStore.KEY_APP_LANGUAGE] = u.appLanguage
             p[UserPreferencesDataStore.KEY_TRANSLATION_LANGUAGE] = u.translationLanguage
             p[UserPreferencesDataStore.KEY_VOICE_INPUT_LANGUAGE] = u.voiceInputLanguage
@@ -102,11 +115,17 @@ class SettingsRepositoryImpl @Inject constructor(
             p[UserPreferencesDataStore.KEY_ACTIVE_CHAT_ID] = u.activeChatId
             p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_ENABLED] = u.promptEnhancementEnabled
             p[UserPreferencesDataStore.KEY_PROMPT_ENHANCEMENT_INSTRUCTION] = u.promptEnhancementInstruction
+
+            p[UserPreferencesDataStore.KEY_AI_ACTIONS_ENABLED] = u.aiActionsEnabled
+            p[UserPreferencesDataStore.KEY_AI_ACTIONS_AUTO_APPROVE] = u.aiActionsAutoApprove
+
             p[UserPreferencesDataStore.KEY_ENHANCEMENT_MODEL] = u.enhancementModel
             p[UserPreferencesDataStore.KEY_PROVIDERS] = com.google.gson.Gson().toJson(u.providers)
             p[UserPreferencesDataStore.KEY_QUICK_MODELS] = com.google.gson.Gson().toJson(u.quickModels)
         }
     }
 
-    override suspend fun resetToDefaults() { dataStore.resetToDefaults() }
+    override suspend fun resetToDefaults() { 
+        dataStore.resetToDefaults() 
+    }
 }

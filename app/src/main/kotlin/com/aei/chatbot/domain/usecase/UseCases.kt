@@ -10,11 +10,11 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SendMessageUseCase @Inject constructor(private val repo: ChatRepository) {
-    fun stream(settings: AppSettings, messages: List<ChatMessage>): Flow<ApiResult<String>> =
-        repo.streamMessage(settings, messages)
+    fun stream(settings: AppSettings, messages: List<ChatMessage>, imageUri: android.net.Uri? = null): Flow<ApiResult<String>> =
+        repo.streamMessage(settings, messages, imageUri)
 
-    suspend fun send(settings: AppSettings, messages: List<ChatMessage>): ApiResult<String> =
-        repo.sendMessage(settings, messages)
+    suspend fun send(settings: AppSettings, messages: List<ChatMessage>, imageUri: android.net.Uri? = null): ApiResult<String> =
+        repo.sendMessage(settings, messages, imageUri)
 }
 
 class GetChatHistoryUseCase @Inject constructor(private val repo: ChatRepository) {
@@ -53,4 +53,15 @@ class LoadSettingsUseCase @Inject constructor(private val repo: SettingsReposito
 class TranslateUseCase @Inject constructor(private val repo: ChatRepository) {
     suspend fun getModels(settings: AppSettings): ApiResult<List<String>> = repo.getAvailableModels(settings)
     suspend fun testConnection(settings: AppSettings): ApiResult<Unit> = repo.testConnection(settings)
+    /** Tests a specific model by sending a minimal real chat completion request. */
+    suspend fun sendTestMessage(settings: AppSettings): ApiResult<String> =
+        repo.sendMessage(settings, listOf(
+            ChatMessage(
+                id = "test",
+                chatId = "test",
+                role = "user",
+                content = "Hi",
+                timestamp = System.currentTimeMillis()
+            )
+        ))
 }

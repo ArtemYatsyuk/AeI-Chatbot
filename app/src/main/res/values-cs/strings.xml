@@ -2,47 +2,60 @@
 <resources>
     <string name="app_name">AeI</string>
     <string name="tagline">Váš inteligentní společník</string>
+
+    <!-- Onboarding -->
     <string name="onboarding_skip">Přeskočit</string>
     <string name="onboarding_next">Další</string>
     <string name="onboarding_get_started">Začít</string>
     <string name="onboarding_page1_title">Vítejte v AeI</string>
-    <string name="onboarding_page1_desc">Váš osobní AI asistent poháněný LM Studiem.</string>
+    <string name="onboarding_page1_desc">Váš osobní AI asistent poháněný LM Studio. Chatujte, objevujte a získávejte odpovědi — vše na vašem zařízení.</string>
     <string name="onboarding_page2_title">Připojení k LM Studio</string>
-    <string name="onboarding_page2_desc">AeI se připojuje k vašemu lokálnímu LM Studiu.</string>
-    <string name="onboarding_page3_title">Nastavte jazyk</string>
-    <string name="onboarding_page3_desc">Vyberte preferovaný jazyk zobrazení a povolte překlad odpovědí AI.</string>
-    <string name="chat_input_placeholder">Zpráva pro AeI</string>
-    <string name="chat_empty_title">Začněte konverzaci s AeI</string>
+    <string name="onboarding_page2_desc">AeI se připojuje k vaší místní instanci LM Studio. Ujistěte se, že LM Studio běží a je dostupné v síti.</string>
+    <string name="onboarding_page3_title">Nastavte svůj jazyk</string>
+    <string name="onboarding_page3_desc">Vyberte preferovaný jazyk zobrazení a povolte překlad odpovědí AI pro komunikaci v libovolném jazyce.</string>
+
+    <!-- Chat -->
+    <string name="chat_input_placeholder">Zpráva AeI</string>
+    <string name="chat_empty_title">Zahajte konverzaci s AeI</string>
     <string name="chat_empty_subtitle">Zeptejte se mě na cokoliv</string>
     <string name="chat_new_session_confirm">Zahájit nový chat? Aktuální konverzace bude uložena do historie.</string>
-    <string name="chat_error_banner">Nelze dosáhnout LM Studio. Zkontrolujte nastavení serveru.</string>
-    <string name="chat_error_go_to_settings">Přejít do nastavení</string>
+    <string name="chat_error_banner">Nelze se připojit k LM Studio. Zkontrolujte nastavení serveru.</string>
+    <string name="chat_error_go_to_settings">Nastavení</string>
     <string name="aei_is_thinking">AeI přemýšlí</string>
-    <string name="listening">Naslouchám…</string>
+    <string name="listening">Poslouchám…</string>
+    <string name="microphone_permission_rationale">Pro hlasový vstup je vyžadován přístup k mikrofonu.</string>
+    <string name="microphone_permission_denied">Povolení mikrofonu bylo trvale odepřeno. Otevřete nastavení aplikace.</string>
+    <string name="open_settings">Otevřít nastavení</string>
     <string name="translated">Přeloženo</string>
     <string name="show_original">Zobrazit originál</string>
     <string name="show_translation">Zobrazit překlad</string>
-    <string name="downloading_translation_model">Stahování překladového modelu…</string>
+    <string name="downloading_translation_model">Stahování modelu překladu…</string>
     <string name="copy_code">Kopírovat</string>
+
+    <!-- Context Menu -->
     <string name="context_copy_text">Kopírovat text</string>
     <string name="context_translate">Přeložit zprávu</string>
     <string name="context_delete">Smazat zprávu</string>
     <string name="context_share">Sdílet zprávu</string>
+
+    <!-- History -->
     <string name="history_title">Historie chatů</string>
     <string name="history_empty">Žádné předchozí chaty</string>
     <string name="history_search_hint">Hledat chaty…</string>
     <string name="history_delete_snackbar">Chat smazán. Vrátit zpět.</string>
     <string name="history_undo">Vrátit zpět</string>
-    <string name="history_messages">zprávy</string>
+    <string name="history_messages">zpráv</string>
+
+    <!-- Settings general -->
     <string name="settings_title">Nastavení</string>
     <string name="settings_section_server">Připojení k serveru</string>
-    <string name="settings_server_ip">IP adresa LM Studia</string>
-    <string name="settings_server_ip_error">Neplatná IP adresa nebo název hostitele</string>
+    <string name="settings_server_ip">IP adresa LM Studio</string>
+    <string name="settings_server_ip_error">Neplatná IP adresa nebo hostname</string>
     <string name="settings_server_ip_empty">IP adresa nemůže být prázdná</string>
     <string name="settings_port">Port</string>
     <string name="settings_port_error">Port musí být mezi 1 a 65535</string>
     <string name="settings_api_endpoint">API Endpoint</string>
-    <string name="settings_api_endpoint_info">Cesta k endpointu dokončení chatu na vašem serveru LM Studio.</string>
+    <string name="settings_api_endpoint_info">Cesta k endpointu chat completions na vašem serveru.</string>
     <string name="settings_timeout">Časový limit (sekundy)</string>
     <string name="settings_streaming">Povolit streamování odpovědí</string>
     <string name="settings_streaming_desc">Streamovat odpovědi AI token po tokenu</string>
@@ -51,16 +64,16 @@
     <string name="settings_connection_failed">Připojení selhalo</string>
     <string name="settings_testing">Testování…</string>
     <string name="settings_select_model">Vybrat model</string>
-    <string name="settings_no_models">Žádné modely nenalezeny — zkontrolujte připojení</string>
+    <string name="settings_no_models">Žádné modely — zkontrolujte připojení</string>
     <string name="settings_system_prompt">Systémový prompt</string>
-    <string name="settings_system_prompt_default">Jste AeI, nápomocný, přátelský a inteligentní AI asistent.</string>
+    <string name="settings_system_prompt_default">Jste AeI, užitečný, přátelský a inteligentní AI asistent.</string>
     <string name="settings_system_prompt_info">Tato zpráva je odeslána AI na začátku každé konverzace.</string>
     <string name="settings_max_tokens">Max. tokenů odpovědi</string>
     <string name="settings_temperature">Teplota</string>
     <string name="settings_temperature_subtitle">Kreativita</string>
-    <string name="settings_temperature_desc">Nižší = více soustředěné. Vyšší = více kreativní.</string>
+    <string name="settings_temperature_desc">Nižší = soustředěnější. Vyšší = kreativnější.</string>
     <string name="settings_section_language">Jazyk a překlad</string>
-    <string name="settings_app_language">Jazyk zobrazení aplikace</string>
+    <string name="settings_app_language">Jazyk zobrazení</string>
     <string name="settings_translate_to">Překládat odpovědi AI do</string>
     <string name="settings_voice_language">Jazyk hlasového vstupu</string>
     <string name="settings_auto_detect">Automatická detekce jazyka vstupu</string>
@@ -71,30 +84,30 @@
     <string name="language_cs">Čeština</string>
     <string name="language_zh_cn">简体中文</string>
     <string name="settings_section_appearance">Vzhled</string>
-    <string name="settings_theme_system">Systémový výchozí</string>
+    <string name="settings_theme_system">Systémový</string>
     <string name="settings_theme_light">Světlý</string>
     <string name="settings_theme_dark">Tmavý</string>
-    <string name="settings_dynamic_color">Dynamická barva</string>
-    <string name="settings_dynamic_color_desc">Používat barvy na základě tapety (Android 12+)</string>
+    <string name="settings_dynamic_color">Dynamické barvy</string>
+    <string name="settings_dynamic_color_desc">Použít barvy ze tapety (Android 12+)</string>
     <string name="settings_bubble_style">Styl bublin chatu</string>
     <string name="settings_bubble_rounded">Zaoblený</string>
     <string name="settings_bubble_sharp">Ostrý</string>
     <string name="settings_bubble_minimal">Minimální</string>
     <string name="settings_font_size">Velikost písma</string>
-    <string name="settings_font_small">Malý</string>
+    <string name="settings_font_small">Malé</string>
     <string name="settings_font_medium">Střední</string>
-    <string name="settings_font_large">Velký</string>
-    <string name="settings_font_xl">Extra velký</string>
-    <string name="settings_show_timestamps">Zobrazit časové razítko zpráv</string>
-    <string name="settings_show_avatars">Zobrazit avatary v chatu</string>
+    <string name="settings_font_large">Velké</string>
+    <string name="settings_font_xl">Extra velké</string>
+    <string name="settings_show_timestamps">Zobrazovat čas zpráv</string>
+    <string name="settings_show_avatars">Zobrazovat avatary v chatu</string>
     <string name="settings_user_initials">Iniciály avatara uživatele</string>
     <string name="settings_avatar_color">Barva avatara</string>
     <string name="settings_font_preview">Příliš žluťoučký kůň úpěl ďábelské ódy.</string>
     <string name="settings_section_notifications">Oznámení a chování</string>
     <string name="settings_haptic">Haptická odezva</string>
-    <string name="settings_haptic_desc">Vibrovat při odeslání a přijetí zprávy</string>
+    <string name="settings_haptic_desc">Vibrovat při odeslání a přijetí zpráv</string>
     <string name="settings_sound">Zvukové efekty</string>
-    <string name="settings_sound_desc">Přehrávat jemné zvuky při odeslání a přijetí</string>
+    <string name="settings_sound_desc">Přehrávat zvuky při odeslání a přijetí</string>
     <string name="settings_auto_scroll">Automatické posouvání dolů</string>
     <string name="settings_auto_scroll_desc">Automaticky posouvat na nejnovější zprávu</string>
     <string name="settings_clear_on_new">Vymazat chat při nové relaci</string>
@@ -106,38 +119,44 @@
     <string name="settings_clear_all_confirm1">Opravdu chcete vymazat všechny chaty?</string>
     <string name="settings_clear_all_confirm2">Tuto akci nelze vrátit zpět.</string>
     <string name="settings_clear_all_done">Všechny chaty smazány</string>
-    <string name="settings_import_confirm">Importovat chaty? Může přepsat stávající data.</string>
-    <string name="settings_import_invalid">Neplatný formát zálohovacího souboru</string>
+    <string name="settings_import_confirm">Importovat chaty? Může dojít k přepsání stávajících dat.</string>
+    <string name="settings_import_invalid">Neplatný formát záložního souboru</string>
     <string name="settings_reset_settings">Obnovit výchozí nastavení</string>
     <string name="settings_reset_confirm">Obnovit všechna nastavení na výchozí hodnoty?</string>
-    <string name="export_success">Chaty exportovány do složky Downloads</string>
+    <string name="export_success">Chaty exportovány do Stažených souborů</string>
     <string name="settings_section_about">O aplikaci</string>
-    <string name="settings_powered_by">AeI je poháněn LM Studiem</string>
+    <string name="settings_powered_by">AeI je poháněno LM Studio</string>
     <string name="settings_github">Zobrazit na GitHubu</string>
     <string name="settings_licenses">Licence open source</string>
-    <string name="settings_privacy_policy">Zásady ochrany soukromí</string>
+    <string name="settings_privacy_policy">Zásady ochrany osobních údajů</string>
     <string name="settings_version">Verze</string>
     <string name="settings_build">Sestavení</string>
     <string name="settings_api_key">API klíč (volitelný)</string>
-    <string name="error_unknown_host">Nelze najít server LM Studio. Zkontrolujte IP adresu.</string>
+
+    <!-- Errors -->
+    <string name="error_unknown_host">Server nenalezen. Zkontrolujte IP adresu.</string>
     <string name="error_connection_refused">Připojení odmítnuto. Běží LM Studio?</string>
     <string name="error_timeout">Časový limit vypršel. Server může být zaneprázdněn.</string>
     <string name="error_ssl">Chyba zabezpečeného připojení.</string>
     <string name="error_400">Chybný požadavek. Zkontrolujte model a parametry.</string>
-    <string name="error_401">Neautorizováno. Zkontrolujte váš API klíč.</string>
+    <string name="error_401">Neoprávněno. Zkontrolujte svůj API klíč.</string>
     <string name="error_404">Endpoint nenalezen. Zkontrolujte cestu API.</string>
-    <string name="error_429">Příliš mnoho požadavků. Prosím počkejte.</string>
-    <string name="error_500">Interní chyba LM Studia. Zkontrolujte protokoly serveru.</string>
-    <string name="error_503">Služba LM Studio není dostupná.</string>
-    <string name="error_empty_response">Ze serveru přišla prázdná odpověď.</string>
+    <string name="error_429">Příliš mnoho požadavků. Počkejte prosím.</string>
+    <string name="error_500">Interní chyba serveru. Zkontrolujte logy.</string>
+    <string name="error_503">Služba nedostupná.</string>
+    <string name="error_empty_response">Přijata prázdná odpověď od serveru.</string>
     <string name="error_malformed_json">Přijat neplatný formát odpovědi.</string>
-    <string name="error_no_network">Není dostupné síťové připojení.</string>
+    <string name="error_no_network">Není k dispozici síťové připojení.</string>
     <string name="error_generic">Došlo k neočekávané chybě.</string>
+
+    <!-- Confirm / Dialog -->
     <string name="confirm">Potvrdit</string>
     <string name="cancel">Zrušit</string>
     <string name="delete">Smazat</string>
     <string name="ok">OK</string>
     <string name="close">Zavřít</string>
+
+    <!-- Content Descriptions -->
     <string name="cd_translate">Přeložit</string>
     <string name="cd_new_chat">Nový chat</string>
     <string name="cd_history">Historie chatů</string>
@@ -150,7 +169,230 @@
     <string name="cd_copy_code">Kopírovat kód</string>
     <string name="cd_aei_avatar">Avatar AeI</string>
     <string name="cd_user_avatar">Avatar uživatele</string>
-    <string name="microphone_permission_rationale">Pro hlasový vstup je vyžadován přístup k mikrofonu.</string>
-    <string name="microphone_permission_denied">Oprávnění k mikrofonu trvale odepřeno. Otevřete nastavení aplikace.</string>
-    <string name="open_settings">Otevřít nastavení</string>
+    <string name="cd_web_search">Webové vyhledávání</string>
+
+    <!-- Connection / Provider -->
+    <string name="settings_use_ngrok">Použít ngrok tunel</string>
+    <string name="settings_use_ngrok_desc">Připojit se přes ngrok URL namísto místní IP</string>
+    <string name="settings_ngrok_url">ngrok URL</string>
+    <string name="settings_ngrok_url_hint">např. https://xxxx-xx-xx-xxx-xx.ngrok-free.app</string>
+    <string name="settings_ngrok_mode">Režim Ngrok</string>
+    <string name="settings_connection_mode">Režim připojení</string>
+    <string name="settings_conn_local">Místní (LM Studio)</string>
+    <string name="settings_conn_ngrok">Ngrok tunel</string>
+    <string name="settings_conn_cloud">Cloudové API</string>
+    <string name="settings_cloud_url">Základní URL API</string>
+    <string name="settings_cloud_url_hint">např. https://nim.api.nvidia.com</string>
+    <string name="settings_cloud_url_desc">Kompatibilní s NVIDIA NIM, OpenAI nebo jakýmkoliv OpenAI-kompatibilním API.</string>
+    <string name="settings_model_id">ID modelu</string>
+    <string name="settings_model_id_hint">např. nicoboss/DeepSeek-R1-Distill-Qwen-32B-Uncensored</string>
+    <string name="settings_model_id_desc">Zadejte přesné ID modelu od vašeho poskytovatele cloudového API</string>
+    <string name="settings_connection_mode_label">Režim připojení</string>
+    <string name="settings_conn_local_label">Místní (LM Studio)</string>
+    <string name="settings_conn_ngrok_label">Ngrok tunel</string>
+    <string name="settings_conn_cloud_label">Cloudové API</string>
+    <string name="settings_api_endpoint_label">API Endpoint</string>
+    <string name="settings_api_endpoint_default">Výchozí: v1/chat/completions</string>
+    <string name="settings_auth">Autentizace</string>
+    <string name="settings_timeout_label">Časový limit</string>
+    <string name="settings_options">Možnosti</string>
+    <string name="settings_full_url_preview">Plná URL požadavku</string>
+    <string name="settings_api_host">Hostitel API</string>
+
+    <!-- Search tab -->
+    <string name="settings_section_websearch">Webové vyhledávání</string>
+    <string name="settings_web_search_enabled">Povolit webové vyhledávání</string>
+    <string name="settings_web_search_enabled_desc">Načítat aktuální výsledky z webu pro zlepšení odpovědí AI</string>
+    <string name="settings_web_search_results">Max. výsledků vyhledávání</string>
+    <string name="settings_searxng_url">URL SearXNG</string>
+    <string name="settings_searxng_url_hint">https://vaše-searxng-instance.com</string>
+    <string name="web_search_mode_on">Webové vyhledávání povoleno pro další zprávu</string>
+    <string name="searching_web">Vyhledávání na webu…</string>
+    <string name="sources_found">nalezených zdrojů</string>
+    <string name="settings_web_search_label">Webové vyhledávání</string>
+    <string name="settings_web_search_desc">Umožnit AI hledat aktuální informace na webu</string>
+    <string name="settings_search_mode">Režim vyhledávání</string>
+    <string name="settings_search_manual">Ručně</string>
+    <string name="settings_search_manual_desc">Pouze při klepnutí na tlačítko vyhledávání v chatu</string>
+    <string name="settings_search_auto">Automaticky</string>
+    <string name="settings_search_auto_desc">AI rozhoduje, kdy vyhledávat (připravujeme)</string>
+    <string name="settings_searxng_instance">Instance SearXNG</string>
+    <string name="settings_searxng_format_note">Musí podporovat parametr dotazu ?format=json</string>
+    <string name="settings_result_settings">Nastavení výsledků</string>
+    <string name="settings_max_results">Max. výsledků na vyhledávání</string>
+    <string name="settings_max_results_desc">Kolik výsledků se vloží do kontextu AI</string>
+    <string name="settings_safe_search">Bezpečné vyhledávání</string>
+    <string name="settings_safe_search_off">Vypnuto</string>
+    <string name="settings_safe_search_moderate">Mírné</string>
+    <string name="settings_safe_search_strict">Přísné</string>
+    <string name="settings_how_it_works">Jak to funguje</string>
+
+    <!-- Model tab -->
+    <string name="settings_model_management">Správa modelů</string>
+    <string name="settings_model_new">NOVÝ</string>
+    <string name="settings_model_fetch">NAČÍST</string>
+    <string name="settings_model_reset">RESET</string>
+    <string name="settings_model_reset_title">Resetovat modely</string>
+    <string name="settings_model_reset_body">Odebrat všechny nakonfigurované modely? Tuto akci nelze vrátit zpět.</string>
+    <string name="settings_model_search">Hledat modely</string>
+    <string name="settings_model_search_hint">Hledat podle názvu nebo ID modelu…</string>
+    <string name="settings_model_active">Aktivní model</string>
+    <string name="settings_model_current_id">Aktuální ID modelu</string>
+    <string name="settings_quick_models">Rychlé modely</string>
+    <string name="settings_quick_models_desc">Přidejte modely pro rychlé přepínání v chatu. Zobrazí se při 2+ modelech.</string>
+    <string name="settings_quick_model_id_label">ID modelu pro přidání</string>
+    <string name="settings_quick_model_id_hint">např. gpt-4o nebo vyberte ze seznamu</string>
+    <string name="settings_quick_add_from">Rychle přidat z nakonfigurovaných modelů:</string>
+    <string name="settings_quick_add_hint">Přidejte 2 nebo více modelů pro povolení rychlého přepínání v chatu.</string>
+    <string name="settings_configured_models">Nakonfigurované modely</string>
+    <string name="settings_model_active_badge">AKTIVNÍ</string>
+    <string name="settings_model_select">Vybrat</string>
+    <string name="settings_model_edit">Upravit</string>
+    <string name="settings_model_test">Test</string>
+    <string name="settings_model_quick_add">+ Rychlý</string>
+    <string name="settings_model_quick_active">⚡ Rychlý</string>
+    <string name="settings_model_no_configured">Žádné modely nakonfigurovány</string>
+    <string name="settings_model_no_results">Žádné modely odpovídají</string>
+    <string name="settings_model_add_hint">Klepněte NOVÝ pro ruční přidání nebo NAČÍST pro načtení od poskytovatele</string>
+    <string name="settings_model_search_hint2">Zkuste jiný vyhledávací výraz</string>
+    <string name="settings_model_add_title">Přidat model</string>
+    <string name="settings_model_edit_title">Upravit model</string>
+    <string name="settings_model_display_name">Zobrazovaný název</string>
+    <string name="settings_model_id_required">ID modelu *</string>
+    <string name="settings_model_context_tokens">Kontext (tokeny)</string>
+    <string name="settings_model_max_output">Max. výstup</string>
+    <string name="settings_model_capabilities">Schopnosti</string>
+    <string name="settings_model_cap_chat">Chat</string>
+    <string name="settings_model_cap_vision">Vidění</string>
+    <string name="settings_model_cap_tools">Nástroje</string>
+    <string name="settings_model_cap_images">Generování obrázků</string>
+    <string name="settings_model_cap_audio">Audio</string>
+    <string name="settings_model_temperature">Teplota</string>
+    <string name="settings_model_test_title">Test</string>
+    <string name="settings_model_test_sending">Odesílání testovacího požadavku…</string>
+    <string name="settings_model_test_tap">Klepněte Test pro ověření připojení.</string>
+    <string name="settings_model_test_again">Otestovat znovu</string>
+    <string name="settings_model_autodetect_applied">Automaticky zjištěná nastavení použita:</string>
+
+    <!-- Chat tab -->
+    <string name="settings_persona">Persona / Systémový prompt</string>
+    <string name="settings_system_prompt_label">Systémový prompt</string>
+    <string name="settings_conversation">Chování konverzace</string>
+    <string name="settings_autoscroll">Automatické posouvání dolů</string>
+    <string name="settings_autoscroll_desc">Automaticky posouvat dolů při příchodu nových tokenů</string>
+    <string name="settings_clear_new_session">Vymazat při nové relaci</string>
+    <string name="settings_clear_new_session_desc">Resetovat kontext při zahájení nového chatu</string>
+    <string name="settings_message_display">Zobrazení zpráv</string>
+    <string name="settings_show_timestamps_label">Zobrazovat čas</string>
+    <string name="settings_show_timestamps_desc">Zobrazovat čas vedle každé zprávy</string>
+    <string name="settings_show_avatars_label">Zobrazovat avatary</string>
+    <string name="settings_show_avatars_desc">Zobrazovat avatary uživatele a AI v chatu</string>
+    <string name="settings_bubble_style_label">Styl bublin chatu</string>
+    <string name="settings_feedback">Zpětná vazba</string>
+    <string name="settings_haptic_label">Haptická odezva</string>
+    <string name="settings_haptic_label_desc">Vibrovat při odeslání a přijetí</string>
+    <string name="settings_sound_label">Zvukové efekty</string>
+    <string name="settings_sound_label_desc">Přehrávat zvuky pro události chatu</string>
+
+    <!-- General tab -->
+    <string name="settings_appearance">Vzhled</string>
+    <string name="settings_theme">Téma</string>
+    <string name="settings_your_avatar">Váš avatar</string>
+    <string name="settings_initials_label">Iniciály</string>
+    <string name="settings_language_translation">Jazyk a překlad</string>
+    <string name="settings_translate_responses">Překládat odpovědi AI do</string>
+    <string name="settings_voice_input_language">Jazyk hlasového vstupu</string>
+    <string name="settings_auto_detect_language">Automatická detekce jazyka vstupu</string>
+    <string name="settings_auto_detect_language_desc">Automaticky detekovat jazyk vašich zpráv</string>
+    <string name="settings_data_storage">Data a úložiště</string>
+    <string name="settings_export_all">Exportovat všechny chaty</string>
+    <string name="settings_import">Importovat chaty</string>
+    <string name="settings_clear_all_chats">Vymazat všechny chaty</string>
+    <string name="settings_reset_label">Resetovat</string>
+    <string name="settings_reset_all">Obnovit všechna nastavení na výchozí</string>
+
+    <!-- Features tab -->
+    <string name="settings_prompt_enhancement">✨ Vylepšení promptů</string>
+    <string name="settings_prompt_enhancement_label">Vylepšení promptů</string>
+    <string name="settings_prompt_enhancement_active">Aktivní — přepisuje prompty před odesláním</string>
+    <string name="settings_prompt_enhancement_inactive">Neaktivní</string>
+    <string name="settings_enhancement_model">Model vylepšení</string>
+    <string name="settings_enhancement_model_desc">Vyberte model pro přepisování promptů. Ponechte prázdné pro použití modelu chatu.</string>
+    <string name="settings_enhancement_model_id">ID modelu vylepšení</string>
+    <string name="settings_enhancement_model_hint">Prázdné = použít model chatu</string>
+    <string name="settings_enhancement_pick">Nebo vyberte z nakonfigurovaných modelů:</string>
+    <string name="settings_enhancement_instruction">Instrukce pro vylepšení</string>
+    <string name="settings_enhancement_instruction_label">Přizpůsobte, jak AI přepisuje vaše prompty.</string>
+    <string name="settings_enhancement_instruction_field">Instrukce pro vylepšení</string>
+    <string name="settings_enhancement_reset">Obnovit výchozí</string>
+    <string name="settings_enhancement_disabled_note">Povolte vylepšení promptů výše pro konfiguraci. Poznámka: používá jedno další volání AI na zprávu.</string>
+
+    <!-- About tab -->
+    <string name="settings_what_is_aei">Co je AeI?</string>
+    <string name="settings_aei_description">AeI je open-source Android AI chatbot, který se připojuje k jakémukoliv OpenAI-kompatibilnímu API — včetně LM Studio (místní), NVIDIA NIM a cloudových poskytovatelů.</string>
+    <string name="settings_features_label">Funkce</string>
+    <string name="settings_tech_stack">Technologický stack</string>
+    <string name="settings_links">Odkazy a podpora</string>
+    <string name="settings_view_github">Zobrazit na GitHubu</string>
+    <string name="settings_github_desc">Zdrojový kód a dokumentace</string>
+    <string name="settings_report_issue">Nahlásit problém</string>
+    <string name="settings_legal">Právní upozornění</string>
+    <string name="settings_legal_text">Obsah generovaný AI může být nepřesný nebo neúplný. AeI nenese odpovědnost za obsah generovaný modely třetích stran. Vždy ověřujte důležité informace z autoritativních zdrojů.</string>
+    <string name="settings_credits">Poděkování</string>
+    <string name="settings_built_with">Vytvořeno s ❤️ pomocí open source knihoven.</string>
+
+    <!-- Tabs -->
+    <string name="tab_provider">Poskytovatel</string>
+    <string name="tab_model">Model</string>
+    <string name="tab_search">Vyhledávání</string>
+    <string name="tab_chat">Chat</string>
+    <string name="tab_general">Obecné</string>
+    <string name="tab_about">O aplikaci</string>
+    <string name="tab_features">Funkce</string>
+
+    <!-- Misc -->
+    <string name="thinking_label">Myšlenkový proces</string>
+    <string name="thinking_streaming">Přemýšlí\u2026</string>
+    <string name="model_added">Model přidán</string>
+    <string name="model_updated">Model aktualizován</string>
+    <string name="model_deleted">Model smazán</string>
+    <string name="models_reset">Modely poskytovatele resetovány</string>
+    <string name="import_coming_soon">Funkce importu připravujeme</string>
+    <string name="export_failed">Export selhal</string>
+
+    <string name="search_auto_badge">AUTO</string>
+    <string name="search_auto_desc_full">Automaticky vyhledává, když vaše zpráva obsahuje klíčová slova v reálném čase (zprávy, cena, počasí, skóre…)</string>
+    <string name="features_beta_title">Beta funkce</string>
+    <string name="features_beta_body">Vylepšení promptů je experimentální a nefunguje vždy dobře. Výsledky silně závisí na použitém modelu — menší nebo instrukční modely instrukci přepisování často ignorují. Používejte na vlastní riziko a pro většinu konverzací nechte vypnuté.</string>
+    <string name="features_active_beta">Aktivní (Beta) — přepisuje prompty před odesláním</string>
+    <string name="copied">Zkopírováno</string>
+
+
+    <string name="tab_beta_features">Beta</string>
+    <string name="settings_ai_actions_title">AI akce</string>
+    <string name="settings_ai_actions_beta_body">AI akce umožňují AI otevírat aplikace, vytvářet soubory a otevírat URL na vašem zařízení na váš požadavek. Každá akce vyžaduje vaše schválení, pokud není zapnuto automatické schválení.</string>
+    <string name="settings_ai_actions_enable">Povolit AI akce</string>
+    <string name="settings_ai_actions_enable_desc_on">AI může otevírat aplikace, vytvářet soubory a URL na požádání</string>
+    <string name="settings_ai_actions_enable_desc_off">Umožnit AI interagovat se zařízením na požádání</string>
+    <string name="settings_ai_actions_auto_approve">Automatické schválení akcí</string>
+    <string name="settings_ai_actions_auto_approve_on">⚡ Akce se provádějí okamžitě bez ptaní</string>
+    <string name="settings_ai_actions_auto_approve_off">Každou akci schválíte před provedením</string>
+    <string name="settings_ai_actions_what">Co AI umí</string>
+    <string name="ai_action_open_app">Otevřít aplikaci</string>
+    <string name="ai_action_open_app_ex">např. "Otevři YouTube"</string>
+    <string name="ai_action_create_file">Vytvořit soubor</string>
+    <string name="ai_action_create_file_ex">např. "Ulož toto jako notes.txt"</string>
+    <string name="ai_action_open_url">Otevřít URL</string>
+    <string name="ai_action_open_url_ex">např. "Otevři google.com"</string>
+    <string name="action_dialog_title">AeI chce provést akci</string>
+    <string name="action_dialog_subtitle">Zkontrolujte před povolením</string>
+    <string name="action_dialog_hint">Automatické schválení lze povolit v nastavení Beta funkcí</string>
+    <string name="action_deny">Odepřít</string>
+    <string name="action_allow">Povolit</string>
+    <string name="action_badge_app">Otevřít aplikaci</string>
+    <string name="action_badge_file">Vytvořit soubor</string>
+    <string name="action_badge_url">Otevřít URL</string>
+
+    <string name="image_attached_label">Obrázek přiložen</string>
+    <string name="image_will_be_sent">Obrázek bude odeslán spolu se zprávou</string>
 </resources>
